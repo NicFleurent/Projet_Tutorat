@@ -16,7 +16,7 @@ class UtilisateursTableSeeder extends Seeder
         DB::table('utilisateurs')->insert([
             [
                 'email' => 'dummyEmail@hotmail.test',
-                'motPasse' => 'dummyPassword',
+                'mot_passe' => 'dummyPassword',  //Hash::make('dummyPassword')
                 'prenom' => 'Jhon',
                 'nom' => 'Doe',
             ],
