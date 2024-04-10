@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cours', function (Blueprint $table) {
             $table->id();
-            $table->string('numero');
-            $table->string('nom');
+            $table->string('numero', 10);
+            $table->string('nom', 100);
             $table->foreignId('responsable_id')->constrained('utilisateurs');
             $table->timestamps();
         });
