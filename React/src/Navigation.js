@@ -6,6 +6,9 @@ import Onboarding01 from "./Pages/Onboarding/Onboarding01";
 import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
+import Register from "./Pages/Auth/Register";
+import { TouchableOpacity } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +16,11 @@ const MyStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
