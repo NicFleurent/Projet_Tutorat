@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Disponibilite;
+use Carbon\Carbon;
 
 class DisponibilitesController extends Controller
 {
@@ -11,7 +13,11 @@ class DisponibilitesController extends Controller
      */
     public function index()
     {
-        //
+        $disponibilites = Disponibilite::all();
+        foreach ($disponibilites as $dispo){
+            $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
+        }
+        return response()->json($disponibilites);
     }
 
     /**
@@ -19,15 +25,20 @@ class DisponibilitesController extends Controller
      */
     public function create()
     {
-        //
+      
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {  
+        $disponibilite = new Disponibilite;
+        $disponibilite->journee = $request->journee;
+        $disponibilite->heure = $request->heure;
+        $disponibilite->utilisateur_id = $request->utilisateur_id;
+        $disponibilite->save();
+        return response()->json;
     }
 
     /**
@@ -41,9 +52,14 @@ class DisponibilitesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        //
+        $disponibilite = new Disponibilite;
+        $disponibilite->journee = $request->journee;
+        $disponibilite->heure = $disponibilite->heure = $request->heure;
+        $disponibilite->utilisateur_id = $request->utilisateur_id;
+        $disponibilite->save();
+        return response()->json;
     }
 
     /**
@@ -57,8 +73,10 @@ class DisponibilitesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
-        //
+        $disponibilites = Disponibilite::find($id);
+        $disponibilite->deletee();
+        return response()->json();
     }
 }

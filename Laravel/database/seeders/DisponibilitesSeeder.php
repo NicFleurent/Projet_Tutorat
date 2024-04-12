@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use Carbon\Carbon;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,7 +15,7 @@ class DisponibilitesSeeder extends Seeder
         DB::table('disponibilites')->insert([
             [
                 'journee' => 'Mardi',
-                'heure' => '10:30',
+                'heure' => Carbon::parse('10:30')->format('H:i'),
                 'utilisateur_id' => 4
             ],
         ]);
