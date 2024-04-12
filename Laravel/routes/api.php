@@ -20,3 +20,7 @@ Route::get('cours', [CoursController::class, 'index']);
 
 
 //Utilisateur
+Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
+Route::post('/utilisateurs/upload', [UtilisateursController::class, 'upload']);
+Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
+Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);

@@ -60,19 +60,70 @@ class UtilisateursController extends Controller
     
     public function edit(Request $request, $id)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'mot_passe' => 'required',
+            'prenom' => 'required',
+            'nom' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            $data = [
+                'status' => 422,
+                'message' => 'Validation Failed'
+            ];
+            return response()->json($data, 422);
+        }
+        else
+        {
+            $utilisateur = Utilisateur::find($id);
+            if (!$utilisateur) {
+                $data = [
+                    'status' => 404,
+                    'message' => 'User not found'
+                ];
+                return response()->json($data, 404);
+            }
+            else
+            {
+                $utilisateur->email = $request->email;
+                $utilisateur->mot_passe = $request->mot_passe;
+                $utilisateur->prenom = $request->prenom;
+                $utilisateur->nom = $request->nom;
+
+                $utilisateur->save();
+
+                $data = [
+                    'status' => 200,
+                    'message' => 'User Success'
+                ];
+
+                return response()->json($data, 200);
+            }
+        }
+    
     }
 
-    
-    public function update(Request $request, string $id)
+    public function delete($id)
     {
-        //
-    }
+        $utilisateur = Utilisateur::find($id);
+        if (!$utilisateur) {
+            $data = [
+                'status' => 404,
+                'message' => 'User not found'
+            ];
+            return response()->json($data, 404);
+        }
+        else
+        {
+            $utilisateur->delete();
+            
+            $data = [
+                'status'=>200,
+                'message'=>'Delete Success'
+            ];
 
-    
-    public function delete(string $id)
-    {
-        
-
+            return response()->json($data,200);
+        }
     }
 }
