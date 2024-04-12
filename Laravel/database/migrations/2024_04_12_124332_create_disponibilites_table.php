@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('disponibilites', function (Blueprint $table) {
             $table->id('noDispo');
             $table->string('journee',8);
-            $table->time('start')->format('H:i');
+            $table->time('heure');
             $table->foreignId('utilisateur_id')->constrained();
         });
     }
