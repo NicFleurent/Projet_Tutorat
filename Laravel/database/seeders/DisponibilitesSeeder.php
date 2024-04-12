@@ -15,7 +15,7 @@ class DisponibilitesSeeder extends Seeder
         DB::table('disponibilites')->insert([
             [
                 'journee' => 'Mardi',
-                'heure' => Carbon::parse('10:30')->format('H:i'),
+                'heure' => '10:30',
                 'utilisateur_id' => 4
             ],
         ]);
