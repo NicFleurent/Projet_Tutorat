@@ -10,6 +10,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+
 //Cours
 Route::get('cours', [CoursController::class, 'index']);
 

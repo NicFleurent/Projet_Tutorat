@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 class CreateUtilisateursTable extends Migration
 {
 
+    //POUR UTILISER SANCTUM IL FAUT CREER personal_access_tokens row 
+
     public function up(): void
     {
         Schema::create('utilisateurs', function (Blueprint $table) {
