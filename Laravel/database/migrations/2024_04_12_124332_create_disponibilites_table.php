@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('journee',8);
             $table->time('heure');
             $table->foreignId('utilisateur_id')->constrained();
+            $table->timestamps();
         });
     }
 

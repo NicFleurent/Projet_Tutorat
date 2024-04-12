@@ -38,7 +38,10 @@ class DisponibilitesController extends Controller
         $disponibilite->heure = $request->heure;
         $disponibilite->utilisateur_id = $request->utilisateur_id;
         $disponibilite->save();
-        return response()->json;
+
+        //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
+
+        return response()->json($disponibilite, 200);
     }
 
     /**
