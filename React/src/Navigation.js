@@ -7,6 +7,7 @@ import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
 import Register from "./Pages/Auth/Register";
+import Login from "./Pages/Auth/Login";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -16,11 +17,6 @@ const MyStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{ headerShown: false }}
-        />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
@@ -44,6 +40,16 @@ const MyStack = () => {
         <Stack.Screen
           name="AuthChoice"
           component={AuthChoice}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

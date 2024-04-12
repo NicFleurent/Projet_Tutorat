@@ -5,14 +5,14 @@ import EllipseBlue from "../../assets/svg/onboarding/EllipseBlue.svg";
 import EllipseGray from "../../assets/svg/onboarding/EllipseGray.svg";
 import CustomButton from "../../Components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import Skip from "../../Components/Skip";
+import ClickableText from "../../Components/ClickableText";
 
 export default function Onboarding03() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.row}>
-        <Skip
+        <ClickableText
           text={"Passer"}
           activeOpacity={0.6}
           textStyle={styles.skip}
@@ -20,7 +20,7 @@ export default function Onboarding03() {
           onPress={() => {
             navigation.navigate("AuthChoice");
           }}
-        ></Skip>
+        ></ClickableText>
       </View>
       <View style={styles.image}>
         <Presentation width={372} height={372}></Presentation>

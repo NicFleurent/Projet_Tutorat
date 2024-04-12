@@ -5,14 +5,14 @@ import EllipseBlue from "../../assets/svg/onboarding/EllipseBlue.svg";
 import EllipseGray from "../../assets/svg/onboarding/EllipseGray.svg";
 import CustomButton from "../../Components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import Skip from "../../Components/Skip";
+import ClickableText from "../../Components/ClickableText";
 
 export default function Onboarding02() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.row}>
-      <Skip
+        <ClickableText
           text={"Passer"}
           activeOpacity={0.6}
           textStyle={styles.skip}
@@ -20,18 +20,17 @@ export default function Onboarding02() {
           onPress={() => {
             navigation.navigate("AuthChoice");
           }}
-        ></Skip>
+        ></ClickableText>
       </View>
       <View style={styles.image}>
         <Decision width={372} height={372}></Decision>
       </View>
 
-      <Text style={styles.titre}>
-      Large Choix de Tuteurs pour Chaque Cours
-      </Text>
+      <Text style={styles.titre}>Large Choix de Tuteurs pour Chaque Cours</Text>
 
       <Text style={styles.sousTitre}>
-      Découvrez nos tuteurs, prêts à vous aider dans une large gamme de matières académiques.
+        Découvrez nos tuteurs, prêts à vous aider dans une large gamme de
+        matières académiques.
       </Text>
 
       <View style={styles.ellipses}>

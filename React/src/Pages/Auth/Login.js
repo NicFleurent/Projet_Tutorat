@@ -8,11 +8,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../Components/CustomButton";
-import Triangle from "../../assets/svg/auth/Traingle.svg";
+import LeftIcon from "../../assets/svg/icons/Left 1.svg";
+import LoginCuate from "../../assets/svg/auth/Login-cuate.svg";
 import CustomInput from "../../Components/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
+import ClickableText from "../../Components/ClickableText";
 
-export default function Register() {
+export default function Login() {
   return (
     <SafeAreaView style={styles.container}>
       <Ionicons
@@ -27,35 +29,22 @@ export default function Register() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView>
-          <View style={styles.headPage}>
-            <View>
-              <Text style={styles.titre}>Enregistrez vous</Text>
-              <Text style={styles.sousTitre}>
-                Hate de commencer a collaborer avec vous
-              </Text>
-            </View>
-            <Triangle width={141} height={139}></Triangle>
+          <View>
+            <Text style={styles.titre}>De retour ?</Text>
+            <Text style={styles.sousTitre}>
+              Heureux de vous revoir parmis nous 😊 !
+            </Text>
+          </View>
+
+          <View style={styles.image}>
+            <LoginCuate width={330} height={330}></LoginCuate>
           </View>
 
           <View style={styles.formulaire}>
-            {/* Courriel */}
-
             <View>
               <Text style={styles.label}>Courriel</Text>
 
               <CustomInput placeholder={"Johndoe98@gmail.com"}></CustomInput>
-            </View>
-
-            <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Nom</Text>
-
-              <CustomInput placeholder={"John"}></CustomInput>
-            </View>
-
-            <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Prenom</Text>
-
-              <CustomInput placeholder={"Doe"}></CustomInput>
             </View>
 
             <View style={styles.labelAndInputSpace}>
@@ -67,18 +56,14 @@ export default function Register() {
               ></CustomInput>
             </View>
 
-            <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Confimer le mot de passe</Text>
-
-              <CustomInput
-                placeholder={"Mot de passe"}
-                isPassword={true}
-              ></CustomInput>
-            </View>
+            <ClickableText
+              textStyle={styles.forgetPassword}
+              text={"Mot de passe oublier ?"}
+            ></ClickableText>
           </View>
 
           <View style={styles.butonView}>
-            <CustomButton text={"S’enregistrer"}></CustomButton>
+            <CustomButton text={"Se connecter"}></CustomButton>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -106,17 +91,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop: 16,
+    marginTop: 20,
   },
   sousTitre: {
     fontSize: 12,
     color: "#000",
   },
-  headPage: {
-    flexDirection: "row",
-  },
   formulaire: {
-    flex: 8,
     flexDirection: "column",
   },
   label: {
@@ -126,5 +107,16 @@ const styles = StyleSheet.create({
   },
   labelAndInputSpace: {
     marginTop: 25,
+  },
+  image: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  forgetPassword: {
+    textAlign: "right",
+    color: "#092D74",
+    fontSize: 15,
+    fontWeight: "500",
+    marginVertical: 10,
   },
 });
