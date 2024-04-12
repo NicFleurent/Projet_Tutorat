@@ -7,18 +7,20 @@ use Illuminate\Support\Facades\Schema;
 class CreateUtilisateursTable extends Migration
 {
 
+    //POUR UTILISER SANCTUM IL FAUT CREER personal_access_tokens row 
+
     public function up(): void
     {
         Schema::create('utilisateurs', function (Blueprint $table) {
             $table->id();
-            $table->string('email', 100)->unique();
-            $table->string('mot_passe', 256);
-            $table->string('prenom', 100);
-            $table->string('nom', 100);
+            $table->string('email', 100)->unique()->nullable(false);
+            $table->string('mot_passe', 256)->nullable(false);
+            $table->string('prenom', 100)->nullable(false);
+            $table->string('nom', 100)->nullable(false);
             $table->timestamps();
         });
 
-        // Create the trigger
+        //Trigger Hash mots de passe sure Insert
         DB::unprepared('
             CREATE TRIGGER insert_mot_passe_hash BEFORE INSERT ON utilisateurs
             FOR EACH ROW
@@ -26,12 +28,24 @@ class CreateUtilisateursTable extends Migration
                 SET NEW.mot_passe = SHA2(NEW.mot_passe, 256);
             END
         ');
+
+        //Trigger Hash mots de passe sure modification
+        DB::unprepared('
+            CREATE TRIGGER update_mot_passe_hash BEFORE UPDATE ON utilisateurs
+            FOR EACH ROW
+            BEGIN
+                SET NEW.mot_passe = SHA2(NEW.mot_passe, 256);
+            END
+        ');
+
+
     }
 
     public function down(): void
     {
-        // Drop the trigger and table if migration is rolled back
+        
         Schema::dropIfExists('utilisateurs');
         DB::unprepared('DROP TRIGGER IF EXISTS insert_mot_passe_hash');
+        DB::unprepared('DROP TRIGGER IF EXISTS update_mot_passe_hash');
     }
 }
