@@ -31,6 +31,6 @@ Route::get('programmes/{id}', [ProgrammesController::class, 'enfants']);
 
 //Disponibilites
 Route::get('disponibilites', [DisponibilitesController::class, 'index']);
-Route::post('disponibilites', [DisponibilitesController::class, 'store']);
+Route::post('disponibilites', [DisponibilitesController::class, 'update']);
 #Route::put('disponibilites', [DisponibilitesController::class, 'edit']);
 #Route::delete('disponibilites', [DisponibilitesController::class, 'delete']);
