@@ -12,29 +12,6 @@ import PageDemande from "./Pages/DemandesAidesTuteurs/PageDemande";
 const Stack = createNativeStackNavigator();
 const StackTabs = createBottomTabNavigator();
 
-function StackNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Onboarding01"
-        component={Onboarding01}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PageDemande"
-        component={TabNavigator}
-        options={{ headerShown: true, title: "Retour" }}
-      />
- 
-    </Stack.Navigator>
-  );
-}
-
 function TabNavigator() {
   return (
     <StackTabs.Navigator>
