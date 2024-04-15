@@ -8,6 +8,7 @@ import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
 import PageDemande from "./Pages/DemandesAidesTuteurs/PageDemande";
+import ListeCours from "./Pages/DemandesAidesTuteurs/ListeCours";
 
 const Stack = createNativeStackNavigator();
 const StackTabs = createBottomTabNavigator();
@@ -49,6 +50,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="ListeCours"
+          component={ListeCours}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
