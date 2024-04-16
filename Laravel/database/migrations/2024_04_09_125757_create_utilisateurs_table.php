@@ -17,6 +17,7 @@ class CreateUtilisateursTable extends Migration
             $table->string('mot_passe', 256)->nullable(false);
             $table->string('prenom', 100)->nullable(false);
             $table->string('nom', 100)->nullable(false);
+            $table->string('role', 50)->nullable(false);
             $table->timestamps();
         });
 
