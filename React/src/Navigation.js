@@ -1,19 +1,27 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SplashScreen from "./Pages/SplashScreen";
 import Onboarding01 from "./Pages/Onboarding/Onboarding01";
 import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
-import Register from "./Pages/Auth/Register";
-import Login from "./Pages/Auth/Login";
-import { TouchableOpacity } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
+const StackTabs = createBottomTabNavigator();
 
-const MyStack = () => {
+function TabNavigator() {
+  return (
+    <StackTabs.Navigator>
+      {/* Mettre les pages qui seront dans les onglets en bas */}
+      <StackTabs.Screen name="page" component={PageDemande} options={{ headerShown: false }} />
+      
+    </StackTabs.Navigator>
+  );
+}
+
+export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -55,6 +63,4 @@ const MyStack = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default MyStack;
+}
