@@ -18,6 +18,7 @@ class Utilisateur extends Model
         'mot_passe',
         'prenom',
         'nom',
+        'role',
     ];
 
     /*

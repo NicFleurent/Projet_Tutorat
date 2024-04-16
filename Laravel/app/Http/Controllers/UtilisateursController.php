@@ -29,6 +29,7 @@ class UtilisateursController extends Controller
             'mot_passe'=>'required',
             'prenom'=>'required',
             'nom'=>'required',
+            'role'=>'required'
         ]);
 
         if($validator->fails()){
@@ -45,6 +46,7 @@ class UtilisateursController extends Controller
             $utilisateur->mot_passe = $request->mot_passe;
             $utilisateur->prenom = $request->prenom;
             $utilisateur->nom = $request->nom;
+            $utilisateur->role = $request->role;
 
             $utilisateur->save();
 
@@ -65,6 +67,7 @@ class UtilisateursController extends Controller
             'mot_passe' => 'required',
             'prenom' => 'required',
             'nom' => 'required',
+            'role' => 'required'
         ]);
     
         if ($validator->fails()) {
@@ -90,6 +93,7 @@ class UtilisateursController extends Controller
                 $utilisateur->mot_passe = $request->mot_passe;
                 $utilisateur->prenom = $request->prenom;
                 $utilisateur->nom = $request->nom;
+                $utilisateur->role = $request->role;
 
                 $utilisateur->save();
 
