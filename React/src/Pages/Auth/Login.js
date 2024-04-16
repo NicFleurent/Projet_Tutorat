@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../Components/CustomButton";
-import LeftIcon from "../../assets/svg/icons/Left 1.svg";
 import LoginCuate from "../../assets/svg/auth/Login-cuate.svg";
 import CustomInput from "../../Components/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
