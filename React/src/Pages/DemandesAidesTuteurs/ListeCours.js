@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -49,12 +49,16 @@ export default function ListeCours() {
             
             <Text style={styles.titre}>Demande</Text>
 
+            <KeyboardAvoidingView
+                style={{ flex: 8 }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                > 
+            <Text style={styles.titrePage}>Offrir de l'aide?</Text>
+            <Text style={styles.description}>
+                Sélectionner le programme et le cours pour lequel 
+                vous souhaitez proposer de l'aide.
+            </Text>
             <ScrollView style={styles.scrollView}>
-                <Text style={styles.titrePage}>Offrir de l'aide?</Text>
-                <Text style={styles.description}>
-                    Sélectionner le programme et le cours pour lequel 
-                    vous souhaitez proposer de l'aide.
-                </Text>
 
                 <View style={styles.section}>
                     <Text style={styles.titreSection}>Programme</Text>
@@ -78,13 +82,14 @@ export default function ListeCours() {
                     />
                 </View>  
             </ScrollView>  
+            </KeyboardAvoidingView>
 
-            <CustomButton
-                text={"Proposer mes services"}
-                halfButton={true}
-                outlined={true}
-            />
             
+                <CustomButton
+                    text={"Proposer mes services"}
+                    halfButton={true}
+                    outlined={true}
+                />
 
         </SafeAreaView>
 
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
         alignItems: "start",
     },
     scrollView:{
-        height: '75%'
+        height: '85%'
     },
     titre: {
         fontSize: 28,
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 14,
         marginHorizontal: 10,
-        marginBottom: 30,
+        marginBottom: 10,
         textAlign: "left",
     },
     section: {
