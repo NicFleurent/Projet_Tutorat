@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CoursSeeder::class);
         $this->call(ProgrammesSeeder::class);
         $this->call(DisponibilitesSeeder::class);
+        $this->call(JumelageSeeder::class);
     }
 }

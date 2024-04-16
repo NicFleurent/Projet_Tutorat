@@ -3,6 +3,7 @@
 use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\DisponibilitesController;
+use App\Http\Controllers\JumelagesController;
 use App\Http\Controllers\UtilisateursController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,7 @@ Route::get('disponibilites', [DisponibilitesController::class, 'index']);
 Route::post('disponibilites', [DisponibilitesController::class, 'update']);
 #Route::put('disponibilites', [DisponibilitesController::class, 'edit']);
 #Route::delete('disponibilites', [DisponibilitesController::class, 'delete']);
+
+
+//Jumellage
+Route::get('jumelages', [JumelagesController::class, 'index']);
