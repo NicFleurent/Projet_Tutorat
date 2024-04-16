@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
   },
   containerPasswordStyleOnFocus: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center", 
+    
     justifyContent: "space-between",
     height: 50,
     borderWidth: 2,
