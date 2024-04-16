@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
 import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BottomTabs from "../../Components/BottomTabs";
+
 
 export default function PageDemande() {
     return (
