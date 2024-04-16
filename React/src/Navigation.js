@@ -7,8 +7,8 @@ import Onboarding01 from "./Pages/Onboarding/Onboarding01";
 import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
-
-import BottomTabs from "./Components/BottomTabs";
+import Register from "./Pages/Auth/Register";
+import Login from "./Pages/Auth/Login";
 
 const Stack = createNativeStackNavigator();
 
