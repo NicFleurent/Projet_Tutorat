@@ -1,6 +1,6 @@
 import { Text, TouchableHighlight } from "react-native";
 
-export default function Skip({
+export default function ClickableText({
   text,
   onPress,
   underlayColor,

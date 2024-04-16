@@ -2,8 +2,10 @@ import { StyleSheet, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MountainBiking from "../../assets/svg/auth/Mountain biking-cuate.svg";
 import CustomButton from "../../Components/CustomButton";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AuthChoice() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>
@@ -17,12 +19,24 @@ export default function AuthChoice() {
         connection.
       </Text>
       <View style={styles.butonView}>
-        <CustomButton text={"Connection"} halfButton={true}></CustomButton>
-
+        <CustomButton
+          text={"Connection"}
+          halfButton={true}
+          style={styles.buttonSpace}
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        ></CustomButton>
+        <View>
+          <Text> </Text>
+        </View>
         <CustomButton
           text={"Inscription"}
           halfButton={true}
           outlined={true}
+          onPress={() => {
+            navigation.navigate("Register");
+          }}
         ></CustomButton>
       </View>
     </SafeAreaView>
@@ -57,5 +71,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     marginBottom: 20,
+  },
+  buttonSpace: {
+    marginLeft: 10,
+    backgroundColor: "red",
   },
 });

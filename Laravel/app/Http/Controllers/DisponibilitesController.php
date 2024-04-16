@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisponibiliteRequest;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class DisponibilitesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function upload(DisponibiliteRequest $request)
     {  
         $disponibilite = new Disponibilite;
         $disponibilite->journee = $request->journee;
@@ -41,7 +42,7 @@ class DisponibilitesController extends Controller
 
         //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
 
-        return response()->json($disponibilite, 200);
+        return response()->json($disponibilite, 201);
     }
 
     /**
@@ -55,14 +56,14 @@ class DisponibilitesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
+    public function edit(DisponibiliteRequest $request, $id)
     {
-        $disponibilite = new Disponibilite;
+        $disponibilite = Disponibilite::findOrFail($id);
         $disponibilite->journee = $request->journee;
         $disponibilite->heure = $disponibilite->heure = $request->heure;
         $disponibilite->utilisateur_id = $request->utilisateur_id;
         $disponibilite->save();
-        return response()->json;
+        return response()->json($disponibilite, 200);
     }
 
     /**
@@ -79,7 +80,7 @@ class DisponibilitesController extends Controller
     public function delete(string $id)
     {
         $disponibilites = Disponibilite::find($id);
-        $disponibilite->deletee();
-        return response()->json();
+        $disponibilites->deletee();
+        return response()->json(null, 204);
     }
 }

@@ -2,7 +2,10 @@ import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 
 export default function CustomButton({ text, onPress, outlined, halfButton }) {
   return (
-    <TouchableOpacity onPress={onPress} style ={[styles.none, halfButton && styles.button]} >
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.none, halfButton && styles.button]}
+    >
       <View
         style={[
           styles.buttonContainer,
@@ -18,15 +21,12 @@ export default function CustomButton({ text, onPress, outlined, halfButton }) {
 }
 
 const styles = StyleSheet.create({
-  none: {
-    
-  },
+  none: {},
   button: {
     flex: 1,
   },
   buttonContainer: {
     paddingVertical: 15,
-    marginHorizontal: 10,
     backgroundColor: "#092D74",
     borderRadius: 8,
   },
