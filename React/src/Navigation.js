@@ -7,7 +7,6 @@ import Onboarding01 from "./Pages/Onboarding/Onboarding01";
 import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
-import PageDemande from "./Pages/DemandesAidesTuteurs/PageDemande";
 
 const Stack = createNativeStackNavigator();
 const StackTabs = createBottomTabNavigator();
@@ -49,6 +48,16 @@ export default function Navigation() {
         <Stack.Screen
           name="AuthChoice"
           component={AuthChoice}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
