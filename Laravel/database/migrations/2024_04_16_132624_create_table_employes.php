@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('employes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('utilisateurs_id');
-            $table->int('no_employe')-unique()->nullable(false);
+            $table->integer('no_employe')->unique()->nullable(false);
             $table->double('salaire',10,2)->nullable(true);
             $table->timestamps();
 
