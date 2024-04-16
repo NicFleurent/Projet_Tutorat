@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg"
-import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg"
+import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
+import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import BottomTabs from "../../Components/BottomTabs";
 
 export default function PageDemande() {
     return (
@@ -26,9 +26,7 @@ export default function PageDemande() {
                     <Text style={styles.sousTitre}>Vous voulez donner de votre temps pour aider vos pairs ?</Text>
                 </View>
             </View>
-
         </SafeAreaView>
-
     );
 }
 

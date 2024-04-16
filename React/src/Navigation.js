@@ -1,25 +1,17 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import SplashScreen from "./Pages/SplashScreen";
 import Onboarding01 from "./Pages/Onboarding/Onboarding01";
 import Onboarding02 from "./Pages/Onboarding/Onboarding02";
 import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
 
-const Stack = createNativeStackNavigator();
-const StackTabs = createBottomTabNavigator();
+import BottomTabs from "./Components/BottomTabs";
 
-function TabNavigator() {
-  return (
-    <StackTabs.Navigator>
-      {/* Mettre les pages qui seront dans les onglets en bas */}
-      <StackTabs.Screen name="page" component={PageDemande} options={{ headerShown: false }} />
-      
-    </StackTabs.Navigator>
-  );
-}
+const Stack = createNativeStackNavigator();
+
 
 export default function Navigation() {
   return (
@@ -64,3 +56,7 @@ export default function Navigation() {
     </NavigationContainer>
   );
 }
+
+
+
+
