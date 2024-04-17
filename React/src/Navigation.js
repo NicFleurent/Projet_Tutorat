@@ -51,11 +51,6 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="ListeCours"
-          component={ListeCours}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
