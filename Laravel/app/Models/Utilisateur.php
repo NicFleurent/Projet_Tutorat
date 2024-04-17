@@ -21,10 +21,8 @@ class Utilisateur extends Model
         'role',
     ];
 
-    /*
     protected $hidden = [
         'mot_passe',
         'remember_token',
     ];
-    */
 }
