@@ -27,7 +27,6 @@ export default function TabNavigator() {
       <StackTabs.Screen name="PageDemande" component={PageDemande}
         options={{
           headerShown: false,
-          
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"} 
