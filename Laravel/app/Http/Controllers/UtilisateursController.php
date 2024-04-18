@@ -4,10 +4,73 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Utilisateur;
+use App\Models\Utilisateur; //TODO : A enlever
+use App\Models\User;
+use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 
 class UtilisateursController extends Controller
 {
+    use HttpResponses;
+
+    
+
+    public function login()
+    {
+        return "Login";
+        /*LoginUserRequest $request
+        $request->validated($request->all());
+
+        if(!Auth::attempt($request->only('email','password'))){
+            return $this->error('','Credentials do not match', 401);
+        }
+        
+        $user = User::where('email', $request->email)->first();
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+        ]);*/
+    }
+
+    public function register()
+    {
+        return response()->json('Register');
+        /*LoginUserRequest $request
+        $request->validated($request->all());
+
+        if(!Auth::attempt($request->only('email','password'))){
+            return $this->error('','Credentials do not match', 401);
+        }
+        
+        $user = User::where('email', $request->email)->first();
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+        ]);*/
+    }
+
+    public function logout()
+    {
+        return response()->json('logout');
+        /*LoginUserRequest $request
+        $request->validated($request->all());
+
+        if(!Auth::attempt($request->only('email','password'))){
+            return $this->error('','Credentials do not match', 401);
+        }
+        
+        $user = User::where('email', $request->email)->first();
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+        ]);*/
+    }
+    
+
+    // TODO : Voir si necessaire
     public function index()
     {
         $utilisateur = Utilisateur::all();
