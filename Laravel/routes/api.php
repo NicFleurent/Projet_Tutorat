@@ -18,12 +18,15 @@ Route::get('/user', function (Request $request) {
 //Utilisateurs
 Route::post('login', [UtilisateursController::class, 'login']);
 Route::post('register', [UtilisateursController::class, 'register']);
-Route::post('logout', [UtilisateursController::class, 'logout']);
 
-Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
-Route::post('/utilisateurs/upload', [UtilisateursController::class, 'upload']);
-Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
-Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::post('logout', [UtilisateursController::class, 'logout']);
+});
+//Décommenter ou supprimer selon page admin (Voir controller)
+//Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
+//Route::post('/utilisateurs/upload', [UtilisateursController::class, 'upload']);
+//Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
+//Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
 
 //Employes
 Route::get('/employes', [EmployesController::class, 'index']);

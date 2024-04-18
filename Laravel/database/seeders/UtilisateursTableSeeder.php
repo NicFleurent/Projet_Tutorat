@@ -19,7 +19,7 @@ class UtilisateursTableSeeder extends Seeder
                 'mot_passe' => 'user',
                 'prenom' => 'User',
                 'nom' => 'User',
-                'role' => 'aidant'
+                'role' => 'aidé'
             ],
             [
                 'email' => 'admin@hotmail.ca',

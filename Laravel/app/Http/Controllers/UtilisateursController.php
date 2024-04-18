@@ -3,26 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use App\Models\Utilisateur; //TODO : A enlever
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UtilisateursController extends Controller
 {
     use HttpResponses;
 
-    
-
-    public function login()
+    public function login(LoginUserRequest $request)
     {
-        return "Login";
-        /*LoginUserRequest $request
         $request->validated($request->all());
 
         if(!Auth::attempt($request->only('email','password'))){
-            return $this->error('','Credentials do not match', 401);
+            return $this->error('','Le courriel ou le mot de passe n\'est pas valide', 401);
         }
         
         $user = User::where('email', $request->email)->first();
@@ -30,48 +29,41 @@ class UtilisateursController extends Controller
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
-        ]);*/
+        ]);
     }
 
-    public function register()
+    public function register(StoreUserRequest $request)
     {
-        return response()->json('Register');
-        /*LoginUserRequest $request
         $request->validated($request->all());
 
-        if(!Auth::attempt($request->only('email','password'))){
-            return $this->error('','Credentials do not match', 401);
-        }
-        
-        $user = User::where('email', $request->email)->first();
+        $user = User::create([
+            'email' => $request->email,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ]);
+
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
-        ]);*/
+            'token' => $user->createToken('API Token of ' . $user->name)->plainTextToken
+        ]);
     }
 
     public function logout()
     {
-        return response()->json('logout');
-        /*LoginUserRequest $request
-        $request->validated($request->all());
-
-        if(!Auth::attempt($request->only('email','password'))){
-            return $this->error('','Credentials do not match', 401);
-        }
-        
-        $user = User::where('email', $request->email)->first();
+        //L'erreur est normale, elle n'empeche pas le fonctionnement
+        Auth::user()->currentAccessToken()->delete();
 
         return $this->success([
-            'user' => $user,
-            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
-        ]);*/
+            'message' => 'Déconnecté et token supprimé'
+        ]);
     }
     
 
     // TODO : Voir si necessaire
-    public function index()
+    /*public function index()
     {
         $utilisateur = Utilisateur::all();
 
@@ -81,10 +73,10 @@ class UtilisateursController extends Controller
         ];
 
         return response()->json($data, 200);
-    }
+    }*/
 
     
-    public function upload(Request $request)
+    /*public function upload(Request $request)
     {
         $validator = Validator::make($request->all(),
         [
@@ -121,9 +113,9 @@ class UtilisateursController extends Controller
             return response()->json($data,200);
         }
 
-    }
+    }*/
     
-    public function edit(Request $request, $id)
+    /*public function edit(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -169,9 +161,9 @@ class UtilisateursController extends Controller
             }
         }
     
-    }
+    }*/
 
-    public function delete($id)
+    /*public function delete($id)
     {
         $utilisateur = Utilisateur::find($id);
         if (!$utilisateur) {
@@ -192,5 +184,5 @@ class UtilisateursController extends Controller
 
             return response()->json($data,200);
         }
-    }
+    }*/
 }
