@@ -62,7 +62,6 @@ export default function CustomInput({
             name={showPassword ? "eye-off" : "eye"}
             size={24}
             color="#aaa"
-            style={styles.icon}
             onPress={toggleShowPassword}
           />
         </View>
@@ -93,11 +92,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
-
   },
   containerPasswordStyleOnFocus: {
     flexDirection: "row",
-    alignItems: "center", 
+    alignItems: "center",
     justifyContent: "space-between",
     height: 50,
     borderWidth: 2,

@@ -9,9 +9,9 @@ import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
+import BottomTab from "./Components/BottomTabs";
 
 const Stack = createNativeStackNavigator();
-
 
 export default function Navigation() {
   return (
@@ -56,7 +56,3 @@ export default function Navigation() {
     </NavigationContainer>
   );
 }
-
-
-
-
