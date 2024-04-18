@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Utilisateur extends Model
+class Utilisateur extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,10 +21,8 @@ class Utilisateur extends Model
         'role',
     ];
 
-    /*
     protected $hidden = [
         'mot_passe',
         'remember_token',
     ];
-    */
 }

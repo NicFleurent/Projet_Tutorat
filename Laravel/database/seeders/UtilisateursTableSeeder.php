@@ -13,13 +13,13 @@ class UtilisateursTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('utilisateurs')->insert([
+        DB::table('users')->insert([
             [
                 'email' => 'user@hotmail.ca',
                 'mot_passe' => 'user',
                 'prenom' => 'User',
                 'nom' => 'User',
-                'role' => 'aidant'
+                'role' => 'aidé'
             ],
             [
                 'email' => 'admin@hotmail.ca',
