@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import PageDemande from "../Pages/DemandesAidesTuteurs/PageDemande";
+import Disponibilites from "../Pages/DemandesAidesTuteurs/Disponibilites";
 import Calendrier from "../Pages/DemandesAidesTuteurs/Calendrier";
+import PageDemande from '../Pages/DemandesAidesTuteurs/PageDemande';
 
 const StackTabs = createBottomTabNavigator();
 
@@ -23,7 +24,7 @@ export default function TabNavigator() {
       }}
     >
       {/* Mettez les pages qui seront dans les onglets ici */}
-      <StackTabs.Screen name="Page" component={PageDemande}
+      <StackTabs.Screen name="PageDemande" component={PageDemande}
         options={{
           headerShown: false,
           
@@ -36,7 +37,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="Calendrier" component={Calendrier} 
+      <StackTabs.Screen name="Accueil" component={Calendrier} 
       options={{ 
         headerShown: false,
         tabBarIcon: ({ color,  focused }) => (
@@ -48,7 +49,7 @@ export default function TabNavigator() {
         ),
          }} 
          />
-        <StackTabs.Screen name="Accueil" component={Calendrier} 
+        <StackTabs.Screen name="Compte" component={Calendrier} 
       options={{ 
         headerShown: false,
         tabBarIcon: ({ color,  focused }) => (

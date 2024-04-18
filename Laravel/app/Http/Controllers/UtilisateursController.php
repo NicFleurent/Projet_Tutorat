@@ -3,12 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
-use App\Models\Utilisateur;
+use App\Models\Utilisateur; //TODO : A enlever
+use App\Models\User;
+use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UtilisateursController extends Controller
 {
-    public function index()
+    use HttpResponses;
+
+    public function login(LoginUserRequest $request)
+    {
+        $request->validated($request->all());
+
+        if(!Auth::attempt($request->only('email','password'))){
+            return $this->error('','Le courriel ou le mot de passe n\'est pas valide', 401);
+        }
+        
+        $user = User::where('email', $request->email)->first();
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+        ]);
+    }
+
+    public function register(StoreUserRequest $request)
+    {
+        $request->validated($request->all());
+
+        $user = User::create([
+            'email' => $request->email,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ]);
+
+
+        return $this->success([
+            'user' => $user,
+            'token' => $user->createToken('API Token of ' . $user->name)->plainTextToken
+        ]);
+    }
+
+    public function logout()
+    {
+        //L'erreur est normale, elle n'empeche pas le fonctionnement
+        Auth::user()->currentAccessToken()->delete();
+
+        return $this->success([
+            'message' => 'Déconnecté et token supprimé'
+        ]);
+    }
+    
+
+    // TODO : Voir si necessaire
+    /*public function index()
     {
         $utilisateur = Utilisateur::all();
 
@@ -18,10 +73,10 @@ class UtilisateursController extends Controller
         ];
 
         return response()->json($data, 200);
-    }
+    }*/
 
     
-    public function upload(Request $request)
+    /*public function upload(Request $request)
     {
         $validator = Validator::make($request->all(),
         [
@@ -29,6 +84,7 @@ class UtilisateursController extends Controller
             'mot_passe'=>'required',
             'prenom'=>'required',
             'nom'=>'required',
+            'role'=>'required'
         ]);
 
         if($validator->fails()){
@@ -45,6 +101,7 @@ class UtilisateursController extends Controller
             $utilisateur->mot_passe = $request->mot_passe;
             $utilisateur->prenom = $request->prenom;
             $utilisateur->nom = $request->nom;
+            $utilisateur->role = $request->role;
 
             $utilisateur->save();
 
@@ -56,15 +113,16 @@ class UtilisateursController extends Controller
             return response()->json($data,200);
         }
 
-    }
+    }*/
     
-    public function edit(Request $request, $id)
+    /*public function edit(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'mot_passe' => 'required',
             'prenom' => 'required',
             'nom' => 'required',
+            'role' => 'required'
         ]);
     
         if ($validator->fails()) {
@@ -90,6 +148,7 @@ class UtilisateursController extends Controller
                 $utilisateur->mot_passe = $request->mot_passe;
                 $utilisateur->prenom = $request->prenom;
                 $utilisateur->nom = $request->nom;
+                $utilisateur->role = $request->role;
 
                 $utilisateur->save();
 
@@ -102,9 +161,9 @@ class UtilisateursController extends Controller
             }
         }
     
-    }
+    }*/
 
-    public function delete($id)
+    /*public function delete($id)
     {
         $utilisateur = Utilisateur::find($id);
         if (!$utilisateur) {
@@ -125,5 +184,5 @@ class UtilisateursController extends Controller
 
             return response()->json($data,200);
         }
-    }
+    }*/
 }
