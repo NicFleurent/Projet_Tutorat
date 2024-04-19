@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('numero',6);
             $table->string('nom', 255);
-            $table->foreignId('parent_id')->nullable()->constrained('programmes');
             $table->timestamps();
         });
     }

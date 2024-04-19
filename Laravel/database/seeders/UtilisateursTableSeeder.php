@@ -16,28 +16,28 @@ class UtilisateursTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'email' => 'user@hotmail.ca',
-                'mot_passe' => 'user',
+                'password' => 'user',
                 'prenom' => 'User',
                 'nom' => 'User',
                 'role' => 'aidé'
             ],
             [
                 'email' => 'admin@hotmail.ca',
-                'mot_passe' => 'admin',  
+                'password' => 'admin',  
                 'prenom' => 'Ad',
                 'nom' => 'Min',
                 'role' => 'admin'
             ],
             [
                 'email' => 'prof@hotmail.ca',
-                'mot_passe' => 'prof',  
+                'password' => 'prof',  
                 'prenom' => 'Prof',
                 'nom' => 'Fesseur',
                 'role' => 'proffeseur'
             ],
             [
                 'email' => 'tuteur@hotmail.ca',
-                'mot_passe' => 'tuteur',  
+                'password' => 'tuteur',  
                 'prenom' => 'Tutti ',
                 'nom' => 'Frutti',
                 'role' => 'tuteur'

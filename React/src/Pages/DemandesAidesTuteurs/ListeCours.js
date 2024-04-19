@@ -1,48 +1,39 @@
 import { StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from 'react-native-dropdown-select-list';
-import { Dropdown } from 'react-native-element-dropdown';
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
-//import { ScrollView } from "react-native-web";
+import axios from "axios";
 
 export default function ListeCours() {
-    const [selectedProgramme, setSelectedProgramme] = useState("");
     const [selectedCours, setSelectedCours] = useState("");
-  
-    let dataProgrammes = [
-        {label:'1', value:'Mobiles'},
-        {label:'2', value:'Appliances'},
-        {label:'3', value:'Cameras'},
-        {label:'4', value:'Computers'},
-        {label:'5', value:'Vegetables'},
-        {label:'6', value:'Diary Products'},
-        {label:'7', value:'Drinks'},
-    ];
-  
-    const dataCours = [
-        {key:'1', value:'Mobiles', disabled:true},
-        {key:'2', value:'Appliances'},
-        {key:'3', value:'Cameras'},
-        {key:'4', value:'Computers', disabled:true},
-        {key:'5', value:'Vegetables'},
-        {key:'6', value:'Diary Products'},
-        {key:'7', value:'Drinks'},
-    ];
+    let [cours, setCours] = useState([]);
+    let [programmes, setProgrammes] = useState([]);
 
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    
+    const baseUrl = "http://127.0.0.1:8000/api";
 
-    const renderLabel = () => {
-      if (value || isFocus) {
-        return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
-          </Text>
-        );
-      }
-      return null;
-    };
+    useEffect(() => {
+        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/cours")
+        .then((response) => setCours(response.data))
+        .catch((error)=>console.log(error))
+    }, []);
+
+    useEffect(() => {
+        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/programmes")
+        .then((response) => setProgrammes(response.data))
+        .catch((error)=>console.log(error))
+    }, []);
+
+    let dataCours = [];
+    programmes.map((programme) => {
+        dataCours.push({key:programme.id,value:programme['attributes'].numero + ' - ' + programme['attributes'].nom, disabled:true})
+        cours.map((cours) => {
+            if(cours['programme'].id === programme.id){
+                dataCours.push({key:programme.id+'.'+cours.id,value:cours['attributes'].numero + ' - ' + cours['attributes'].nom})
+            }
+        })
+    })
 
     return (
         <SafeAreaView style={styles.container}>
@@ -61,18 +52,8 @@ export default function ListeCours() {
             <ScrollView style={styles.scrollView}>
 
                 <View style={styles.section}>
-                    <Text style={styles.titreSection}>Programme</Text>
-                    <SelectList 
-                        setSelected={(val) => setSelectedProgramme(val)} 
-                        data={dataProgrammes} 
-                        save="value"
-                        placeholder="Choisir un programme"
-                        searchPlaceholder="Rechercher"
-                    />
-                </View>
-
-                <View style={styles.section}>
                     <Text style={styles.titreSection}>Cours</Text>
+                    
                     <SelectList 
                         setSelected={(val) => setSelectedCours(val)} 
                         data={dataCours} 
@@ -80,8 +61,9 @@ export default function ListeCours() {
                         placeholder="Choisir un cours"
                         searchPlaceholder="Rechercher"
                     />
-                </View>  
+                </View>
             </ScrollView>  
+
             </KeyboardAvoidingView>
 
             

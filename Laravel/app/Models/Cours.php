@@ -15,19 +15,24 @@ class Cours extends Model
     protected $table = 'cours';
 
     protected $fillable = [
-        'id',
         'numero',
         'nom',
         'responsable_id',
+        'programme_id',
     ];
 
     public function responsable()
     {
-        return $this->belongsTo(Utilisateur::class);
+        return $this->belongsTo(User::class);
     }
 
     public function tuteurs()
     {
-        return $this->belongsToMany(Utilisateur::class);
+        return $this->belongsToMany(User::class);
+    }
+
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class);
     }
 }

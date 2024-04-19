@@ -25,6 +25,7 @@ class CoursRequest extends FormRequest
             'numero' => 'required',
             'nom' => 'required',
             'responsable_id' => 'required',
+            'programme_id' => 'required',
         ];
     }
 
@@ -33,6 +34,7 @@ class CoursRequest extends FormRequest
             'numero.required' => 'Le numéro est requis',
             'nom.required' => 'Le nom est requis',
             'responsable_id.required' => 'Le responsable est requis',
+            'programme_id.required' => 'Le programme est requis',
         ];
     }
 }

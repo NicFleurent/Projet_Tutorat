@@ -19,7 +19,7 @@ Route::get('/user', function (Request $request) {
 Route::post('login', [UtilisateursController::class, 'login']);
 Route::post('register', [UtilisateursController::class, 'register']);
 
-Route::group(['middleware' => ['auth:sanctum']], function(){
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
 });
 //Décommenter ou supprimer selon page admin (Voir controller)
@@ -50,4 +50,3 @@ Route::post('/disponibilites', [DisponibilitesController::class, 'upload']);
 
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
-
