@@ -18,7 +18,7 @@ class DisponibilitesController extends Controller
         foreach ($disponibilites as $dispo){
             $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
         }
-        return response()->json($disponibilites);
+        return response()->json($disponibilites,200);
     }
 
     /**
@@ -42,7 +42,7 @@ class DisponibilitesController extends Controller
 
         //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
 
-        return response()->json($disponibilite, 201);
+        return response()->json($disponibilite, 200);
     }
 
     /**

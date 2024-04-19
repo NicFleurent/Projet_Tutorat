@@ -17,16 +17,18 @@ Route::get('/user', function (Request $request) {
 
 //Utilisateurs
 Route::post('login', [UtilisateursController::class, 'login']);
-Route::post('register', [UtilisateursController::class, 'register']);
+Route::post('register', [UtilisateursController::class, 'register']); 
+Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
+Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
 
-Route::group(['middleware' => ['auth:sanctum']], function(){
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
 });
+
+
 //Décommenter ou supprimer selon page admin (Voir controller)
 //Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
-//Route::post('/utilisateurs/upload', [UtilisateursController::class, 'upload']);
-//Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
-//Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
+
 
 //Employes
 Route::get('/employes', [EmployesController::class, 'index']);
@@ -43,12 +45,11 @@ Route::get('programmes/{id}', [ProgrammesController::class, 'enfants']);
 
 
 //Disponibilites
-Route::get('disponibilites', [DisponibilitesController::class, 'index']);
-Route::post('disponibilites', [DisponibilitesController::class, 'update']); #?upload
+Route::get('/disponibilites', [DisponibilitesController::class, 'index']);
+Route::post('/disponibilites', [DisponibilitesController::class, 'upload']); 
 #Route::put('disponibilites', [DisponibilitesController::class, 'edit']);
 #Route::delete('disponibilites', [DisponibilitesController::class, 'delete']);
 
 
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
-

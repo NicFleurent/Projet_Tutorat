@@ -9,8 +9,8 @@ import Onboarding03 from "./Pages/Onboarding/Onboarding03";
 import AuthChoice from "./Pages/Auth/AuthChoice";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
-import BottomTab from "./Components/BottomTabs";
-import ListeCours from "./Pages/DemandesAidesTuteurs/ListeCours";
+import Parametre from "./Pages/Parametres/Parametre";
+import GestionCompte from "./Pages/Parametres/GestionCompte";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +56,16 @@ export default function Navigation() {
         <Stack.Screen
           name="Login"
           component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Parametre"
+          component={Parametre}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GestionCompte"
+          component={GestionCompte}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

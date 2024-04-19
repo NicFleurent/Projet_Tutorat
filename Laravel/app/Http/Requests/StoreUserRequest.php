@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'nom' => ['required','string','max:255'],
             'prenom' => ['required','string','max:255'],
             'role' => ['required','string','max:255'],
-            'password' => ['required','confirmed']
+            'password' => ['required']
             // Dans password, nous avons décidez d'enlever la validation Rules/Password::default()
         ];
     }
