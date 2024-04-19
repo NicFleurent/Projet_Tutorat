@@ -15,8 +15,8 @@ export default function Onboarding01() {
         <ClickableText
           text={"Passer"}
           activeOpacity={0.6}
-          textStyle={styles.skip}
           underlayColor={"092D74"}
+          textStyle={styles.skip}
           onPress={() => {
             navigation.navigate("AuthChoice");
           }}
