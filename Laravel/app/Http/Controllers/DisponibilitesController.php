@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DisponibiliteRequest;
+use App\Http\Resources\DisponibilitesResource;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ class DisponibilitesController extends Controller
      */
     public function index()
     {
-        $disponibilites = Disponibilite::all();
+        $disponibilites = DisponibilitesResource::collection(Disponibilite::all());
         foreach ($disponibilites as $dispo){
             $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
         }
