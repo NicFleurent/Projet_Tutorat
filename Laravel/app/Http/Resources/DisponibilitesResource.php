@@ -12,18 +12,22 @@ class DisponibilitesResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
-            'noDispo' => (string)$this->noDispo,
+            'id' => (string)$this->id,
             'attributes' => [
                 'journee' => $this->journee,
                 'heure' => $this->heure,
-                'utilisateur_id' => $this->utilisateur_id,
+                'tuteur_id' => $this->user_id,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
+            ],
+            'tuteur' => [
+                'id' => (string)$this->tuteur->id,
+                'nom' => $this->tuteur->nom,
+                'prenom' => $this->tuteur->prenom         
             ]
-
         ];
     }
 }
