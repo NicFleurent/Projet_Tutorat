@@ -24,7 +24,7 @@ class DisponibiliteRequest extends FormRequest
         return [
             'journee' => 'required',
             'heure' => 'required',
-            'utilisateur_id' => 'required',
+            'user_id' => 'required',
         ];
     }
 }

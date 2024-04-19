@@ -12,13 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('disponibilites', function (Blueprint $table) {
-            $table->id('noDispo');
+            $table->id();
             $table->string('journee',8);
             $table->time('heure');
-            $table->foreignId('utilisateur_id')
-                ->references('id')
-                ->on('utilisateurs')
-                ->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
