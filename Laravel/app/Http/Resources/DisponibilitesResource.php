@@ -15,8 +15,15 @@ class DisponibilitesResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id
-           
+            'noDispo' => (string)$this->noDispo,
+            'attributes' => [
+                'journee' => $this->journee,
+                'heure' => $this->heure,
+                'utilisateur_id' => $this->utilisateur_id,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at
+            ]
+
         ];
     }
 }
