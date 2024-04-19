@@ -22,8 +22,8 @@ return new class extends Migration
 
 
             // Définir les clés étrangères
-            $table->foreign('tuteur_id')->references('id')->on('utilisateurs');
-            $table->foreign('aider_id')->references('id')->on('utilisateurs');
+            $table->foreign('tuteur_id')->references('id')->on('users');
+            $table->foreign('aider_id')->references('id')->on('users');
         });
     }
 

@@ -16,7 +16,7 @@ class DisponibilitesSeeder extends Seeder
             [
                 'journee' => 'Mardi',
                 'heure' => '10:30',
-                'utilisateur_id' => 4
+                'user_id' => '4'
             ],
         ]);
     }
