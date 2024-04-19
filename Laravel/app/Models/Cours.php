@@ -30,4 +30,9 @@ class Cours extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class);
+    }
 }

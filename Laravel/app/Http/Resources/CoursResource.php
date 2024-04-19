@@ -28,6 +28,11 @@ class CoursResource extends JsonResource
                 'prenom' => (string)$this->responsable->prenom,
                 'nom' => (string)$this->responsable->nom,
                 'role' => (string)$this->responsable->role,
+            ],
+            'programme' => [
+                'id' => (string)$this->programme->id,
+                'numero' => (string)$this->programme->numero,
+                'nom' => (string)$this->programme->nom,
             ]
         ];
     }
