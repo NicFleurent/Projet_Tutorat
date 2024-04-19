@@ -4,21 +4,33 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
+import axios from "axios";
+import { FlatList } from "react-native-actions-sheet";
 //import { ScrollView } from "react-native-web";
 
 export default function ListeCours() {
-    const [selectedProgramme, setSelectedProgramme] = useState("");
     const [selectedCours, setSelectedCours] = useState("");
-  
-    let dataProgrammes = [
-        {label:'1', value:'Mobiles'},
-        {label:'2', value:'Appliances'},
-        {label:'3', value:'Cameras'},
-        {label:'4', value:'Computers'},
-        {label:'5', value:'Vegetables'},
-        {label:'6', value:'Diary Products'},
-        {label:'7', value:'Drinks'},
-    ];
+    let [cours, setCours] = useState([]);
+
+    
+    const baseUrl = "http://127.0.0.1:8000/api";
+
+    useEffect(() => {
+        axios.get("https://jsonplaceholder.typicode.com/users")
+        .then((response) => setCours(response.data))
+        .catch((error)=>console.log(error))
+    }, []);
+    
+    const readUserCard = ({item})=>{
+        return(
+            <View style={styles.card}>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text style={styles.email}>{item.email}</Text>
+                <Text style={styles.username}>{item.username}</Text>
+                <Text style={styles.website}>{item.website}</Text>
+            </View>
+        )
+    }
   
     const dataCours = [
         {key:'1', value:'Mobiles', disabled:true},
@@ -61,17 +73,6 @@ export default function ListeCours() {
             <ScrollView style={styles.scrollView}>
 
                 <View style={styles.section}>
-                    <Text style={styles.titreSection}>Programme</Text>
-                    <SelectList 
-                        setSelected={(val) => setSelectedProgramme(val)} 
-                        data={dataProgrammes} 
-                        save="value"
-                        placeholder="Choisir un programme"
-                        searchPlaceholder="Rechercher"
-                    />
-                </View>
-
-                <View style={styles.section}>
                     <Text style={styles.titreSection}>Cours</Text>
                     <SelectList 
                         setSelected={(val) => setSelectedCours(val)} 
@@ -81,7 +82,15 @@ export default function ListeCours() {
                         searchPlaceholder="Rechercher"
                     />
                 </View>  
+
+                <FlatList
+                    data={cours}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={readUserCard}
+                />
+
             </ScrollView>  
+
             </KeyboardAvoidingView>
 
             
