@@ -64,31 +64,33 @@ class UtilisateursController extends Controller
     }
     
     public function edit(Request $request, $id)
-{
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required',
-        'prenom' => 'required',
-        'nom' => 'required',
-        'role' => 'required'
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+            'prenom' => 'required',
+            'nom' => 'required',
+            'role' => 'required'
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()], 422);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+        else{
+            $user = User::findOrFail($id);
+        
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->prenom = $request->prenom;
+            $user->nom = $request->nom;
+            $user->role = $request->role;
+
+            $user->save();
+
+            return response()->json(['message' => 'User updated successfully'], 200);
+        }
+        
     }
-
-    $user = User::findOrFail($id);
-    
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->prenom = $request->prenom;
-    $user->nom = $request->nom;
-    $user->role = $request->role;
-
-    $user->save();
-
-    return response()->json(['message' => 'User updated successfully'], 200);
-}
 
     // TODO : Voir si necessaire
     /*public function index()
@@ -143,54 +145,6 @@ class UtilisateursController extends Controller
 
     }*/
     
-    /*public function edit(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'mot_passe' => 'required',
-            'prenom' => 'required',
-            'nom' => 'required',
-            'role' => 'required'
-        ]);
-    
-        if ($validator->fails()) {
-            $data = [
-                'status' => 422,
-                'message' => 'Validation Failed'
-            ];
-            return response()->json($data, 422);
-        }
-        else
-        {
-            $utilisateur = Utilisateur::find($id);
-            if (!$utilisateur) {
-                $data = [
-                    'status' => 404,
-                    'message' => 'User not found'
-                ];
-                return response()->json($data, 404);
-            }
-            else
-            {
-                $utilisateur->email = $request->email;
-                $utilisateur->mot_passe = $request->mot_passe;
-                $utilisateur->prenom = $request->prenom;
-                $utilisateur->nom = $request->nom;
-                $utilisateur->role = $request->role;
-
-                $utilisateur->save();
-
-                $data = [
-                    'status' => 200,
-                    'message' => 'User Success'
-                ];
-
-                return response()->json($data, 200);
-            }
-        }
-    
-    }*/
-
     /*public function delete($id)
     {
         $utilisateur = Utilisateur::find($id);
