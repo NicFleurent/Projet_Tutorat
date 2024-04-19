@@ -92,6 +92,21 @@ class UtilisateursController extends Controller
         
     }
 
+
+    public function delete($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+            
+        $data = [
+            'status'=>200,
+            'message'=>'Delete Success'
+        ];
+
+        return response()->json($data,200);
+    }
+    
+
     // TODO : Voir si necessaire
     /*public function index()
     {
@@ -105,46 +120,6 @@ class UtilisateursController extends Controller
         return response()->json($data, 200);
     }*/
 
-    
-    /*public function upload(Request $request)
-    {
-        $validator = Validator::make($request->all(),
-        [
-            'email'=>'required|email',
-            'mot_passe'=>'required',
-            'prenom'=>'required',
-            'nom'=>'required',
-            'role'=>'required'
-        ]);
-
-        if($validator->fails()){
-            $data=[
-                'status'=>422,
-                'message'=>'Upload Failed'
-            ];
-            return response()->json($data,422);
-        }
-        else
-        {
-            $utilisateur = new Utilisateur;
-            $utilisateur->email = $request->email;
-            $utilisateur->mot_passe = $request->mot_passe;
-            $utilisateur->prenom = $request->prenom;
-            $utilisateur->nom = $request->nom;
-            $utilisateur->role = $request->role;
-
-            $utilisateur->save();
-
-            $data = [
-                'status' =>200,
-                'message'=> 'Upload Sucess'
-            ];
-
-            return response()->json($data,200);
-        }
-
-    }*/
-    
     /*public function delete($id)
     {
         $utilisateur = Utilisateur::find($id);
