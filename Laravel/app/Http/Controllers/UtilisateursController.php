@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class UtilisateursController extends Controller
 {
@@ -60,6 +63,32 @@ class UtilisateursController extends Controller
         ]);
     }
     
+    public function edit(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required',
+        'prenom' => 'required',
+        'nom' => 'required',
+        'role' => 'required'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 422);
+    }
+
+    $user = User::findOrFail($id);
+    
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->prenom = $request->prenom;
+    $user->nom = $request->nom;
+    $user->role = $request->role;
+
+    $user->save();
+
+    return response()->json(['message' => 'User updated successfully'], 200);
+}
 
     // TODO : Voir si necessaire
     /*public function index()
