@@ -14,7 +14,7 @@ class CoursController extends Controller
      */
     public function index()
     {
-        return CoursResource::collection(Cours::all());
+        return response()->json(CoursResource::collection(Cours::all()), 200);
     }
 
     /**

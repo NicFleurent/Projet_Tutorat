@@ -1,60 +1,39 @@
 import { StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from 'react-native-dropdown-select-list';
-import { Dropdown } from 'react-native-element-dropdown';
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import axios from "axios";
-import { FlatList } from "react-native-actions-sheet";
-//import { ScrollView } from "react-native-web";
 
 export default function ListeCours() {
     const [selectedCours, setSelectedCours] = useState("");
     let [cours, setCours] = useState([]);
+    let [programmes, setProgrammes] = useState([]);
 
     
     const baseUrl = "http://127.0.0.1:8000/api";
 
     useEffect(() => {
-        axios.get("https://jsonplaceholder.typicode.com/users")
+        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/cours")
         .then((response) => setCours(response.data))
         .catch((error)=>console.log(error))
     }, []);
-    
-    const readUserCard = ({item})=>{
-        return(
-            <View style={styles.card}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.email}>{item.email}</Text>
-                <Text style={styles.username}>{item.username}</Text>
-                <Text style={styles.website}>{item.website}</Text>
-            </View>
-        )
-    }
-  
-    const dataCours = [
-        {key:'1', value:'Mobiles', disabled:true},
-        {key:'2', value:'Appliances'},
-        {key:'3', value:'Cameras'},
-        {key:'4', value:'Computers', disabled:true},
-        {key:'5', value:'Vegetables'},
-        {key:'6', value:'Diary Products'},
-        {key:'7', value:'Drinks'},
-    ];
 
-    const [value, setValue] = useState(null);
-    const [isFocus, setIsFocus] = useState(false);
+    useEffect(() => {
+        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/programmes")
+        .then((response) => setProgrammes(response.data))
+        .catch((error)=>console.log(error))
+    }, []);
 
-    const renderLabel = () => {
-      if (value || isFocus) {
-        return (
-          <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-            Dropdown label
-          </Text>
-        );
-      }
-      return null;
-    };
+    let dataCours = [];
+    programmes.map((programme) => {
+        dataCours.push({key:programme.id,value:programme['attributes'].numero + ' - ' + programme['attributes'].nom, disabled:true})
+        cours.map((cours) => {
+            if(cours['programme'].id === programme.id){
+                dataCours.push({key:programme.id+'.'+cours.id,value:cours['attributes'].numero + ' - ' + cours['attributes'].nom})
+            }
+        })
+    })
 
     return (
         <SafeAreaView style={styles.container}>
@@ -74,6 +53,7 @@ export default function ListeCours() {
 
                 <View style={styles.section}>
                     <Text style={styles.titreSection}>Cours</Text>
+                    
                     <SelectList 
                         setSelected={(val) => setSelectedCours(val)} 
                         data={dataCours} 
@@ -81,14 +61,7 @@ export default function ListeCours() {
                         placeholder="Choisir un cours"
                         searchPlaceholder="Rechercher"
                     />
-                </View>  
-
-                <FlatList
-                    data={cours}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={readUserCard}
-                />
-
+                </View>
             </ScrollView>  
 
             </KeyboardAvoidingView>
