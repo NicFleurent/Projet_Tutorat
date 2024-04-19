@@ -10,6 +10,7 @@ import AuthChoice from "./Pages/Auth/AuthChoice";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
 import BottomTab from "./Components/BottomTabs";
+import ListeCours from "./Pages/DemandesAidesTuteurs/ListeCours";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="ListeCours"
+          component={BottomTab}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
