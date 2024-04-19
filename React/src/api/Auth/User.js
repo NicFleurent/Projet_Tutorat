@@ -1,12 +1,23 @@
 import axios from "axios";
-const baseUrl = "http://127.0.0.1:8000/api";
+const baseUrl = "https://98b3-209-226-143-203.ngrok-free.app/api";
 
-// Recuperer tous les utilisateurs de la base de donnees
-const getUsers = async () => {
-  const configurationObject = {
-    method: "get",
-    url: `${baseUrl}/utilisateurs`,
-  };
-  const response = await axios(configurationObject);
-  return response.data;
+export const login = async (email, password) => {
+  try {
+    const configurationObject = {
+      method: "post",
+      url: `${baseUrl}/login`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: {
+        email: email,
+        password: password,
+      },
+    };
+    const response = await axios(configurationObject);
+    return response;
+  } catch (error) {
+    throw new Error("Erreur lors de la connexion : " + error.message);
+  }
 };

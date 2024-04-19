@@ -12,8 +12,68 @@ import LoginCuate from "../../assets/svg/auth/Login-cuate.svg";
 import CustomInput from "../../Components/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
 import ClickableText from "../../Components/ClickableText";
+import React, { useState, useEffect } from "react";
+import { login } from "../../api/Auth/User";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    setEmailError(null);
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    setPasswordError(null);
+  };
+
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setEmailError("Veuillez entrer votre adresse e-mail.");
+
+      return false;
+    }
+    if (regex.test(email) == false) {
+      setEmailError("Entrer une adresse avec un format valide.");
+
+      return false;
+    }
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (!password) {
+      setPasswordError("Veuillez entrer votre mot de passe.");
+      return false;
+    }
+    // Autres validations de mot de passe ici
+    return true;
+  };
+
+  const handleLoginPress = async () => {
+    const isEmailValid = validateEmail();
+    const isPasswordValid = validatePassword();
+
+    try {
+      if (isEmailValid && isPasswordValid) {
+        const response = await login(email, password);
+        console.log("Réponse de la connexion :", response);
+      } else {
+        console.log(
+          "Des erreurs de validation existent. Veuillez corriger les champs."
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error.message);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Ionicons
@@ -43,7 +103,16 @@ export default function Login() {
             <View>
               <Text style={styles.label}>Courriel</Text>
 
-              <CustomInput placeholder={"Johndoe98@gmail.com"}></CustomInput>
+              <CustomInput
+                placeholder={"Johndoe98@gmail.com"}
+                onChangeText={handleEmailChange}
+                value={email}
+              />
+              {emailError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>{emailError}</Text>
+              )}
             </View>
 
             <View style={styles.labelAndInputSpace}>
@@ -52,7 +121,16 @@ export default function Login() {
               <CustomInput
                 placeholder={"Mot de passe"}
                 isPassword={true}
-              ></CustomInput>
+                onChangeText={handlePasswordChange}
+                value={password}
+              />
+              {passwordError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>
+                  {passwordError}
+                </Text>
+              )}
             </View>
 
             <ClickableText
@@ -62,7 +140,7 @@ export default function Login() {
           </View>
 
           <View style={styles.butonView}>
-            <CustomButton text={"Se connecter"}></CustomButton>
+            <CustomButton text={"Se connecter"} onPress={handleLoginPress} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

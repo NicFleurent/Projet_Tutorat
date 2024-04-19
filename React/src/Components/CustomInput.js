@@ -13,6 +13,7 @@ export default function CustomInput({
   onChangeText,
   error,
   isPassword,
+
   ...props
 }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -78,7 +79,6 @@ export default function CustomInput({
           {...props}
         />
       )}
-      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }
@@ -115,11 +115,6 @@ const styles = StyleSheet.create({
     borderColor: "#476297",
     padding: 10,
     borderRadius: 8,
-  },
-  errorText: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "red",
   },
   inputPasswordStyle: {
     flex: 1,
