@@ -13,4 +13,9 @@ class Disponibilite extends Model
         'journee',
         'heure',
     ];
+
+    public function tuteur()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
