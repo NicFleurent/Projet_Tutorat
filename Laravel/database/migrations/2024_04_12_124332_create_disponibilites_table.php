@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id('noDispo');
             $table->string('journee',8);
             $table->time('heure');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('utilisateur_id')
+                ->references('id')
+                ->on('utilisateurs')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
