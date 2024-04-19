@@ -14,7 +14,7 @@ class ProgrammesController extends Controller
      */
     public function index()
     {
-        return ProgrammesResource::collection(Programme::all());
+        return response()->json(ProgrammesResource::collection(Programme::all()), 200);
     }
     
     /**
