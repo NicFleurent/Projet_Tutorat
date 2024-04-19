@@ -24,15 +24,15 @@ class CoursResource extends JsonResource
             ],
             'responsable' => [
                 'id' => (string)$this->responsable->id,
-                'email' => (string)$this->responsable->email,
-                'prenom' => (string)$this->responsable->prenom,
-                'nom' => (string)$this->responsable->nom,
-                'role' => (string)$this->responsable->role,
+                'email' => $this->responsable->email,
+                'prenom' => $this->responsable->prenom,
+                'nom' => $this->responsable->nom,
+                'role' => $this->responsable->role,
             ],
             'programme' => [
                 'id' => (string)$this->programme->id,
-                'numero' => (string)$this->programme->numero,
-                'nom' => (string)$this->programme->nom,
+                'numero' => $this->programme->numero,
+                'nom' => $this->programme->nom,
             ]
         ];
     }

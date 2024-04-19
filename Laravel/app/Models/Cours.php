@@ -28,7 +28,7 @@ class Cours extends Model
 
     public function tuteurs()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'tuteur_cours');
     }
 
     public function programme()

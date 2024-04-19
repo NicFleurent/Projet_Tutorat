@@ -36,6 +36,7 @@ Route::get('/employes', [EmployesController::class, 'index']);
 
 //Cours
 Route::get('cours', [CoursController::class, 'index']);
+Route::post('cours/storeTuteur', [CoursController::class, 'storeTuteur']);
 
 
 //Programmes

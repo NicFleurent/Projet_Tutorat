@@ -14,13 +14,13 @@ export default function ListeCours() {
     const baseUrl = "http://127.0.0.1:8000/api";
 
     useEffect(() => {
-        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/cours")
+        axios.get("https://6a21-204-48-92-213.ngrok-free.app/api/cours")
         .then((response) => setCours(response.data))
         .catch((error)=>console.log(error))
     }, []);
 
     useEffect(() => {
-        axios.get("https://dbab-174-93-239-141.ngrok-free.app/api/programmes")
+        axios.get("https://6a21-204-48-92-213.ngrok-free.app/api/programmes")
         .then((response) => setProgrammes(response.data))
         .catch((error)=>console.log(error))
     }, []);
