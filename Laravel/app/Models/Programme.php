@@ -13,7 +13,6 @@ class Programme extends Model
         'id',
         'numero',
         'nom',
-        'parent_id',
     ];
 
     public function parent()

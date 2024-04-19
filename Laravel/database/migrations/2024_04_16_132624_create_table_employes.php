@@ -16,7 +16,7 @@ return new class extends Migration
             $table->double('salaire',10,2)->nullable(true);
             $table->timestamps();
 
-            $table->foreign('utilisateurs_id')->references('id')->on('utilisateurs');
+            $table->foreign('utilisateurs_id')->references('id')->on('users');
         });
     }
 

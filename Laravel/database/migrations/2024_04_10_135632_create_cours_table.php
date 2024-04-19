@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('numero', 10);
             $table->string('nom', 100);
-            $table->foreignId('responsable_id')->constrained('utilisateurs');
+            $table->foreignId('responsable_id')->constrained('users');
+            $table->foreignId('programme_id')->constrained();
             $table->timestamps();
         });
     }

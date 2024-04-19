@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProgrammesResource;
 use Illuminate\Http\Request;
 use App\Models\Programme;
 
@@ -13,9 +14,7 @@ class ProgrammesController extends Controller
      */
     public function index()
     {
-        $programme = Programme::all();
-
-        return response()->json($programme, 200);
+        return ProgrammesResource::collection(Programme::all());
     }
     
     /**
