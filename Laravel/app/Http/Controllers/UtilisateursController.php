@@ -92,7 +92,6 @@ class UtilisateursController extends Controller
         
     }
 
-
     public function delete($id)
     {
         $user = User::findOrFail($id);
@@ -106,7 +105,6 @@ class UtilisateursController extends Controller
         return response()->json($data,200);
     }
     
-
     // TODO : Voir si necessaire
     /*public function index()
     {
@@ -120,26 +118,4 @@ class UtilisateursController extends Controller
         return response()->json($data, 200);
     }*/
 
-    /*public function delete($id)
-    {
-        $utilisateur = Utilisateur::find($id);
-        if (!$utilisateur) {
-            $data = [
-                'status' => 404,
-                'message' => 'User not found'
-            ];
-            return response()->json($data, 404);
-        }
-        else
-        {
-            $utilisateur->delete();
-            
-            $data = [
-                'status'=>200,
-                'message'=>'Delete Success'
-            ];
-
-            return response()->json($data,200);
-        }
-    }*/
 }
