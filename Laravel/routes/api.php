@@ -47,8 +47,8 @@ Route::get('programmes/{id}', [ProgrammesController::class, 'enfants']);
 //Disponibilites
 Route::get('/disponibilites', [DisponibilitesController::class, 'index']);
 Route::post('/disponibilites', [DisponibilitesController::class, 'upload']); 
-#Route::put('disponibilites', [DisponibilitesController::class, 'edit']);
-#Route::delete('disponibilites', [DisponibilitesController::class, 'delete']);
+Route::put('/disponibilites/edit/{dispo}', [DisponibilitesController::class, 'edit']);
+Route::delete('/disponibilites/delete/{dispo}', [DisponibilitesController::class, 'delete']);
 
 
 //Jumellages

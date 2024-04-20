@@ -20,8 +20,6 @@ class DisponibilitesResource extends JsonResource
                 'journee' => $this->journee,
                 'heure' => $this->heure,
                 'tuteur_id' => $this->user_id,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at
             ],
             'tuteur' => [
                 'id' => (string)$this->tuteur->id,
