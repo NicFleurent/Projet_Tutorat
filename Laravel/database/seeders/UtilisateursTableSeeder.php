@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UtilisateursTableSeeder extends Seeder
 {
@@ -23,26 +24,25 @@ class UtilisateursTableSeeder extends Seeder
             ],
             [
                 'email' => 'admin@hotmail.ca',
-                'password' => 'admin',  
+                'password' => Hash::make('admin'),
                 'prenom' => 'Ad',
                 'nom' => 'Min',
                 'role' => 'admin'
             ],
             [
                 'email' => 'prof@hotmail.ca',
-                'password' => 'prof',  
+                'password' => 'prof',
                 'prenom' => 'Prof',
                 'nom' => 'Fesseur',
                 'role' => 'proffeseur'
             ],
             [
                 'email' => 'tuteur@hotmail.ca',
-                'password' => 'tuteur',  
+                'password' => 'tuteur',
                 'prenom' => 'Tutti ',
                 'nom' => 'Frutti',
                 'role' => 'tuteur'
             ],
         ]);
     }
-           
 }
