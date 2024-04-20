@@ -52,5 +52,4 @@ class UtilisateursTableSeeder extends Seeder
             ]
         ]);
     }
-           
 }
