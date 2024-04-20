@@ -18,10 +18,10 @@ class DisponibilitesController extends Controller
     public function index()
     {
         $disponibilites = DisponibilitesResource::collection(Disponibilite::all());
-        foreach ($disponibilites as $dispo){
+        foreach ($disponibilites as $dispo) {
             $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
         }
-        return response()->json($disponibilites,200);
+        return response()->json($disponibilites, 200);
     }
 
 
@@ -29,23 +29,24 @@ class DisponibilitesController extends Controller
      * Store a newly created resource in storage.
      */
     public function upload(StoreDisponibiliteRequest $request)
-    {  
+    {
         $request->validated($request->all());
 
         $disponibilite = Disponibilite::create([
-            'user_id' => $request ->user_id,
+            'user_id' => $request->user_id,
             'journee' => $request->journee,
-            'heure' => $request->heure 
+            'heure' => $request->heure
         ]);
-        // $disponibilite = new Disponibilite;
-        // $disponibilite->journee = $request->journee;
-        // $disponibilite->heure = $request->heure;
-        // $disponibilite->utilisateur_id = $request->utilisateur_id;
-        // $disponibilite->save();
-
-        //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
-        return new DisponibilitesResource($disponibilite);
-        //return response()->json($disponibilite, 200);
+        
+        if ($disponibilite) {
+          
+            return response()->json([
+                'message' => 'Disponibilité ajoutée avec succès',
+                'disponibilite' => new DisponibilitesResource($disponibilite)
+            ], 200);
+        } else {
+            return response()->json(['message' => 'Échec de l\'ajout de la disponibilité'], 500);
+        }
     }
 
     /**
@@ -53,40 +54,35 @@ class DisponibilitesController extends Controller
      */
     public function show()
     {
-       
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'journee' => 'required',
-            'heure' => 'required',
-            'user_id' => 'required',
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-        else {
-            $dispo = Disponibilite::findOrFail($id);
-        
-            $dispo->journee = $request->journee;
-            $dispo->heure = $request->heure;
-            $dispo->user_id = $request->user_id;
-            $dispo->save();
+    public function edit(Request $request, Disponibilite $dispo)
+{
+    $validator = Validator::make($request->all(), [
+        'journee' => 'required',
+        'heure' => 'required',
+        'user_id' => 'required',
+    ]);
 
-            $dispoResource = new DisponibilitesResource($dispo);
- 
-            return response()->json([
-                'message' => 'Disponibilité updated successfully',
-                'data' => $dispoResource,
-            ], 200);
-        }
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 422);
+    } else {
+        $dispo->journee = $request->journee;
+        $dispo->heure = $request->heure;
+        $dispo->user_id = $request->user_id;
+        $dispo->save();
+
+        $dispoResource = new DisponibilitesResource($dispo);
+
+        return response()->json([
+            'message' => 'Disponibilité mise à jour réussie',
+            'data' => $dispoResource,
+        ], 200);
     }
-    
+}
     /**
      * Update the specified resource in storage.
      */
@@ -101,6 +97,8 @@ class DisponibilitesController extends Controller
     public function delete(Disponibilite $dispo)
     {
         $dispo->delete();
-        return response()->json(null, 204);
+        return response()->json([
+            'message' => 'Disponibilité supprimée avec succès'
+        ], 200);
     }
 }
