@@ -1,10 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import Disponibilites from "../Pages/DemandesAidesTuteurs/Disponibilites";
-import Calendrier from "../Pages/DemandesAidesTuteurs/Calendrier";
-import PageDemande from '../Pages/DemandesAidesTuteurs/PageDemande';
-
+import PageDemande from "../Pages/DemandesAidesTuteurs/PageDemande";
+import GestionCompte from '../Pages/Parametres/GestionCompte';
+import AccueilUtilisateur from "../Pages/BottomTabs/AccueilUtilisateur";
 const StackTabs = createBottomTabNavigator();
 
 export default function TabNavigator() {
@@ -36,7 +35,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="Accueil" component={Calendrier} 
+      <StackTabs.Screen name="Accueil" component={AccueilUtilisateur} 
       options={{ 
         headerShown: false,
         tabBarIcon: ({ color,  focused }) => (
@@ -48,7 +47,7 @@ export default function TabNavigator() {
         ),
          }} 
          />
-        <StackTabs.Screen name="Compte" component={Calendrier} 
+        <StackTabs.Screen name="Compte" component={GestionCompte} 
       options={{ 
         headerShown: false,
         tabBarIcon: ({ color,  focused }) => (
