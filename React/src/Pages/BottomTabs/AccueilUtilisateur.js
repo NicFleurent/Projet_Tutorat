@@ -4,9 +4,9 @@ import ParametreOption from "../../Components/ParametreOption";
 export default function Disponibilites() {
   return (
     <View style={styles.container}>
-      <Text style={styles.titre}>Disponibilités</Text>
+      <Text style={styles.titre}>Mon Compte</Text>
       <Text style={styles.sousTitre}>
-        Veuillez choisir vos disponibilités
+        Modifier les informations de votre compte en toute simplicité
       </Text>
     </View>
   );

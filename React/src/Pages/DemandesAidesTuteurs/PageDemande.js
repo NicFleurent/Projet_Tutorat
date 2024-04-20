@@ -3,23 +3,29 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
 import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomBottomSheet from "../../Components/CustomBottomSheet";
-
+import CustomBottomSheet from "../../Components/CustomBottomSheetPageDemande";
+import { useNavigation } from '@react-navigation/native';
 
 export default function PageDemande() {
     const bottomSheetRef = useRef(null);
-
+    const navigation = useNavigation();
     const handlePresentPress = () => bottomSheetRef.current?.present();
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.titre}>Profils</Text>
 
             <View style={styles.image}>
-                <Aide width={230} height={230}></Aide>
-                <Text style={styles.titre}>Aidé</Text>
-                <View style={styles.sousTitreContainer}>
-                    <Text style={styles.sousTitre}>Vous avez besoin d'aide pour mieux comprendre un cours ?</Text>
-                </View>
+                <Pressable onPress={() => {
+                    navigation.navigate("ListeCoursAides"); //remplacer ListeCours par AuthChoice fonctionne
+                }}>
+                    <Aide width={230} height={230}></Aide>
+                    <Text style={styles.titre}>Aidé</Text>
+
+
+                    <View style={styles.sousTitreContainer}>
+                        <Text style={styles.sousTitre}>Vous avez besoin d'aide pour mieux comprendre un cours ?</Text>
+                    </View>
+                </Pressable>
             </View>
 
             <View style={styles.image}>
@@ -30,7 +36,7 @@ export default function PageDemande() {
                         <Text style={styles.sousTitre}>Vous voulez donner de votre temps pour aider vos pairs ?</Text>
                     </View>
                 </Pressable>
-                <CustomBottomSheet ref={bottomSheetRef} title="allo" />
+                <CustomBottomSheet ref={bottomSheetRef} />
             </View>
 
         </SafeAreaView>
