@@ -66,11 +66,11 @@ class DisponibilitesController extends Controller
             'heure' => 'required',
             'user_id' => 'required',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-        else{
+        else {
             $dispo = Disponibilite::findOrFail($id);
         
             $dispo->journee = $request->journee;
@@ -78,10 +78,15 @@ class DisponibilitesController extends Controller
             $dispo->user_id = $request->user_id;
             $dispo->save();
 
-            return response()->json(['message' => 'Disponibilité updated successfully'], 200);
+            $dispoResource = new DisponibilitesResource($dispo);
+ 
+            return response()->json([
+                'message' => 'Disponibilité updated successfully',
+                'data' => $dispoResource,
+            ], 200);
         }
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
@@ -93,10 +98,9 @@ class DisponibilitesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(string $id)
+    public function delete(Disponibilite $dispo)
     {
-        $disponibilites = Disponibilite::find($id);
-        $disponibilites->deletee();
+        $dispo->delete();
         return response()->json(null, 204);
     }
 }
