@@ -1,17 +1,22 @@
-import { View, StyleSheet, Text, Button } from 'react-native';
-import React, { forwardRef, useMemo } from 'react';
+import { View, StyleSheet} from 'react-native';
+import React, { useMemo } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import CustomButton from './CustomButton';
-import NavigationChoixTuteur from "./Navigation/ChoixTuteur";
 import { useNavigation } from '@react-navigation/native';
-const CustomBottomSheetModal = React.forwardRef((props, ref) => {
+
+const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 	const snapPoints = useMemo(() => ['30%'], []);
 	const navigation = useNavigation();
-	return (
 
+	const handleCloseBottomSheet = () => {
+		if (ref && ref.current) {
+			ref.current.close();
+		}
+	};
+
+	return (
 		<BottomSheetModal
 			ref={ref}
-			index={0}
 			snapPoints={snapPoints}
 			handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
 			backgroundStyle={{ backgroundColor: '#092D74' }}
@@ -23,6 +28,7 @@ const CustomBottomSheetModal = React.forwardRef((props, ref) => {
 					style={styles.buttonSpace}
 					onPress={() => {
 						navigation.navigate("Disponibilites");
+						handleCloseBottomSheet();
 					}}
 				/>
 				<CustomButton
@@ -30,17 +36,18 @@ const CustomBottomSheetModal = React.forwardRef((props, ref) => {
 					halfButton={false}
 					style={styles.buttonSpace}
 					onPress={() => {
-						navigation.navigate("ListeCours"); //remplacer ListeCours par AuthChoice
+						navigation.navigate("ListeCours"); 
+						handleCloseBottomSheet();
 					}}
 				/>
-				 <CustomButton
-                    text={"Annuler"}
-                    halfButton={false}
-                    style={styles.buttonSpace}
-                    onPress={() => {
-                    	ref.current.close()
-                    }}
-                />
+				<CustomButton
+					text={"Annuler"}
+					halfButton={false}
+					style={styles.buttonSpace}
+					onPress={() => {
+						ref.current.close()
+					}}
+				/>
 			</View>
 		</BottomSheetModal>
 
@@ -51,7 +58,7 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		alignItems: 'center',
-		paddingTop:30
+		paddingTop: 30
 	},
 	containerHeadline: {
 		fontSize: 24,
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
 	buttonSpace: {
 		marginLeft: 10,
 		backgroundColor: "red",
-	  },
+	},
 });
 
-export default CustomBottomSheetModal;
+export default CustomBottomSheetModalPageDemande;
