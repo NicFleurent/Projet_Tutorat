@@ -63,8 +63,8 @@ export default function Navigation() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="BottomTabs"
-          component={BottomTabs}
+          name="GestionCompte"
+          component={GestionCompte}
           options={{ headerShown: false }}
         />
         <Stack.Screen
