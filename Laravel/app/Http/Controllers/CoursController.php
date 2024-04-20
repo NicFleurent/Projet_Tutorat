@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTuteurRequest;
 use App\Http\Resources\CoursResource;
 use Illuminate\Http\Request;
 use App\Models\Cours;
+use App\Models\User;
+use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Log;
 
 class CoursController extends Controller
 {
+    use HttpResponses;
     /**
      * Display a listing of the resource.
      */
@@ -31,6 +36,35 @@ class CoursController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeTuteur(StoreTuteurRequest $request)
+    {
+        $request->validated($request->all());
+
+        try {
+            $user = User::find($request->tuteur_id);
+            $cours = Cours::find($request->cours_id);
+
+            if($cours->tuteurs->contains($user)){
+                Log::debug("La relation existe déjà");
+                return $this->error('', 'Vous êtes déjà tuteur pour ce cours', 403);
+            }
+            else{
+                $cours->tuteurs()->attach($user);
+                $cours->save();
+                return $this->success('', 'La demande d\'être tuteur a fonctionné');
+            }
+        }
+    
+        catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 
     /**

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DisponibilitesSeeder::class);
         $this->call(JumelageSeeder::class);
         $this->call(EmployesSeeder::class);
+        $this->call(TuteurCoursSeeder::class);
     }
 }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DisponibiliteRequest;
+use App\Http\Requests\StoreDisponibiliteRequest;
+use App\Http\Resources\DisponibilitesResource;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class DisponibilitesController extends Controller
 {
@@ -14,58 +17,72 @@ class DisponibilitesController extends Controller
      */
     public function index()
     {
-        $disponibilites = Disponibilite::all();
-        foreach ($disponibilites as $dispo){
+        $disponibilites = DisponibilitesResource::collection(Disponibilite::all());
+        foreach ($disponibilites as $dispo) {
             $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
         }
-        return response()->json($disponibilites);
+        return response()->json($disponibilites, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-      
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function upload(DisponibiliteRequest $request)
-    {  
-        $disponibilite = new Disponibilite;
-        $disponibilite->journee = $request->journee;
-        $disponibilite->heure = $request->heure;
-        $disponibilite->utilisateur_id = $request->utilisateur_id;
-        $disponibilite->save();
+    public function upload(StoreDisponibiliteRequest $request)
+    {
+        $request->validated($request->all());
 
-        //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
-
-        return response()->json($disponibilite, 201);
+        $disponibilite = Disponibilite::create([
+            'user_id' => $request->user_id,
+            'journee' => $request->journee,
+            'heure' => $request->heure
+        ]);
+        
+        if ($disponibilite) {
+          
+            return response()->json([
+                'message' => 'Disponibilité ajoutée avec succès',
+                'disponibilite' => new DisponibilitesResource($disponibilite)
+            ], 200);
+        } else {
+            return response()->json(['message' => 'Échec de l\'ajout de la disponibilité'], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DisponibiliteRequest $request, $id)
-    {
-        $disponibilite = Disponibilite::findOrFail($id);
-        $disponibilite->journee = $request->journee;
-        $disponibilite->heure = $disponibilite->heure = $request->heure;
-        $disponibilite->utilisateur_id = $request->utilisateur_id;
-        $disponibilite->save();
-        return response()->json($disponibilite, 200);
-    }
+    public function edit(Request $request, Disponibilite $dispo)
+{
+    $validator = Validator::make($request->all(), [
+        'journee' => 'required',
+        'heure' => 'required',
+        'user_id' => 'required',
+    ]);
 
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 422);
+    } else {
+        $dispo->journee = $request->journee;
+        $dispo->heure = $request->heure;
+        $dispo->user_id = $request->user_id;
+        $dispo->save();
+
+        $dispoResource = new DisponibilitesResource($dispo);
+
+        return response()->json([
+            'message' => 'Disponibilité mise à jour réussie',
+            'data' => $dispoResource,
+        ], 200);
+    }
+}
     /**
      * Update the specified resource in storage.
      */
@@ -77,10 +94,11 @@ class DisponibilitesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(string $id)
+    public function delete(Disponibilite $dispo)
     {
-        $disponibilites = Disponibilite::find($id);
-        $disponibilites->deletee();
-        return response()->json(null, 204);
+        $dispo->delete();
+        return response()->json([
+            'message' => 'Disponibilité supprimée avec succès'
+        ], 200);
     }
 }

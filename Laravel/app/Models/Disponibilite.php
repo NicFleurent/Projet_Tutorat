@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Disponibilite extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
         'journee',
         'heure',
+        'user_id'
     ];
+
+    public function tuteur()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

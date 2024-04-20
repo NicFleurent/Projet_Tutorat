@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DisponibiliteRequest extends FormRequest
+class StoreTuteurRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,15 @@ class DisponibiliteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'journee' => 'required',
-            'heure' => 'required',
-            'user_id' => 'required',
+            'tuteur_id' => ['required'],
+            'cours_id' => ['required'],
+        ];
+    }
+
+    public function messages(){
+        return[
+            'tuteur_id.required' => 'L\'id du tuteur est requis',
+            'cours_id.required' => 'L\'id du cours est requis',
         ];
     }
 }

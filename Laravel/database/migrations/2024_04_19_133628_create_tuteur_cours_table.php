@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disponibilites', function (Blueprint $table) {
+        Schema::create('tuteur_cours', function (Blueprint $table) {
             $table->id();
-            $table->string('journee',8);
-            $table->time('heure');
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('cours_id')->constrained('cours');
+            $table->boolean('demande_accepte')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('disponibilites');
+        Schema::dropIfExists('tuteur_cours');
     }
 };

@@ -17,32 +17,39 @@ class UtilisateursTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'email' => 'user@hotmail.ca',
-                'password' => 'user',
+                'password' => Hash::make('user'),
                 'prenom' => 'User',
                 'nom' => 'User',
                 'role' => 'aidé'
             ],
             [
                 'email' => 'admin@hotmail.ca',
-                'password' => Hash::make('admin'),
+                'password' => Hash::make('admin'),  
                 'prenom' => 'Ad',
                 'nom' => 'Min',
                 'role' => 'admin'
             ],
             [
                 'email' => 'prof@hotmail.ca',
-                'password' => 'prof',
+                'password' => Hash::make('prof'),  
                 'prenom' => 'Prof',
                 'nom' => 'Fesseur',
                 'role' => 'proffeseur'
             ],
             [
                 'email' => 'tuteur@hotmail.ca',
-                'password' => 'tuteur',
+                'password' => Hash::make('tuteur'),  
                 'prenom' => 'Tutti ',
                 'nom' => 'Frutti',
                 'role' => 'tuteur'
             ],
+            [
+                'email' => 'root',
+                'password' => Hash::make('root'), 
+                'prenom' => 'root ',
+                'nom' => 'root ',
+                'role' => 'aidé'
+            ]
         ]);
     }
 }
