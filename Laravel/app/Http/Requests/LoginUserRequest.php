@@ -22,8 +22,16 @@ class LoginUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string']
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ];
+    }
+
+    public function messages(){
+        return[
+            'email.required' => 'L\'email est requis',
+            'email.email' => 'Entrer une adresse courriel valide',
+            'password.required' => 'Le mot de passe est requis',
         ];
     }
 }

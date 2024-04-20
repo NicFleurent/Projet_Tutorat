@@ -22,11 +22,23 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required','string','max:255', 'unique:users'],
-            'nom' => ['required','string','max:255'],
-            'prenom' => ['required','string','max:255'],
-            'role' => ['required','string','max:255'],
+            'email' => ['required','email','unique:users'],
+            'nom' => ['required'],
+            'prenom' => ['required'],
+            'role' => ['required'],
             'password' => ['required']
+        ];
+    }
+
+    public function messages(){
+        return[
+            'email.required' => 'L\'email est requis',
+            'email.email' => 'Entrer une adresse courriel valide',
+            'email.unique' => 'Ce email est déjà pris',
+            'nom.required' => 'Le nom est requis',
+            'prenom.required' => 'Le prénom est requis',
+            'role.required' => 'Le rôle est requis',
+            'password.required' => 'Le mot de passe est requis',
         ];
     }
 }

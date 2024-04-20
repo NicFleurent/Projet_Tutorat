@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useState, useEffect } from "react";
@@ -10,17 +10,14 @@ export default function ListeCours() {
     let [cours, setCours] = useState([]);
     let [programmes, setProgrammes] = useState([]);
 
-    
-    const baseUrl = "http://127.0.0.1:8000/api";
-
     useEffect(() => {
-        axios.get("https://6a21-204-48-92-213.ngrok-free.app/api/cours")
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "cours")
         .then((response) => setCours(response.data))
         .catch((error)=>console.log(error))
     }, []);
 
     useEffect(() => {
-        axios.get("https://6a21-204-48-92-213.ngrok-free.app/api/programmes")
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "programmes")
         .then((response) => setProgrammes(response.data))
         .catch((error)=>console.log(error))
     }, []);
@@ -30,10 +27,32 @@ export default function ListeCours() {
         dataCours.push({key:programme.id,value:programme['attributes'].numero + ' - ' + programme['attributes'].nom, disabled:true})
         cours.map((cours) => {
             if(cours['programme'].id === programme.id){
-                dataCours.push({key:programme.id+'.'+cours.id,value:cours['attributes'].numero + ' - ' + cours['attributes'].nom})
+                dataCours.push({key:cours.id,value:cours['attributes'].numero + ' - ' + cours['attributes'].nom})
             }
         })
     })
+
+    const handleProposerService = function(){
+        const headers = {
+            'Accept':'application/vnd.api+json',
+            'Content-Type':'application/vnd.api+json',
+        }
+
+        const data = {
+            tuteur_id: 1,
+            cours_id: selectedCours
+        }
+
+        axios.post(process.env.EXPO_PUBLIC_API_URL + "cours/storeTuteur", data, {
+                headers: headers
+            })
+            .then(response => {
+                Alert.alert(response.data.message);
+            })
+            .catch(error => {
+                Alert.alert(error.response.data.message);
+            });
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -57,7 +76,7 @@ export default function ListeCours() {
                     <SelectList 
                         setSelected={(val) => setSelectedCours(val)} 
                         data={dataCours} 
-                        save="value"
+                        save="key"
                         placeholder="Choisir un cours"
                         searchPlaceholder="Rechercher"
                     />
@@ -70,7 +89,8 @@ export default function ListeCours() {
                 <CustomButton
                     text={"Proposer mes services"}
                     halfButton={true}
-                    outlined={true}
+                    outlined={false}
+                    onPress={handleProposerService}
                 />
 
         </SafeAreaView>
@@ -112,39 +132,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "left",
-    },
-    dropdown: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 0.5,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-    },
-    icon: {
-      marginRight: 5,
-    },
-    label: {
-      position: 'absolute',
-      backgroundColor: 'white',
-      left: 22,
-      top: 8,
-      zIndex: 999,
-      paddingHorizontal: 8,
-      fontSize: 14,
-    },
-    placeholderStyle: {
-      fontSize: 16,
-    },
-    selectedTextStyle: {
-      fontSize: 16,
-    },
-    iconStyle: {
-      width: 20,
-      height: 20,
-    },
-    inputSearchStyle: {
-      height: 40,
-      fontSize: 16,
     },
 });
 
