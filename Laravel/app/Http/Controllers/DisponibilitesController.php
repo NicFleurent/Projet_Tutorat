@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DisponibiliteRequest;
+use App\Http\Requests\StoreDisponibiliteRequest;
 use App\Http\Resources\DisponibilitesResource;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class DisponibilitesController extends Controller
 {
@@ -22,49 +24,62 @@ class DisponibilitesController extends Controller
         return response()->json($disponibilites,200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-      
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function upload(DisponibiliteRequest $request)
+    public function upload(StoreDisponibiliteRequest $request)
     {  
-        $disponibilite = new Disponibilite;
-        $disponibilite->journee = $request->journee;
-        $disponibilite->heure = $request->heure;
-        $disponibilite->utilisateur_id = $request->utilisateur_id;
-        $disponibilite->save();
+        $request->validated($request->all());
+
+        $disponibilite = Disponibilite::create([
+            'user_id' => $request ->user_id,
+            'journee' => $request->journee,
+            'heure' => $request->heure 
+        ]);
+        // $disponibilite = new Disponibilite;
+        // $disponibilite->journee = $request->journee;
+        // $disponibilite->heure = $request->heure;
+        // $disponibilite->utilisateur_id = $request->utilisateur_id;
+        // $disponibilite->save();
 
         //TODO: coder une réponse pour dire que l'ajout à fonctionnner ou non
-
-        return response()->json($disponibilite, 200);
+        return new DisponibilitesResource($disponibilite);
+        //return response()->json($disponibilite, 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+       
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DisponibiliteRequest $request, $id)
+    public function edit(Request $request, $id)
     {
-        $disponibilite = Disponibilite::findOrFail($id);
-        $disponibilite->journee = $request->journee;
-        $disponibilite->heure = $disponibilite->heure = $request->heure;
-        $disponibilite->utilisateur_id = $request->utilisateur_id;
-        $disponibilite->save();
-        return response()->json($disponibilite, 200);
+        $validator = Validator::make($request->all(), [
+            'journee' => 'required',
+            'heure' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+        else{
+            $dispo = Disponibilite::findOrFail($id);
+        
+            $dispo->journee = $request->journee;
+            $dispo->heure = $request->heure;
+            $dispo->user_id = $request->user_id;
+            $dispo->save();
+
+            return response()->json(['message' => 'Disponibilité updated successfully'], 200);
+        }
     }
 
     /**
