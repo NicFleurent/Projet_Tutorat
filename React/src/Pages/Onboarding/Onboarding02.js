@@ -18,7 +18,7 @@ export default function Onboarding02() {
           textStyle={styles.skip}
           underlayColor={"092D74"}
           onPress={() => {
-            navigation.navigate("AuthChoice");
+            navigation.replace("AuthChoice");
           }}
         ></ClickableText>
       </View>

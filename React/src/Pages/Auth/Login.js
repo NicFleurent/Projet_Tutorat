@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../Components/CustomButton";
@@ -14,12 +15,16 @@ import { Ionicons } from "@expo/vector-icons";
 import ClickableText from "../../Components/ClickableText";
 import React, { useState, useEffect } from "react";
 import { login } from "../../api/Auth/User";
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
+  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -52,7 +57,6 @@ export default function Login() {
       setPasswordError("Veuillez entrer votre mot de passe.");
       return false;
     }
-    // Autres validations de mot de passe ici
     return true;
   };
 
@@ -62,15 +66,18 @@ export default function Login() {
 
     try {
       if (isEmailValid && isPasswordValid) {
+        setIsLoading(true);
         const response = await login(email, password);
-        console.log("Réponse de la connexion :", response);
-      } else {
-        console.log(
-          "Des erreurs de validation existent. Veuillez corriger les champs."
-        );
+        setIsLoading(false);
+        navigation.navigate("BottomTabs");
       }
     } catch (error) {
-      console.error("Erreur lors de la connexion :", error.message);
+      setIsLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Email ou mot de passe incorrect",
+        text2: error.message,
+      });
     }
   };
 
@@ -81,7 +88,12 @@ export default function Login() {
         name={"arrow-back-outline"}
         size={24}
         color="#000"
+        onPress={() => {
+          navigation.goBack();
+        }}
       />
+
+      <Toast position="top" bottomOffset={20} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -96,7 +108,11 @@ export default function Login() {
           </View>
 
           <View style={styles.image}>
-            <LoginCuate width={330} height={330}></LoginCuate>
+            <LoginCuate width={280} height={280}></LoginCuate>
+          </View>
+
+          <View>
+            {isLoading && <ActivityIndicator size="large" color="#092D74" />}
           </View>
 
           <View style={styles.formulaire}>

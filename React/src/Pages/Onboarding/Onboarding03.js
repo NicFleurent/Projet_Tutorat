@@ -18,7 +18,7 @@ export default function Onboarding03() {
           textStyle={styles.skip}
           underlayColor={"092D74"}
           onPress={() => {
-            navigation.navigate("AuthChoice");
+            navigation.replace("AuthChoice");
           }}
         ></ClickableText>
       </View>
@@ -43,7 +43,7 @@ export default function Onboarding03() {
       <View style={styles.butonView}>
         <CustomButton
           text={"Suivant"}
-          onPress={() => navigation.navigate("AuthChoice")}
+          onPress={() => navigation.replace("AuthChoice")}
         ></CustomButton>
       </View>
     </SafeAreaView>

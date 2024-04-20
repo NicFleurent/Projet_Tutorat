@@ -5,14 +5,139 @@ import {
   View,
   KeyboardAvoidingView,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../Components/CustomButton";
 import Triangle from "../../assets/svg/auth/Traingle.svg";
 import CustomInput from "../../Components/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
+import { register } from "../../api/Auth/User";
+import React, { useState, useEffect } from "react";
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Register() {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailError, setEmailError] = useState(null);
+  const [nomError, setNomError] = useState(null);
+  const [prenomError, setPrenomError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    setEmailError(null);
+  };
+
+  const handleNomChange = (text) => {
+    setNom(text);
+    setNomError(null);
+  };
+
+  const handlePrenomChange = (text) => {
+    setPrenom(text);
+    setPrenomError(null);
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    setPasswordError(null);
+  };
+
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmPassword(text);
+    setConfirmPasswordError(null);
+  };
+
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setEmailError("Veuillez entrer votre adresse e-mail.");
+
+      return false;
+    }
+    if (regex.test(email) == false) {
+      setEmailError("Entrer une adresse avec un format valide.");
+
+      return false;
+    }
+    return true;
+  };
+
+  const validateNom = () => {
+    if (!nom) {
+      setNomError("Veuillez entrer votre nom.");
+      return false;
+    }
+    return true;
+  };
+
+  const validatePrenom = () => {
+    if (!prenom) {
+      setPrenomError("Veuillez entrer votre prenom.");
+      return false;
+    }
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (!password) {
+      setPasswordError("Veuillez entrer votre mot de passe.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateConfirmPassword = () => {
+    if (!confirmPassword) {
+      setConfirmPasswordError("Veuillez entrer votre mot de passe.");
+      return false;
+    } else if (confirmPassword != password) {
+      setConfirmPasswordError("Veuillez entrer des mots de passe identiques.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleRegisterPress = async () => {
+    const isEmailValid = validateEmail();
+    const isNomValid = validateNom();
+    const isPrenomValid = validatePrenom();
+    const isPasswordValid = validatePassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
+
+    try {
+      if (
+        isEmailValid &&
+        isNomValid &&
+        isPrenomValid &&
+        isPasswordValid &&
+        isConfirmPasswordValid
+      ) {
+        setIsLoading(true);
+        const response = await register(email, nom, prenom, password);
+        setIsLoading(false);
+        navigation.navigate("BottomTabs");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Email ou mot de passe incorrect",
+        text2: error.message,
+      });
+      console.log(error.message);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Ionicons
@@ -20,7 +145,12 @@ export default function Register() {
         name={"arrow-back-outline"}
         size={24}
         color="#000"
+        onPress={() => {
+          navigation.goBack();
+        }}
       />
+
+      <Toast position="top" bottomOffset={20} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -37,25 +167,58 @@ export default function Register() {
             <Triangle width={141} height={139}></Triangle>
           </View>
 
+          <View>
+            {isLoading && <ActivityIndicator size="large" color="#092D74" />}
+          </View>
+
           <View style={styles.formulaire}>
             {/* Courriel */}
 
             <View>
               <Text style={styles.label}>Courriel</Text>
 
-              <CustomInput placeholder={"Johndoe98@gmail.com"}></CustomInput>
+              <CustomInput
+                placeholder={"Johndoe98@gmail.com"}
+                onChangeText={handleEmailChange}
+                value={email}
+              />
+              {emailError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>{emailError}</Text>
+              )}
             </View>
 
             <View style={styles.labelAndInputSpace}>
               <Text style={styles.label}>Nom</Text>
 
-              <CustomInput placeholder={"John"}></CustomInput>
+              <CustomInput
+                placeholder={"John"}
+                onChangeText={handleNomChange}
+                value={nom}
+              />
+              {nomError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>{nomError}</Text>
+              )}
             </View>
 
             <View style={styles.labelAndInputSpace}>
               <Text style={styles.label}>Prenom</Text>
 
-              <CustomInput placeholder={"Doe"}></CustomInput>
+              <CustomInput
+                placeholder={"Doe"}
+                onChangeText={handlePrenomChange}
+                value={prenom}
+              />
+              {prenomError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>
+                  {prenomError}
+                </Text>
+              )}
             </View>
 
             <View style={styles.labelAndInputSpace}>
@@ -64,7 +227,16 @@ export default function Register() {
               <CustomInput
                 placeholder={"Mot de passe"}
                 isPassword={true}
-              ></CustomInput>
+                onChangeText={handlePasswordChange}
+                value={password}
+              />
+              {passwordError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>
+                  {passwordError}
+                </Text>
+              )}
             </View>
 
             <View style={styles.labelAndInputSpace}>
@@ -73,12 +245,24 @@ export default function Register() {
               <CustomInput
                 placeholder={"Mot de passe"}
                 isPassword={true}
-              ></CustomInput>
+                onChangeText={handleConfirmPasswordChange}
+                value={confirmPassword}
+              />
+              {confirmPasswordError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>
+                  {confirmPasswordError}
+                </Text>
+              )}
             </View>
           </View>
 
           <View style={styles.butonView}>
-            <CustomButton text={"S’enregistrer"}></CustomButton>
+            <CustomButton
+              text={"S’enregistrer"}
+              onPress={handleRegisterPress}
+            ></CustomButton>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
