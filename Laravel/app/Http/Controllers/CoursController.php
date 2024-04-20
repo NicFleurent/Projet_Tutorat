@@ -51,7 +51,7 @@ class CoursController extends Controller
 
             if($cours->tuteurs->contains($user)){
                 Log::debug("La relation existe déjà");
-                return $this->error('', 'La relation existe déjà', 403);
+                return $this->error('', 'Vous êtes déjà tuteur pour ce cours', 403);
             }
             else{
                 $cours->tuteurs()->attach($user);

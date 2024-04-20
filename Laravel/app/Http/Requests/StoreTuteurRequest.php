@@ -29,8 +29,8 @@ class StoreTuteurRequest extends FormRequest
 
     public function messages(){
         return[
-            'tuteur_id.required' => 'Le numéro est requis',
-            'cours_id.required' => 'Le nom est requis',
+            'tuteur_id.required' => 'L\'id du tuteur est requis',
+            'cours_id.required' => 'L\'id du cours est requis',
         ];
     }
 }
