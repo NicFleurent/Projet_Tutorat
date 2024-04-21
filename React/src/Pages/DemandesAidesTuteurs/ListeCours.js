@@ -4,6 +4,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import axios from "axios";
+import * as SecureStore from "../../api/SecureStore";
 
 export default function ListeCours() {
     const [selectedCours, setSelectedCours] = useState("");
@@ -32,14 +33,16 @@ export default function ListeCours() {
         })
     })
 
-    const handleProposerService = function(){
+    const handleProposerService = async function(){
         const headers = {
             'Accept':'application/vnd.api+json',
             'Content-Type':'application/vnd.api+json',
         }
 
+        const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
         const data = {
-            tuteur_id: 1,
+            tuteur_id: userInfo.id,
             cours_id: selectedCours
         }
 
