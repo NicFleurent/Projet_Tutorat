@@ -5,8 +5,11 @@ import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import axios from "axios";
 import * as SecureStore from "../../api/SecureStore";
+import { useNavigation } from '@react-navigation/native';
+import Toast from "react-native-toast-message";
 
 export default function ListeCours() {
+    const navigation = useNavigation();
     const [selectedCours, setSelectedCours] = useState("");
     let [cours, setCours] = useState([]);
     let [programmes, setProgrammes] = useState([]);
@@ -50,11 +53,21 @@ export default function ListeCours() {
                 headers: headers
             })
             .then(response => {
+                /*Toast.show({
+                  type: "success",
+                  text1: response.data.message
+                });*/
+                //Voir à ce passer un props et afficher le toast dans la page d'arriver.
                 Alert.alert(response.data.message);
+                navigation.navigate("PageDemande"); 
             })
             .catch(error => {
-                Alert.alert(error.response.data.message);
+                Toast.show({
+                  type: "error",
+                  text1: error.response.data.message
+                });
             });
+
     }
 
     return (
@@ -71,9 +84,10 @@ export default function ListeCours() {
                 Sélectionner le programme et le cours pour lequel 
                 vous souhaitez proposer de l'aide.
             </Text>
+            <Toast position="top" bottomOffset={20} />
             <ScrollView style={styles.scrollView}>
 
-                <View style={styles.section}>
+                <View>
                     <Text style={styles.titreSection}>Cours</Text>
                     
                     <SelectList 
@@ -106,6 +120,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "start",
+        padding:10
     },
     scrollView:{
         height: '85%'
@@ -118,18 +133,13 @@ const styles = StyleSheet.create({
     titrePage: {
         fontSize: 32,
         marginTop: 30,
-        marginLeft: 10,
         fontWeight: "bold",
         textAlign: "left",
     },
     description: {
         fontSize: 14,
-        marginHorizontal: 10,
         marginBottom: 10,
         textAlign: "left",
-    },
-    section: {
-        margin: 10,
     },
     titreSection: {
         fontSize: 20,
