@@ -17,6 +17,7 @@ import React, { useState, useEffect } from "react";
 import { login } from "../../api/Auth/User";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "../../api/SecureStore";
 
 export default function Login() {
   const navigation = useNavigation();
@@ -68,6 +69,15 @@ export default function Login() {
       if (isEmailValid && isPasswordValid) {
         setIsLoading(true);
         const response = await login(email, password);
+
+        const userInfo = {
+          token: response.data.data.token,
+          id: response.data.data.user.id,
+          email: response.data.data.user.email
+        }
+        
+        SecureStore.save('user_info', userInfo);
+
         setIsLoading(false);
         navigation.navigate("BottomTabs");
       }
