@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "https://9dd1-209-226-143-203.ngrok-free.app/api/";
+const baseUrl = "https://e4fb-174-93-239-141.ngrok-free.app/api/";
 
 export const login = async (email, password) => {
   try {

@@ -10,6 +10,10 @@ import AuthChoice from "./Pages/Auth/AuthChoice";
 import Register from "./Pages/Auth/Register";
 import Login from "./Pages/Auth/Login";
 import BottomTabs from "./Components/BottomTabs";
+import GestionCompte from "./Pages/Parametres/GestionCompte";
+import Disponibilites from "./Pages/DemandesAidesTuteurs/Disponibilites";
+import ListeCours from "./Pages/DemandesAidesTuteurs/ListeCours";
+import ListeCoursAides from "./Pages/DemandesAidesTuteurs/ListeCoursAides";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +59,26 @@ export default function Navigation() {
         <Stack.Screen
           name="BottomTabs"
           component={BottomTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GestionCompte"
+          component={GestionCompte}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Disponibilites"
+          component={Disponibilites}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="ListeCours"
+          component={ListeCours}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="ListeCoursAides"
+          component={ListeCoursAides}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
