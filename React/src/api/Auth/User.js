@@ -1,11 +1,11 @@
 import axios from "axios";
-const baseUrl = "https://7e33-209-226-143-203.ngrok-free.app/api";
+const baseUrl = "https://9dd1-209-226-143-203.ngrok-free.app/api/";
 
 export const login = async (email, password) => {
   try {
     const configurationObject = {
       method: "post",
-      url: `${baseUrl}/login`,
+      url: `${baseUrl}login`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const register = async (email, nom, prenom, password) => {
   try {
     const configurationObject = {
       method: "post",
-      url: `${baseUrl}/register`,
+      url: `${baseUrl}register`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
