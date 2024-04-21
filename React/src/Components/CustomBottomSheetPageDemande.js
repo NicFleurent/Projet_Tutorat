@@ -1,6 +1,6 @@
 import { View, StyleSheet} from 'react-native';
-import React, { useMemo } from 'react';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { useCallback, useMemo } from 'react';
+import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import CustomButton from './CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,10 +14,16 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 		}
 	};
 
+	const renderBackdrop = useCallback(
+		(props) => <BottomSheetBackdrop appearsOnIndex={0} disappearsOnIndex={-1} {...props} />,
+		[]
+	);
+
 	return (
 		<BottomSheetModal
 			ref={ref}
 			snapPoints={snapPoints}
+			backdropComponent={renderBackdrop}
 			handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
 			backgroundStyle={{ backgroundColor: '#092D74' }}
 		>
