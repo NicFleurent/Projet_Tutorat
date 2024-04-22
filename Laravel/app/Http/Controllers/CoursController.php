@@ -116,10 +116,60 @@ class CoursController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function acceptTuteurCours(string $id)
+    {
+        try{
+            $demandeTuteur = TuteurCours::find($id);
+
+            if($demandeTuteur->demande_accepte == false){
+                $demandeTuteur->demande_accepte = true;
+
+                $demandeTuteur->save();
+                return $this->success('', 'La demande d\'être tuteur a été acceptée');
+            }
+            else{
+                return $this->error('', 'Cette demande est déjà acceptée', 403);
+            }
+        }
+        catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function refuseTuteurCours(string $id)
+    {
+        try{
+            $demandeTuteur = TuteurCours::find($id);
+
+            if($demandeTuteur->demande_accepte == false){
+                $demandeTuteur->delete();
+
+                return $this->success('', 'La demande d\'être tuteur a été refusée');
+            }
+            else{
+                return $this->error('', 'Cette demande est déjà acceptée', 403);
+            }
+
+        }
+        catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 }
