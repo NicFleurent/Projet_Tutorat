@@ -14,14 +14,4 @@ class Programme extends Model
         'numero',
         'nom',
     ];
-
-    public function parent()
-    {
-        return $this->belongsTo(Programme::class, 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Programme::class, 'parent_id');
-    }
 }

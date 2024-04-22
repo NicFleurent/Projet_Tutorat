@@ -23,6 +23,7 @@ Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'dele
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
+    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);
 });
 
 

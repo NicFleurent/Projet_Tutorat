@@ -28,7 +28,7 @@ class Cours extends Model
 
     public function tuteurs()
     {
-        return $this->belongsToMany(User::class, 'tuteur_cours');
+        return $this->belongsToMany(User::class, 'tuteur_cours')->withPivot('demande_accepte');
     }
 
     public function programme()

@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTuteurRequest;
 use App\Http\Resources\CoursResource;
+use App\Http\Resources\TuteurCoursResource;
 use Illuminate\Http\Request;
 use App\Models\Cours;
+use App\Models\TuteurCours;
 use App\Models\User;
 use App\Traits\HttpResponses;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CoursController extends Controller
@@ -20,6 +24,26 @@ class CoursController extends Controller
     public function index()
     {
         return response()->json(CoursResource::collection(Cours::all()), 200);
+    }
+
+    public function demandeAttente()
+    {
+        $user_id = Auth::user()->id;
+
+        $cours_id = [];
+
+        $cours = Cours::where('responsable_id', $user_id)->get();
+        foreach($cours as $cour){
+            array_push($cours_id, $cour->id);
+        }
+
+        $demandeTuteur = TuteurCours::with('cours')
+                                    ->with('tuteur')
+                                    ->whereIn('cours_id', $cours_id)
+                                    ->where('demande_accepte', 0)
+                                    ->get();
+
+        return response()->json(TuteurCoursResource::collection($demandeTuteur), 200);
     }
 
     /**
