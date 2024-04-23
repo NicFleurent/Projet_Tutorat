@@ -71,12 +71,12 @@ export default function Navigation() {
           component={Disponibilites}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="ListeCours"
           component={ListeCours}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="ListeCoursAides"
           component={ListeCoursAides}
           options={{ headerShown: false }}

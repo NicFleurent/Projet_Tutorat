@@ -37,6 +37,7 @@ export default function AuthChoice() {
           onPress={() => {
             navigation.replace("Register");
           }}
+          standartBackgroundColor={"red"}
         ></CustomButton>
       </View>
     </SafeAreaView>

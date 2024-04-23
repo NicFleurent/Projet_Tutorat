@@ -1,6 +1,32 @@
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 
-export default function CustomButton({ text, onPress, outlined, halfButton }) {
+export default function CustomButton({
+  text,
+  onPress,
+  outlined,
+  halfButton,
+  standartTextColor,
+  outlinedTextColor,
+  standartBackgroundColor,
+  outlinedBackgroundColor,
+  outlinedBorderColor,
+}) {
+  if (standartTextColor == null) {
+    standartTextColor = "#fff";
+  }
+  if (outlinedTextColor == null) {
+    outlinedTextColor = "#092D74";
+  }
+  if (standartBackgroundColor == null) {
+    standartBackgroundColor = "#092D74";
+  }
+  if (outlinedBackgroundColor == null) {
+    outlinedBackgroundColor = "transparent";
+  }
+  if (outlinedBorderColor == null) {
+    outlinedBorderColor = "#092D74";
+  }
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -10,9 +36,23 @@ export default function CustomButton({ text, onPress, outlined, halfButton }) {
         style={[
           styles.buttonContainer,
           outlined && styles.outlinedButtonContainer,
+          {
+            backgroundColor: outlined
+              ? outlinedBackgroundColor
+              : standartBackgroundColor,
+          },
+          {
+            borderColor: outlined && outlinedBorderColor,
+          },
         ]}
       >
-        <Text style={[styles.text, outlined && styles.outlinedText]}>
+        <Text
+          style={[
+            styles.text,
+            outlined && styles.outlinedText,
+            { color: outlined ? outlinedTextColor : standartTextColor },
+          ]}
+        >
           {text}
         </Text>
       </View>
@@ -27,23 +67,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingVertical: 15,
-    backgroundColor: "#092D74",
     borderRadius: 8,
   },
   text: {
-    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
   },
   outlinedButtonContainer: {
     paddingVertical: 13,
-    backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: "#092D74",
   },
   outlinedText: {
-    color: "#092D74",
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",

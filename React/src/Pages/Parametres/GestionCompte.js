@@ -1,13 +1,203 @@
 import { StyleSheet, View, Text, Image } from "react-native";
-import ParametreOption from "../../Components/ParametreOption";
+import CustomInput from "../../Components/CustomInput";
+import React, { useState, useEffect } from "react";
+import CustomButton from "../../Components/CustomButton";
+import * as SecureStore from "../../api/SecureStore";
+import * as UserApi from "../../api/Auth/User";
+import Toast from "react-native-toast-message";
 
 export default function GestionCompte() {
+  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [emailError, setEmailError] = useState(null);
+  const [nomError, setNomError] = useState(null);
+  const [prenomError, setPrenomError] = useState(null);
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  const getCurrentUser = async () => {
+    const userInfo = JSON.parse(await SecureStore.getValue("user_info"));
+
+    if (userInfo != null) {
+      setId(userInfo.id);
+      setNom(userInfo.nom);
+      setPrenom(userInfo.prenom);
+      setEmail(userInfo.email);
+    }
+  };
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    setEmailError(null);
+  };
+
+  const handleNomChange = (text) => {
+    setNom(text);
+    setNomError(null);
+  };
+
+  const handlePrenomChange = (text) => {
+    setPrenom(text);
+    setPrenomError(null);
+  };
+
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setEmailError("Veuillez entrer votre adresse e-mail.");
+
+      return false;
+    }
+    if (regex.test(email) == false) {
+      setEmailError("Entrer une adresse avec un format valide.");
+
+      return false;
+    }
+    return true;
+  };
+
+  const validateNom = () => {
+    if (!nom) {
+      setNomError("Veuillez entrer votre nom.");
+      return false;
+    }
+    return true;
+  };
+
+  const validatePrenom = () => {
+    if (!prenom) {
+      setPrenomError("Veuillez entrer votre prenom.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleUpdatePress = async () => {
+    const isEmailValid = validateEmail();
+    const isNomValid = validateNom();
+    const isPrenomValid = validatePrenom();
+
+    try {
+      if (isEmailValid && isNomValid && isPrenomValid) {
+        setIsLoading(true);
+        const response = await UserApi.edit(email, nom, prenom, id);
+
+        const userInfo = {
+          token: response.data.data.token,
+          id: response.data.data.user.id,
+          email: response.data.data.user.email,
+          nom: response.data.data.user.nom,
+          prenom: response.data.data.user.prenom,
+        };
+
+        SecureStore.save("user_info", userInfo);
+
+        setIsLoading(false);
+        Toast.show({
+          type: "success",
+          text1: "Effectuer",
+          text2: "Modification effectuer avec suceess",
+        });
+      }
+    } catch (error) {
+      setIsLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Erreur",
+        text2: "Erreur lors de l'operation",
+      });
+      console.log(error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <Toast position="top" bottomOffset={20} />
       <Text style={styles.titre}>Mon Compte</Text>
       <Text style={styles.sousTitre}>
         Modifier les informations de votre compte en toute simplicité
       </Text>
+
+      <View style={styles.formulaire}>
+        <View>
+          <View>
+            <Text style={styles.label}>Courriel</Text>
+
+            <CustomInput
+              placeholder={"Johndoe98@gmail.com"}
+              onChangeText={handleEmailChange}
+              value={email}
+            />
+            {emailError == null ? (
+              <Text> </Text>
+            ) : (
+              <Text style={{ color: "red", marginTop: 5 }}>{emailError}</Text>
+            )}
+          </View>
+
+          <View>
+            <Text style={styles.label}>Nom</Text>
+
+            <CustomInput
+              placeholder={"John"}
+              onChangeText={handleNomChange}
+              value={nom}
+            />
+            {nomError == null ? (
+              <Text> </Text>
+            ) : (
+              <Text style={{ color: "red", marginTop: 5 }}>{nomError}</Text>
+            )}
+          </View>
+
+          <View>
+            <Text style={styles.label}>Prenom</Text>
+
+            <CustomInput
+              placeholder={"Prenom"}
+              onChangeText={handlePrenomChange}
+              value={prenom}
+            />
+            {prenomError == null ? (
+              <Text> </Text>
+            ) : (
+              <Text style={{ color: "red", marginTop: 5 }}>{prenomError}</Text>
+            )}
+          </View>
+        </View>
+
+        <View style={styles.viewButton}>
+          <View>
+            <CustomButton text={"Modifier"} onPress={()=>handleUpdatePress()}/>
+          </View>
+
+          <View style={styles.viewHalfButton}>
+            <CustomButton
+              text={"Se deconnecter"}
+              halfButton={true}
+              standartBackgroundColor={"#D9C9E4"}
+              standartTextColor={"#fff"}
+            />
+            <View>
+              <Text> </Text>
+            </View>
+            <CustomButton
+              outlinedBorderColor={"#EF3832"}
+              outlinedTextColor={"#EF3832"}
+              text={"Supprimer compte"}
+              halfButton={true}
+              outlined={true}
+            />
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
@@ -27,10 +217,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 10,
   },
-  parameterView: {
-    marginTop: 45,
+  formulaire: {
+    flex: 1,
+    marginTop: 60,
+    justifyContent: "space-between",
   },
-  parameterViewTest: {
-    marginTop: 30,
+  label: {
+    marginBottom: 10,
+  },
+  viewHalfButton: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    marginBottom: 20,
+  },
+  viewButton: {
+    marginBottom: 20,
   },
 });
