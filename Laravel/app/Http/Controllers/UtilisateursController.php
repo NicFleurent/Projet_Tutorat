@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\EditUserPassword;
+use App\Http\Requests\EditUserPasswordRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Traits\HttpResponses;
@@ -63,7 +63,7 @@ class UtilisateursController extends Controller
         ]);
     }
     
-    public function edit(Request $request, $id) //edited
+    public function edit(Request $request, $id) //Remember to change to auth when testing done
     {
         
         Log::info('Edit request received.', ['id' => $id, 'request_data' => $request->all()]);
@@ -99,10 +99,14 @@ class UtilisateursController extends Controller
         }
     }
 
+    
 
-    public function updatePassword(UpdatePasswordRequest $request)
+    public function updatePassword(EditUserPasswordRequest $request)
     {
         $user = Auth::user();
+
+        Log::info('User ID: ' . Auth::id());
+        Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
 
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json(['error' => 'Old password is incorrect'], 422);
@@ -113,10 +117,6 @@ class UtilisateursController extends Controller
 
         return response()->json(['message' => 'Password updated successfully'], 200);
     }
-
-
-
-
 
     public function delete($id)
     {
