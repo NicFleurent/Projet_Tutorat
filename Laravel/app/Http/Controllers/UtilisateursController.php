@@ -121,7 +121,7 @@ class UtilisateursController extends Controller
         
     }
 
-    public function delete($id) //NULL ALL DATA, password turns to random long password
+    public function delete($id) //add a active boolean to table to toggle
     {
         $user = User::findOrFail($id);
         $user->delete();
