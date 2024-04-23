@@ -13,7 +13,7 @@ export default function PageDemande() {
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Text style={styles.titre}>Profils</Text>
+                <Text style={styles.titrePage}>Profils</Text>
             </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
@@ -50,13 +50,18 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
-    titre: {
-        fontSize: 28,
+    titrePage: {
+        fontSize: 32,
         fontWeight: "bold",
+    },
+    titre: {
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: "center",
-
+        marginBottom: 10,
     },
     image: {
+        marginTop:20,
         marginBottom: 20,
         flex: 1
     },
