@@ -52,7 +52,7 @@ export default function Disponibilites() {
   return (
     <SafeAreaView style={styles.container}>
 
-      <Text style={styles.titrePage}>Disponibilites</Text>
+      <Text style={styles.titrePage}>Disponibilités</Text>
       <View style={styles.viewCont} >
         <Text style={styles.titreSection}>Choisir le jour</Text>
         <SelectList
@@ -67,17 +67,16 @@ export default function Disponibilites() {
       <View style={styles.viewCont}>
         <Text style={styles.titreSection}>Choisir les heures</Text>
         <SelectBox
-          label=""
+         label=""
           options={heures}
           inputPlaceholder='Heures'
           listEmptyText='Aucun résultat trouvé'
           selectedValues={selectedHeure}
           onMultiSelect={onMultiChange()}
           onTapClose={onMultiChange()}
-          multiOptionContainerStyle={{backgroundColor:'#DFCCE4'}}
-          multiOptionsLabelStyle={{color:'black'}}
+          multiOptionContainerStyle={{backgroundColor:'#092D74'}}
+         // multiOptionsLabelStyle={{color:'black'}}
           //multiListEmptyLabelStyle={{padding:20}}
-          listEmptyLabelStyle={{backgroundColor:'pink'}}
           selectedItemStyle={{backgroundcolor:'black'}}
           toggleIconColor= 'black'
           arrowIconColor= 'black'
@@ -95,6 +94,7 @@ export default function Disponibilites() {
         text={"Ajouter"}
         halfButton={true}
         outlined={false}
+        style={styles.button}
       />
     </SafeAreaView>
   )
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 20,
   },
   viewCont: {
     marginTop: 20
@@ -124,5 +124,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "left",
+   paddingBottom:5
   },
+  button:{
+    marginLeft: 10,
+		backgroundColor: "red",
+  }
 });
