@@ -1,16 +1,19 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, Alert } from "react-native";
 import CustomInput from "../../Components/CustomInput";
 import React, { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
 import * as SecureStore from "../../api/SecureStore";
 import * as UserApi from "../../api/Auth/User";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 export default function GestionCompte() {
+  const navigation = useNavigation();
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
+  const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const [emailError, setEmailError] = useState(null);
@@ -29,6 +32,7 @@ export default function GestionCompte() {
       setNom(userInfo.nom);
       setPrenom(userInfo.prenom);
       setEmail(userInfo.email);
+      setToken(userInfo.token);
     }
   };
 
@@ -90,11 +94,11 @@ export default function GestionCompte() {
         const response = await UserApi.edit(email, nom, prenom, id);
 
         const userInfo = {
-          token: response.data.data.token,
-          id: response.data.data.user.id,
-          email: response.data.data.user.email,
-          nom: response.data.data.user.nom,
-          prenom: response.data.data.user.prenom,
+          token: token,
+          id: id,
+          email: email,
+          nom: nom,
+          prenom: prenom,
         };
 
         SecureStore.save("user_info", userInfo);
@@ -116,6 +120,88 @@ export default function GestionCompte() {
       console.log(error.message);
     }
   };
+
+  const handleLogoutPress = async () => {
+    try {
+      setIsLoading(true);
+      const response = await UserApi.logout(token);
+
+      const userInfo = {
+        token: "",
+        id: "",
+        email: "",
+        nom: "",
+        prenom: "",
+      };
+
+      SecureStore.save("user_info", userInfo);
+
+      setIsLoading(false);
+
+      navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+    } catch (error) {
+      setIsLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Erreur",
+        text2: "Erreur lors de la deconnexion",
+      });
+      console.log(error.message);
+    }
+  };
+
+  const handleDeletePress = async () => {
+    try {
+      setIsLoading(true);
+      const response = await UserApi.deleteAccount(id);
+
+      const userInfo = {
+        token: "",
+        id: "",
+        email: "",
+        nom: "",
+        prenom: "",
+      };
+
+      SecureStore.save("user_info", userInfo);
+
+      setIsLoading(false);
+
+      navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+    } catch (error) {
+      setIsLoading(false);
+      Toast.show({
+        type: "error",
+        text1: "Erreur",
+        text2: "Erreur lors de la suppresion",
+      });
+      console.log(error.message);
+    }
+  };
+
+  const logoutAlert = () =>
+    Alert.alert("Attention", "Vous allez etre deconnecter", [
+      {
+        text: "Annuler",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => handleLogoutPress() },
+    ]);
+
+  const deleteAccountAlert = () =>
+    Alert.alert(
+      "Attention",
+      "Etes vous sure de vouloir supprimer votre compte ?",
+      [
+        {
+          text: "Annuler",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleDeletePress() },
+      ]
+    );
 
   return (
     <View style={styles.container}>
@@ -173,9 +259,16 @@ export default function GestionCompte() {
           </View>
         </View>
 
-        <View style={styles.viewButton}>
+        <View>
+          {isLoading && <ActivityIndicator size="large" color="#092D74" />}
+        </View>
+
+        <View>
           <View>
-            <CustomButton text={"Modifier"} onPress={()=>handleUpdatePress()}/>
+            <CustomButton
+              text={"Modifier"}
+              onPress={() => handleUpdatePress()}
+            />
           </View>
 
           <View style={styles.viewHalfButton}>
@@ -184,6 +277,7 @@ export default function GestionCompte() {
               halfButton={true}
               standartBackgroundColor={"#D9C9E4"}
               standartTextColor={"#fff"}
+              onPress={() => logoutAlert()}
             />
             <View>
               <Text> </Text>
@@ -194,6 +288,7 @@ export default function GestionCompte() {
               text={"Supprimer compte"}
               halfButton={true}
               outlined={true}
+              onPress={() => deleteAccountAlert()}
             />
           </View>
         </View>
@@ -230,9 +325,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginBottom: 20,
-  },
-  viewButton: {
     marginBottom: 20,
   },
 });

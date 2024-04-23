@@ -24,7 +24,7 @@ export default function AuthChoice() {
           halfButton={true}
           style={styles.buttonSpace}
           onPress={() => {
-            navigation.replace("Login");
+            navigation.navigate("Login");
           }}
         ></CustomButton>
         <View>
@@ -35,7 +35,8 @@ export default function AuthChoice() {
           halfButton={true}
           outlined={true}
           onPress={() => {
-            navigation.replace("Register");
+            
+            navigation.navigate("Register");
           }}
           standartBackgroundColor={"red"}
         ></CustomButton>
