@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\EditUserPassword;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 
 class UtilisateursController extends Controller
@@ -55,7 +56,6 @@ class UtilisateursController extends Controller
 
     public function logout()
     {
-        //L'erreur est normale, elle n'empeche pas le fonctionnement
         Auth::user()->currentAccessToken()->delete();
 
         return $this->success([
@@ -63,34 +63,60 @@ class UtilisateursController extends Controller
         ]);
     }
     
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id) //edited
     {
+        
+        Log::info('Edit request received.', ['id' => $id, 'request_data' => $request->all()]);
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
             'prenom' => 'required',
             'nom' => 'required',
             'role' => 'required'
         ]);
 
         if ($validator->fails()) {
+            
+            Log::error('Validation failed:', ['errors' => $validator->errors()]);
             return response()->json(['error' => $validator->errors()], 422);
-        }
-        else{
+        } else {
             $user = User::findOrFail($id);
-        
+
+            
+            Log::info('User before update:', $user->toArray());
+
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
             $user->prenom = $request->prenom;
             $user->nom = $request->nom;
             $user->role = $request->role;
 
             $user->save();
 
+            
+            Log::info('User updated:', $user->toArray());
+
             return response()->json(['message' => 'User updated successfully'], 200);
         }
-        
     }
+
+
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $user = Auth::user();
+
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['error' => 'Old password is incorrect'], 422);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password updated successfully'], 200);
+    }
+
+
+
+
 
     public function delete($id)
     {

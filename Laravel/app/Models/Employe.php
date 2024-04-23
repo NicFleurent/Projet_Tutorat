@@ -11,6 +11,7 @@ class Employe extends Model
 
     protected $fillable = [
         'no_employe',
-        'salaire'
+        'salaire',
+        'utilisateurs_id'
     ];
 }
