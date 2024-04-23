@@ -8,7 +8,7 @@ import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 import CustomButton from '../../Components/CustomButton';
-import BottomTabs from '../../Components/BottomTabs'
+
 
 const jourSemaine = [
   'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
@@ -62,12 +62,12 @@ export default function Disponibilites() {
     if (selectedJour.length === 0 || selectedHeure.length === 0) {
       Toast.show({
         type: "error",
-       text1: "Attention !",
-       text1Style : {fontSize:14},
-       text2: "Choisir une option pour chaque catégorie.",
-       text2Style:{fontSize:12},
-       swipeable:true,
-       visibilityTime:5000
+        text1: "Attention !",
+        text1Style: { fontSize: 14 },
+        text2: "Choisir une option pour chaque catégorie.",
+        text2Style: { fontSize: 12 },
+        swipeable: true,
+        visibilityTime: 5000
       });
     }
     selectedHeure.forEach(async heure => {
