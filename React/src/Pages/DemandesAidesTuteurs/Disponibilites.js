@@ -8,7 +8,8 @@ import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 import CustomButton from '../../Components/CustomButton';
-
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const jourSemaine = [
   'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
@@ -50,6 +51,7 @@ const heures = [
 ]
 
 export default function Disponibilites() {
+  const navigation = useNavigation();
   const [selectedJour, setSelectedJour] = useState([]);
   const [selectedHeure, setSelectedHeure] = useState([]);
 
@@ -106,7 +108,15 @@ export default function Disponibilites() {
 
   return (
     <SafeAreaView style={styles.container}>
-
+      <Ionicons
+        style={styles.backIcon}
+        name={"arrow-back-outline"}
+        size={24}
+        color="#000"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
       <Text style={styles.titrePage}>Disponibilités</Text>
       <View style={styles.viewCont} >
         <Text style={styles.titreSection}>Choisir le jour</Text>
@@ -153,6 +163,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
+  },
+  backIcon: {
+    marginTop: 20,
   },
   viewCont: {
     marginTop: 20,
