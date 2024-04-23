@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('evaluationTuteur');
             $table->string('noteProfesseur');
             $table->timestamps();
-            $table->foreign('jumelage_id')->references('id')->on('jumelages');
+            //$table->foreign('jumelage_id')->references('id')->on('jumelages');
         });
     }
 
