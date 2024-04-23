@@ -16,8 +16,10 @@ Route::get('/user', function (Request $request) {
 
 
 //Utilisateurs
+
 Route::post('login', [UtilisateursController::class, 'login'])->name('login');
 Route::post('register', [UtilisateursController::class, 'register']); 
+
 Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
 Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
 
@@ -53,7 +55,7 @@ Route::get('programmes/{id}', [ProgrammesController::class, 'enfants']);
 
 //Disponibilites
 Route::get('/disponibilites', [DisponibilitesController::class, 'index']);
-Route::post('/disponibilites', [DisponibilitesController::class, 'upload']); 
+Route::post('/disponibilites', [DisponibilitesController::class, 'upload']);
 Route::put('/disponibilites/edit/{dispo}', [DisponibilitesController::class, 'edit']);
 Route::delete('/disponibilites/delete/{dispo}', [DisponibilitesController::class, 'delete']);
 
