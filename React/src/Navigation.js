@@ -23,7 +23,7 @@ export default function Navigation() {
       <Stack.Navigator>
         <Stack.Screen
           name="SplashScreen"
-          component={Disponibilites}
+          component={SplashScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
