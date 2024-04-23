@@ -24,7 +24,7 @@ Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'dele
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
-    Route::put('updatePassword', [UtilisateursController::class, 'updatePassword']);
+    Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);
 });
 
 

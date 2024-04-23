@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\EditUserPasswordRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Traits\HttpResponses;
@@ -100,13 +99,16 @@ class UtilisateursController extends Controller
     }
 
     
-
-    public function updatePassword(EditUserPasswordRequest $request)
+    //"old_password"
+    //"new_password"
+    public function updatePassword(Request $request)
     {
+        
         $user = Auth::user();
 
-        Log::info('User ID: ' . Auth::id());
-        Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
+        //Log::info('User ID: ' . Auth::id());
+
+        //Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
 
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json(['error' => 'Old password is incorrect'], 422);
@@ -116,9 +118,10 @@ class UtilisateursController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Password updated successfully'], 200);
+        
     }
 
-    public function delete($id)
+    public function delete($id) //NULL ALL DATA, password turns to random long password
     {
         $user = User::findOrFail($id);
         $user->delete();
