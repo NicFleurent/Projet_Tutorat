@@ -67,7 +67,6 @@ class UtilisateursController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
             'prenom' => 'required',
             'nom' => 'required',
             'role' => 'required'
@@ -80,7 +79,6 @@ class UtilisateursController extends Controller
             $user = User::findOrFail($id);
         
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
             $user->prenom = $request->prenom;
             $user->nom = $request->nom;
             $user->role = $request->role;
@@ -91,6 +89,9 @@ class UtilisateursController extends Controller
         }
         
     }
+
+    //'password' => 'required',
+    //$user->password = Hash::make($request->password);
 
     public function delete($id)
     {
