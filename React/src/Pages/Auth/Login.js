@@ -81,7 +81,7 @@ export default function Login() {
         SecureStore.save("user_info", userInfo);
 
         setIsLoading(false);
-        navigation.navigate("BottomTabs");
+        navigation.navigate("TabsNavigation");
       }
     } catch (error) {
       setIsLoading(false);

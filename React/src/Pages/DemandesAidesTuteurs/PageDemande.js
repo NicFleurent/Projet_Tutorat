@@ -12,11 +12,12 @@ export default function PageDemande() {
     const handlePresentPress = () => bottomSheetRef.current?.present();
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.titre}>Profils</Text>
-
+            <View>
+                <Text style={styles.titrePage}>Profils</Text>
+            </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
-                    navigation.navigate("ListeCoursAides"); //remplacer ListeCours par AuthChoice fonctionne
+                    navigation.navigate("ListeCoursAides"); 
                 }}>
                     <Aide width={230} height={230}></Aide>
                     <Text style={styles.titre}>Aidé</Text>
@@ -49,13 +50,18 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
-    titre: {
-        fontSize: 28,
+    titrePage: {
+        fontSize: 32,
         fontWeight: "bold",
+    },
+    titre: {
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: "center",
-
+        marginBottom: 10,
     },
     image: {
+        marginTop:20,
         marginBottom: 20,
         flex: 1
     },
