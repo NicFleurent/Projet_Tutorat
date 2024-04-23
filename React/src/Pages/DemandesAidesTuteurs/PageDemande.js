@@ -12,11 +12,12 @@ export default function PageDemande() {
     const handlePresentPress = () => bottomSheetRef.current?.present();
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.titre}>Profils</Text>
-
+            <View>
+                <Text style={styles.titre}>Profils</Text>
+            </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
-                    navigation.navigate("ListeCoursAides"); //remplacer ListeCours par AuthChoice fonctionne
+                    navigation.navigate("ListeCoursAides"); 
                 }}>
                     <Aide width={230} height={230}></Aide>
                     <Text style={styles.titre}>Aidé</Text>
