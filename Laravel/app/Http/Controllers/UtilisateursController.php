@@ -26,12 +26,18 @@ class UtilisateursController extends Controller
             return $this->error('','Le courriel ou le mot de passe n\'est pas valide', 401);
         }
         
+
         $user = User::where('email', $request->email)->first();
 
-        return $this->success([
-            'user' => $user,
-            'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
-        ]);
+        if ($user->activer === 1)
+        {
+            return $this->success([
+                'user' => $user,
+                'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+            ]);
+        }
+        else{return $this->error('','compte desactiver', 401);}
+       
     }
 
     public function register(StoreUserRequest $request)
@@ -121,14 +127,17 @@ class UtilisateursController extends Controller
         
     }
 
-    public function delete($id) //add a active boolean to table to toggle
+    //1 activer, 0 desactiver
+    public function desactiver(Request $request)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-            
+        $user = Auth::user();
+           
+        $user->activer = "0";
+        $user->save();
+
         $data = [
             'status'=>200,
-            'message'=>'Delete Success'
+            'message'=>'Desactiver Success'
         ];
 
         return response()->json($data,200);

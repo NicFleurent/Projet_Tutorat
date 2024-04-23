@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('prenom', 100);
             $table->string('nom', 100);
             $table->string('role', 50);
+            $table->boolean('activer')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

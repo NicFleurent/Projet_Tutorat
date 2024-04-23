@@ -19,14 +19,14 @@ Route::get('/user', function (Request $request) {
 
 Route::post('login', [UtilisateursController::class, 'login'])->name('login');
 Route::post('register', [UtilisateursController::class, 'register']); 
-
 Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
-Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
+
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
     Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);
+    Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);
 });
 
 
