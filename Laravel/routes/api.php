@@ -16,14 +16,23 @@ Route::get('/user', function (Request $request) {
 
 
 //Utilisateurs
-Route::post('login', [UtilisateursController::class, 'login']);
+
+Route::post('login', [UtilisateursController::class, 'login'])->name('login');
 Route::post('register', [UtilisateursController::class, 'register']); 
+
 Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
 Route::delete('/utilisateurs/delete/{id}', [UtilisateursController::class, 'delete']);
 
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
+    Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);
 });
+
+
+Route::get('/whoAmI', function() {      //Returns information sure personne auth
+    return auth()->user();
+})->middleware('auth:sanctum');
 
 
 //Décommenter ou supprimer selon page admin (Voir controller)
@@ -49,6 +58,7 @@ Route::get('disponibilites', [DisponibilitesController::class, 'index']);
 Route::post('disponibilites/upload', [DisponibilitesController::class, 'upload']); 
 Route::put('disponibilites/edit/{dispo}', [DisponibilitesController::class, 'edit']);
 Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class, 'delete']);
+
 
 
 //Jumellages
