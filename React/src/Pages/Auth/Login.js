@@ -73,7 +73,10 @@ export default function Login() {
         const userInfo = {
           token: response.data.data.token,
           id: response.data.data.user.id,
-          email: response.data.data.user.email
+          email: response.data.data.user.email,
+          nom: response.data.data.user.nom,
+          prenom: response.data.data.user.prenom,
+          role: response.data.data.user.role
         }
         
         SecureStore.save('user_info', userInfo);

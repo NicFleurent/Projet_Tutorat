@@ -30,8 +30,8 @@ class TuteurCoursResource extends JsonResource
             ],
             'cours' => [
                 'id' => (string)$this->cours->id,
-                'email' => $this->cours->numero,
-                'prenom' => $this->cours->nom,
+                'numero' => $this->cours->numero,
+                'nom' => $this->cours->nom,
             ]
         ];
     }

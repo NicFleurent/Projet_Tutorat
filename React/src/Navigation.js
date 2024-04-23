@@ -14,6 +14,7 @@ import GestionCompte from "./Pages/Parametres/GestionCompte";
 import Disponibilites from "./Pages/DemandesAidesTuteurs/Disponibilites";
 import ListeCours from "./Pages/DemandesAidesTuteurs/ListeCours";
 import ListeCoursAides from "./Pages/DemandesAidesTuteurs/ListeCoursAides";
+import AccueilUtilisateur from "./Pages/BottomTabs/AccueilUtilisateur";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="AccueilUtilisateur"
+          component={AccueilUtilisateur}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
