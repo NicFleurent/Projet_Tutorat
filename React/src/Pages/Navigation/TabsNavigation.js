@@ -5,7 +5,7 @@ import PageDemande from "../DemandesAidesTuteurs/PageDemande";
 import GestionCompte from '../Parametres/GestionCompte';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import StackNavigationProfilAides from './StackNavigationProfilAides';
-import StackNavigationProfilTuteurs from './StackNavigationProfilTuteurs';
+import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
 
 const StackTabs = createBottomTabNavigator();
 
@@ -32,10 +32,10 @@ export default function TabNavigator() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons 
-              name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"} 
-              color={color} 
-              size={30} 
+            <Ionicons
+              name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"}
+              color={color}
+              size={30}
             />
           ),
         }}
