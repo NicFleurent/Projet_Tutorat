@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Button } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectBox from 'react-native-multi-selectbox'
 import { SelectList } from 'react-native-dropdown-select-list';
 import { xorBy } from 'lodash'
+import * as SecureStore from "../../api/SecureStore";
+import axios from "axios";
+import Toast from "react-native-toast-message";
 import CustomButton from '../../Components/CustomButton';
+import BottomTabs from '../../Components/BottomTabs'
 
 const jourSemaine = [
   'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
@@ -49,6 +53,57 @@ export default function Disponibilites() {
   const [selectedJour, setSelectedJour] = useState([]);
   const [selectedHeure, setSelectedHeure] = useState([]);
 
+  const handleMultiSelect = (item) => {
+    const updatedSelectedHeure = xorBy(selectedHeure, [item], 'id');
+    setSelectedHeure(updatedSelectedHeure);
+  };
+
+  const handleAjouterDisponibilites = async function () {
+    if (selectedJour.length === 0 || selectedHeure.length === 0) {
+      Toast.show({
+        type: "error",
+       text1: "Attention !",
+       text1Style : {fontSize:14},
+       text2: "Choisir une option pour chaque catégorie.",
+       text2Style:{fontSize:12},
+       swipeable:true,
+       visibilityTime:5000
+      });
+    }
+    selectedHeure.forEach(async heure => {
+
+
+      const headers = {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+      }
+
+      const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
+      const dataDispo = {
+        journee: selectedJour,
+        heure: heure.item,
+        user_id: userInfo.id
+      };
+      console.log(dataDispo)
+      try {
+        const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "disponibilites/upload", dataDispo, {
+          headers: headers
+        });
+        //mettre le data dans une variable
+
+        Alert.alert(response.message);
+        //navigation.navigate("PageDemande");
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+        console.log('erreur')
+      }
+    });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -61,47 +116,35 @@ export default function Disponibilites() {
           save="key"
           placeholder="Choisir"
           searchPlaceholder="Rechercher"
+          search={false}
         />
       </View>
 
       <View style={styles.viewCont}>
         <Text style={styles.titreSection}>Choisir les heures</Text>
         <SelectBox
-         label=""
+          label="Choisir une ou plusieurs heures"
           options={heures}
           inputPlaceholder='Heures'
           listEmptyText='Aucun résultat trouvé'
           selectedValues={selectedHeure}
-          onMultiSelect={onMultiChange()}
-          onTapClose={onMultiChange()}
-          multiOptionContainerStyle={{backgroundColor:'#092D74'}}
-         // multiOptionsLabelStyle={{color:'black'}}
-          //multiListEmptyLabelStyle={{padding:20}}
-          selectedItemStyle={{backgroundcolor:'black'}}
-          toggleIconColor= 'black'
-          arrowIconColor= 'black'
-        
-          //multiSelectInputFieldProps={{backgroundColor:'black'}}
-          //labelStyle={{color:'black'}}
-          //containerStyle={{color:'black'}}
-          //inputFilterContainerStyle={{color:'black'}}
-          
+          onMultiSelect={handleMultiSelect}
+          onTapClose={handleMultiSelect}
+          multiOptionContainerStyle={{ backgroundColor: '#092D74' }}
+          selectedItemStyle={{ backgroundcolor: 'black' }}
+          toggleIconColor='black'
+          arrowIconColor='black'
           isMulti
         />
       </View>
 
-      <CustomButton
-        text={"Ajouter"}
-        halfButton={true}
-        outlined={false}
-        style={styles.button}
+      <Button
+        title='Ajouter'
+        onPress={handleAjouterDisponibilites}
       />
+      <Toast position="top" bottomOffset={20} />
     </SafeAreaView>
   )
-
-  function onMultiChange() {
-    return (item) => setSelectedHeure(xorBy(selectedHeure, [item], 'id'))
-  }
 
 }
 
@@ -112,7 +155,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   viewCont: {
-    marginTop: 20
+    marginTop: 20,
   },
   titrePage: {
     fontSize: 32,
@@ -124,10 +167,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "left",
-   paddingBottom:5
+    paddingBottom: 5
   },
-  button:{
+  button: {
     marginLeft: 10,
-		backgroundColor: "red",
+    backgroundColor: "red",
   }
 });
