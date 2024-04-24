@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
-
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function Calendrier() {
+    const navigation = useNavigation();
+    
     const jourSemaine = [
         'Lun', 'Mar', 'Mer', 'Jeu', 'Ven'
     ];
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        padding: 10
+        padding: 15
     },
     titrePage: {
         fontSize: 32,
