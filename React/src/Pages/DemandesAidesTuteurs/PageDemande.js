@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
 import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomBottomSheet from "../../Components/CustomBottomSheetPageDemande";
+import CustomBottomSheet from "../../Components/BottomSheetPageDemande";
 import { useNavigation } from '@react-navigation/native';
 
 export default function PageDemande() {
