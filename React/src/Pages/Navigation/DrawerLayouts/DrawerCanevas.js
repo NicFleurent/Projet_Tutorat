@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 
 const DrawerList = [
-    {icon: 'home-outline', label: 'Accueil', navigateTo:'AccueilUtilisateur'},
+    {icon: 'home-outline', label: 'Accueil', navigateTo:'Accueil'},
     {icon: 'settings', label: 'Modifier mes informations', navigateTo:'GestionCompte'}
 ]
 

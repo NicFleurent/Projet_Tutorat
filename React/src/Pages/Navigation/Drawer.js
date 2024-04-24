@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevas";
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
+import TabNavigator from "./TabsNavigation";
 
 
 const StackNav = () => {
@@ -22,7 +23,7 @@ const StackNav = () => {
                 headerTitleAlign:"center"
             }}
         >
-            <Stack.Screen name="AccueilUtilisateur" component={AccueilUtilisateur} options={{
+            <Stack.Screen name="Accueil" component={AccueilUtilisateur} options={{
                 headerLeft:()=>{
                     return(
                         <Ionicons
@@ -46,7 +47,7 @@ const DrawerNav = () =>{
             drawerContent={props => <DrawerCanevas {...props}/>}
             screenOptions={{ headerShown:false }} 
         >
-            <Drawer.Screen name="Accueil" component={StackNav}/>
+            <Drawer.Screen name="StackNav" component={StackNav}/>
         </Drawer.Navigator>
     );
 }
