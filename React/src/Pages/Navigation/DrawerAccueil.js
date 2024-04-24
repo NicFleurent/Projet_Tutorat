@@ -3,10 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
-import DrawerCanevas from "./DrawerLayouts/DrawerCanevas";
+import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
-import TabNavigator from "./TabsNavigation";
 
 
 const StackNav = () => {

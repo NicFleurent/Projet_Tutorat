@@ -6,7 +6,7 @@ import GestionCompte from '../Parametres/GestionCompte';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import StackNavigationProfilAides from './StackNavigationProfilAides';
 import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
-import Drawer from "./Drawer";
+import Drawer from "./DrawerAccueil";
 
 const StackTabs = createBottomTabNavigator();
 

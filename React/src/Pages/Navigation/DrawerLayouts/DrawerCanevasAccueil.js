@@ -6,16 +6,18 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 
 const DrawerList = [
-    {icon: 'home-outline', label: 'Accueil', navigateTo:'Accueil'},
-    {icon: 'settings', label: 'Modifier mes informations', navigateTo:'GestionCompte'}
+    {icon: 'home', label: 'Accueil', navigateTo:'Accueil'},
+    {icon: 'person-circle', label: 'Modifier le compte', navigateTo:'GestionCompte'},
+    {icon: 'settings', label: 'Changer le mot de passe', navigateTo:'GestionCompte'}
 ]
 
 const DrawerLayout = ({icon, label, navigateTo}) => {
     const navigation = useNavigation();
     return(
         <DrawerItem
-            icon={(color, size) => <Ionicons name={icon} color={color} size={size} />}
+            icon={() => <Ionicons name={icon} color="#092D74" size={20} style={styles.icons} />}
             label={label}
+            labelStyle={{color:"#092D74"}}
             onPress={()=>{
                 navigation.navigate(navigateTo);
             }}
@@ -38,14 +40,14 @@ const DrawerItems = props => {
 
 function DrawerCanevas(props){
     return(
-        <View style={{flex:1}}>
+        <View style={styles.container}>
             <DrawerContentScrollView {...props}>
                 <View style={StyleSheet.drawerContent}>
                     <TouchableOpacity activeOpacity={0.8}>
                         <View style={styles.userInfoSection}>
                             <View style={{flexDirection:'row', marginTop:15}}>
                                 <View style={{marginLeft:10, flexDirection:'column'}}>
-                                    <Text style={styles.title}>Nico</Text>
+                                    <Text style={styles.title}>Nicolas Fleurent</Text>
                                     <Text style={styles.caption}>nico@gmail.com</Text>
                                 </View>
                             </View>
@@ -56,6 +58,30 @@ function DrawerCanevas(props){
                     </View>
                 </View>
             </DrawerContentScrollView>
+            <View style={styles.bottomSection}>
+                <DrawerItem 
+                    icon={() =>{
+                        return(
+                            <Ionicons name="log-out" color="#092D74" size={30} style={styles.icons} />
+                        );                        
+                    }} 
+                    label="Déconnexion"
+                />
+                <DrawerItem 
+                    icon={() =>{
+                        return(
+                            <Ionicons name="trash" color="#fff" size={30} style={styles.icons} />
+                        );                        
+                    }} 
+                    label="Suppression"
+                    labelStyle={{
+                        color:"#fff"
+                    }}
+                    style={{
+                        backgroundColor:"red"
+                    }}
+                />
+            </View>
         </View>
     )
 }
@@ -65,20 +91,31 @@ export default DrawerCanevas;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
-      paddingHorizontal: 10,
+      padding: 5
     },
     title: {
-      
+      color:"#092D74",
+      fontSize:24
+    },
+    caption: {
+        color:"#092D74"
     },
     userInfoSection: {
-      
+      borderBottomColor:"#092D74",
+      borderBottomWidth:5,
+      paddingBottom:10
     },
     drawerSection: {
       
     },
-    caption: {
-      
+    bottomSection:{
+        
+      borderTopColor:"#092D74",
+      borderTopWidth:5,
+      paddingTop:5
     },
+    icons: {
+        marginRight:-25,
+    }
   });
   
