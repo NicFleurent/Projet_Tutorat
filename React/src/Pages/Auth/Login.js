@@ -76,9 +76,10 @@ export default function Login() {
           email: response.data.data.user.email,
           nom: response.data.data.user.nom,
           prenom: response.data.data.user.prenom,
+          role: response.data.data.user.role
         };
-
-        SecureStore.save("user_info", userInfo);
+        
+        SecureStore.save('user_info', userInfo);
 
         setIsLoading(false);
         navigation.navigate("TabsNavigation");

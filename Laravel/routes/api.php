@@ -27,6 +27,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);
     Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);
     Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);
+    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);
+    Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);
 });
 
 
@@ -46,6 +48,7 @@ Route::get('/employes', [EmployesController::class, 'index']);
 //Cours
 Route::get('cours', [CoursController::class, 'index']);
 Route::post('cours/storeTuteur', [CoursController::class, 'storeTuteur']);
+Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);
 
 
 //Programmes
