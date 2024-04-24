@@ -88,8 +88,8 @@ export default function Login() {
       setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: "Email ou mot de passe incorrect",
-        text2: error.message,
+        text1: error.message,
+        text2: "Email ou mot de passe incorrect",
       });
     }
   };
@@ -106,7 +106,6 @@ export default function Login() {
         }}
       />
 
-      <Toast position="top" bottomOffset={20} />
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -173,6 +172,7 @@ export default function Login() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <Toast position="top" bottomOffset={20} />
     </SafeAreaView>
   );
 }

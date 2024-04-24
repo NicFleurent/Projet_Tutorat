@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "https://9dd1-209-226-143-203.ngrok-free.app/api/";
+const baseUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export const login = async (email, password) => {
   try {
