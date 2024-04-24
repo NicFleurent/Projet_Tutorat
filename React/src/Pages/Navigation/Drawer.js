@@ -1,6 +1,8 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Icon } from 'react-native-vector-icons/Entypo';
+import { Ionicons } from '@expo/vector-icons';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
 
@@ -15,7 +17,16 @@ const StackNav = () => {
                     backgroundColor:"#092D74"
                 },
                 headerTintColor:"#fff",
-                headerTitleAlign:"center"
+                headerTitleAlign:"center",
+                headerLeft:()=>{
+                    return(
+                        <Ionicons
+                        name="menu"
+                        color="#fff"
+                        size={30}
+                        />
+                    )
+                }
             }}
         >
             <Stack.Screen name="AccueilUtilisateur" component={AccueilUtilisateur}/>
