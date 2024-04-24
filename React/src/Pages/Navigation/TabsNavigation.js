@@ -6,6 +6,7 @@ import GestionCompte from '../Parametres/GestionCompte';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import StackNavigationProfilAides from './StackNavigationProfilAides';
 import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
+import Drawer from "./Drawer";
 
 const StackTabs = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ export default function TabNavigator() {
 
   return (
     <StackTabs.Navigator
-      initialRouteName='AccueilUtilisateurs'
+      initialRouteName='DrawerAccueil'
       screenOptions={{
         tabBarActiveTintColor: '#E8B1F7',
         tabBarInactiveTintColor: '#E8B1F7',
@@ -40,7 +41,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="AccueilUtilisateurs" component={AccueilUtilisateur}
+      <StackTabs.Screen name="DrawerAccueil" component={Drawer}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
