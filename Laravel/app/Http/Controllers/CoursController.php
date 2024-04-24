@@ -41,6 +41,7 @@ class CoursController extends Controller
                                     ->with('tuteur')
                                     ->whereIn('cours_id', $cours_id)
                                     ->where('demande_accepte', 0)
+                                    ->orderBy('cours_id')
                                     ->get();
 
         return response()->json(TuteurCoursResource::collection($demandeTuteur), 200);
