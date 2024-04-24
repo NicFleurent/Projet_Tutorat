@@ -1,9 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Alert } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
+import { useState, useEffect } from "react";
+import * as SecureStore from "../../../api/SecureStore";
+import * as UserApi from "../../../api/Auth/User";
 
 const DrawerList = [
     {icon: 'home', label: 'Accueil', navigateTo:'Accueil'},
@@ -39,6 +42,48 @@ const DrawerItems = props => {
 }
 
 function DrawerCanevas(props){
+    const navigation = useNavigation();
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        SecureStore.getValue('user_info')
+        .then((userInfo) => {
+            setUser(JSON.parse(userInfo));
+        });
+    }, []);
+
+    const handleLogoutPress = async () => {
+        try {
+          //setIsLoading(true);
+          const response = await UserApi.logout(user.token);
+          console.log(response)
+    
+          SecureStore.deleteValue("user_info");
+    
+          //setIsLoading(false);
+    
+          navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+        } catch (error) {
+          //setIsLoading(false);
+          /*Toast.show({
+            type: "error",
+            text1: "Erreur",
+            text2: "Erreur lors de la deconnexion",
+          });*/
+          console.log(error.message);
+        }
+      };
+    
+    const logoutAlert = () =>
+        Alert.alert("Attention", "Vous allez etre deconnecter", [
+          {
+            text: "Annuler",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => handleLogoutPress() },
+        ]);
+
     return(
         <View style={styles.container}>
             <DrawerContentScrollView {...props}>
@@ -47,8 +92,8 @@ function DrawerCanevas(props){
                         <View style={styles.userInfoSection}>
                             <View style={{flexDirection:'row', marginTop:15}}>
                                 <View style={{marginLeft:10, flexDirection:'column'}}>
-                                    <Text style={styles.title}>Nicolas Fleurent</Text>
-                                    <Text style={styles.caption}>nico@gmail.com</Text>
+                                    <Text style={styles.title}>{user.prenom} {user.nom}</Text>
+                                    <Text style={styles.caption}>{user.email}</Text>
                                 </View>
                             </View>
                         </View>
@@ -66,6 +111,7 @@ function DrawerCanevas(props){
                         );                        
                     }} 
                     label="Déconnexion"
+                    onPress={logoutAlert}
                 />
                 <DrawerItem 
                     icon={() =>{
