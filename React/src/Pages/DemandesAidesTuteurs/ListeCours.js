@@ -6,6 +6,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Alert,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from "react-native-dropdown-select-list";
