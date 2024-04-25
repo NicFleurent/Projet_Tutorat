@@ -83,11 +83,13 @@ export default function ListeCours() {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-           
-                <CustomButton text={'Voir les disponibilités'}  onPress={() => {
-						navigation.navigate("Calendrier"); 				
-					}} />
-          
+
+            <CustomButton text={'Voir les disponibilités'} onPress={() => {
+                navigation.navigate("Calendrier", {
+                    idCours : selectedCours
+                });
+            }} />
+
         </SafeAreaView>
     );
 }
@@ -130,4 +132,5 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 5,
     },
+
 });
