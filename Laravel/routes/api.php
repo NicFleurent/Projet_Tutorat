@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);
     Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);
     Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);
+    Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);
+    Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);
+    Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);
 });
 
 
@@ -53,7 +56,6 @@ Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTu
 
 //Programmes
 Route::get('programmes', [ProgrammesController::class, 'index']);
-Route::get('programmes/{id}', [ProgrammesController::class, 'enfants']);
 
 
 //Disponibilites
