@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);
     Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);
     Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);
+    Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);
     Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);
     Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);
@@ -51,7 +52,6 @@ Route::get('/employes', [EmployesController::class, 'index']);
 //Cours
 Route::get('cours', [CoursController::class, 'index']);
 Route::post('cours/storeTuteur', [CoursController::class, 'storeTuteur']);
-Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);
 
 
 //Programmes
