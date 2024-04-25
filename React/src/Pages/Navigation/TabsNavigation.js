@@ -1,11 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import PageDemande from "../DemandesAidesTuteurs/PageDemande";
-import GestionCompte from '../Parametres/GestionCompte';
-import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
-import StackNavigationProfilAides from './StackNavigationProfilAides';
-import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
 import DrawerAccueil from "./DrawerAccueil";
 import DrawerJumelage from "./DrawerJumelage";
 import DrawerParametres from "./DrawerParametres";

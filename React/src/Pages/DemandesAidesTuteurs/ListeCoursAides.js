@@ -47,7 +47,7 @@ export default function ListeCours() {
         };
 
         axios
-            .post(process.env.EXPO_PUBLIC_API_URL + 'cours/storeTuteur', data, {
+            .post(process.env.EXPO_PUBLIC_API_URL + 'disponibilites/', data, {
                 headers: headers,
             })
             .then((response) => {
@@ -72,7 +72,7 @@ export default function ListeCours() {
             <Text style={styles.titrePage}>Demande</Text>
 
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <Text style={styles.titre}>Offrir de l'aide?</Text>
+                <Text style={styles.titre}>Avoir de l'aide ?</Text>
                 <Text style={styles.description}>Sélectionner le programme et le cours pour lequel vous voulez avoir de l'aide.</Text>
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.section}>
@@ -83,9 +83,13 @@ export default function ListeCours() {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-           
-                <CustomButton text={'Voir les disponibilités'}  onPress={handleProposerService} />
-          
+
+            <CustomButton text={'Voir les disponibilités'} onPress={() => {
+                navigation.navigate("Calendrier", {
+                    idCours : selectedCours
+                });
+            }} />
+
         </SafeAreaView>
     );
 }
@@ -128,4 +132,5 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 5,
     },
+
 });

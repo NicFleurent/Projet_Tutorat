@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, Button } from 'react-native'
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
-import SelectBox from 'react-native-multi-selectbox'
+import SelectBox from 'react-native-multi-selectbox';
 import { SelectList } from 'react-native-dropdown-select-list';
-import { xorBy } from 'lodash'
+import { xorBy } from 'lodash';
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import Toast from "react-native-toast-message";
-import CustomButton from '../../Components/CustomButton';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import CustomButton from '../../Components/CustomButton';
 
 const jourSemaine = [
   'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
@@ -74,7 +74,6 @@ export default function Disponibilites() {
     }
     selectedHeure.forEach(async heure => {
 
-
       const headers = {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json',
@@ -87,15 +86,15 @@ export default function Disponibilites() {
         heure: heure.item,
         user_id: userInfo.id
       };
-      console.log(dataDispo)
       try {
         const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "disponibilites/upload", dataDispo, {
           headers: headers
         });
-        //mettre le data dans une variable
-
-        Alert.alert(response.message);
-        //navigation.navigate("PageDemande");
+        navigation.navigate({
+          name: 'PageDemande',
+          params: { message: response.data.message },
+          merge: true,
+        });
       } catch (error) {
         Toast.show({
           type: "error",
@@ -117,7 +116,7 @@ export default function Disponibilites() {
           navigation.goBack();
         }}
       />
-      <Text style={styles.titrePage}>Disponibilités</Text>
+      <Text style={styles.titrePage}> Vos disponibilités</Text>
       <View style={styles.viewCont} >
         <Text style={styles.titreSection}>Choisir le jour</Text>
         <SelectList
@@ -148,8 +147,14 @@ export default function Disponibilites() {
         />
       </View>
 
-      <Button
+      {/* <Button
         title='Ajouter'
+        onPress={handleAjouterDisponibilites}
+      /> */}
+
+      <CustomButton
+        style={styles.button}
+        text={'Ajouter'}
         onPress={handleAjouterDisponibilites}
       />
       <Toast position="top" bottomOffset={20} />
@@ -162,7 +167,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 15,
   },
   backIcon: {
     marginTop: 20,
@@ -183,7 +188,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   button: {
-    marginLeft: 10,
-    backgroundColor: "red",
+    alignSelf: 'flex-end'
   }
 });
