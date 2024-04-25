@@ -14,4 +14,19 @@ class Jumelage extends Model
         'heure',
         'demande_accepte',
     ];
+
+    public function tuteur()
+    {
+        return $this->belongsTo(User::class, 'tuteur_id');
+    }
+
+    public function aide()
+    {
+        return $this->belongsTo(User::class, 'aider_id');
+    }
+
+    public function cours()
+    {
+        return $this->belongsTo(cours::class, 'cours_id');
+    }
 }
