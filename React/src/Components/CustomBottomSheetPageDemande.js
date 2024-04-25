@@ -33,7 +33,7 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 					halfButton={false}
 					style={styles.buttonSpace}
 					onPress={() => {
-						navigation.navigate("Disponibilites");
+						navigation.navigate("Disponibilités");
 						handleCloseBottomSheet();
 					}}
 				/>
@@ -42,7 +42,7 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 					halfButton={false}
 					style={styles.buttonSpace}
 					onPress={() => {
-						navigation.navigate("ListeCours"); 
+						navigation.navigate("Liste des cours - Tuteur"); 
 						handleCloseBottomSheet();
 					}}
 				/>

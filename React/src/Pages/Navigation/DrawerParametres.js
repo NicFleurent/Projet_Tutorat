@@ -4,7 +4,6 @@ import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
-import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
 
 
@@ -22,7 +21,7 @@ const StackNav = () => {
                 headerTitleAlign:"center"
             }}
         >
-            <Stack.Screen name="Accueil" component={AccueilUtilisateur} options={{
+            <Stack.Screen name="Paramètres" component={GestionCompte} options={{
                 headerLeft:()=>{
                     return(
                         <Ionicons
@@ -34,7 +33,6 @@ const StackNav = () => {
                     );
                 }
             }}/>
-            <Stack.Screen name="Modification du compte" component={GestionCompte}/>
         </Stack.Navigator>
     );
 }
@@ -51,7 +49,7 @@ const DrawerNav = () =>{
     );
 }
 
-export default function DrawerAccueil(){
+export default function DrawerParametres(){
     return (
         <DrawerNav/>
     );

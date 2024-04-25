@@ -6,7 +6,9 @@ import GestionCompte from '../Parametres/GestionCompte';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import StackNavigationProfilAides from './StackNavigationProfilAides';
 import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
-import Drawer from "./DrawerAccueil";
+import DrawerAccueil from "./DrawerAccueil";
+import DrawerJumelage from "./DrawerJumelage";
+import DrawerParametres from "./DrawerParametres";
 
 const StackTabs = createBottomTabNavigator();
 
@@ -29,7 +31,7 @@ export default function TabNavigator() {
       }}
     >
       {/* Mettez les pages qui seront dans les onglets ici */}
-      <StackTabs.Screen name="StackNavigationProfilTuteurs" component={StackNavigationProfilTuteurs}
+      <StackTabs.Screen name="DrawerJumelage" component={DrawerJumelage}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -41,7 +43,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="DrawerAccueil" component={Drawer}
+      <StackTabs.Screen name="DrawerAccueil" component={DrawerAccueil}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -53,7 +55,7 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="Compte" component={GestionCompte}
+      <StackTabs.Screen name="DrawerParametres" component={DrawerParametres}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
