@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SelectList } from 'react-native-dropdown-select-list';
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../Components/CustomButton';
 import axios from 'axios';
@@ -60,17 +59,6 @@ export default function ListeCours() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Ionicons
-                style={styles.backIcon}
-                name={'arrow-back-outline'}
-                size={24}
-                color={'#000'}
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            />
-            <Text style={styles.titrePage}>Demande</Text>
-
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <Text style={styles.titre}>Avoir de l'aide ?</Text>
                 <Text style={styles.description}>Sélectionner le programme et le cours pour lequel vous voulez avoir de l'aide.</Text>
@@ -86,7 +74,7 @@ export default function ListeCours() {
 
             <CustomButton text={'Voir les disponibilités'} onPress={() => {
                 navigation.navigate("Calendrier", {
-                    idCours : selectedCours
+                    idCours: selectedCours
                 });
             }} />
 
@@ -98,10 +86,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 20,
-    },
-    backIcon: {
-        marginTop: 20,
+        padding: 15,
     },
     scrollView: {
         flex: 1,
@@ -111,12 +96,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
         marginBottom: 10,
-    },
-    titrePage: {
-        fontSize: 32,
-        marginTop: 30,
-        fontWeight: 'bold',
-        textAlign: 'left',
     },
     description: {
         fontSize: 14,

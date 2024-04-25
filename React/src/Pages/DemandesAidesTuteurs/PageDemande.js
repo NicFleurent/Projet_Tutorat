@@ -23,15 +23,12 @@ export default function PageDemande({ route }) {
     const handlePresentPress = () => bottomSheetRef.current?.present();
     return (
         <SafeAreaView style={styles.container}>
-            <View>
-                <Text style={styles.titrePage}>Profils</Text>
-            </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
                     navigation.navigate("Liste des cours - Aidé");
                 }}>
                     <View style={styles.imageContainer}>
-                        <Aide width={175} height={175}></Aide>
+                        <Aide width={185} height={185}></Aide>
                     </View>
                     <Text style={styles.titre}>Aidé</Text>
                     <View style={styles.sousTitreContainer}>
@@ -43,7 +40,7 @@ export default function PageDemande({ route }) {
             <View style={styles.image}>
                 <Pressable onPress={handlePresentPress}>
                     <View style={styles.imageContainer}>
-                        <Tuteur width={175} height={175}></Tuteur>
+                        <Tuteur width={185} height={185}></Tuteur>
                     </View>
                     <Text style={styles.titre}>Tuteur</Text>
                     <View style={styles.sousTitreContainer}>
@@ -63,11 +60,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
 
     },
-    titrePage: {
-        fontSize: 32,
-        fontWeight: "bold",
-        textAlign: 'center'
-    },
     titre: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -75,7 +67,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     image: {
-        marginTop: 20,
         marginBottom: 20,
         flex: 1,
         justifyContent: 'center',
