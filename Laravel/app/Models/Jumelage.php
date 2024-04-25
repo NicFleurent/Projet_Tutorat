@@ -12,5 +12,6 @@ class Jumelage extends Model
     protected $fillable = [
         'journee',
         'heure',
+        'demande_accepte',
     ];
 }
