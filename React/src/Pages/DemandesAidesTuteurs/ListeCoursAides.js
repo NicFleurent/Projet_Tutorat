@@ -34,29 +34,6 @@ export default function ListeCours() {
         });
     });
 
-    const handleProposerService = function () {
-        const headers = {
-            Accept: 'application/vnd.api+json',
-            'Content-Type': 'application/vnd.api+json',
-        };
-
-        const data = {
-            tuteur_id: 1,
-            cours_id: selectedCours,
-        };
-
-        axios
-            .post(process.env.EXPO_PUBLIC_API_URL + 'disponibilites/', data, {
-                headers: headers,
-            })
-            .then((response) => {
-                Alert.alert(response.data.message);
-            })
-            .catch((error) => {
-                Alert.alert(error.response.data.message);
-            });
-    };
-
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -70,7 +47,6 @@ export default function ListeCours() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-
 
             <CustomButton text={'Voir les disponibilités'} onPress={() => {
                 navigation.navigate("Calendrier", {
