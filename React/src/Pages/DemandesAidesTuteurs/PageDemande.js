@@ -7,13 +7,13 @@ import CustomBottomSheet from "../../Components/BottomSheetPageDemande";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from "react-native-toast-message";
 
-export default function PageDemande({route}) {
+export default function PageDemande({ route }) {
     useEffect(() => {
         if (route.params?.message) {
             Toast.show({
                 type: "success",
                 text1: route.params.message,
-                text1Style : { fontSize: 14 }
+                text1Style: { fontSize: 14 }
             });
         }
     }, [route.params?.message]);
@@ -28,12 +28,12 @@ export default function PageDemande({route}) {
             </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
-                    navigation.navigate("Liste des cours - Aidé"); 
+                    navigation.navigate("Liste des cours - Aidé");
                 }}>
-                    <Aide width={230} height={230}></Aide>
+                    <View style={styles.imageContainer}>
+                        <Aide width={175} height={175}></Aide>
+                    </View>
                     <Text style={styles.titre}>Aidé</Text>
-
-
                     <View style={styles.sousTitreContainer}>
                         <Text style={styles.sousTitre}>Vous avez besoin d'aide pour mieux comprendre un cours ?</Text>
                     </View>
@@ -42,7 +42,9 @@ export default function PageDemande({route}) {
 
             <View style={styles.image}>
                 <Pressable onPress={handlePresentPress}>
-                    <Tuteur width={230} height={230}></Tuteur>
+                    <View style={styles.imageContainer}>
+                        <Tuteur width={175} height={175}></Tuteur>
+                    </View>
                     <Text style={styles.titre}>Tuteur</Text>
                     <View style={styles.sousTitreContainer}>
                         <Text style={styles.sousTitre}>Vous voulez donner de votre temps pour aider vos pairs ?</Text>
@@ -59,11 +61,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
+
     },
     titrePage: {
         fontSize: 32,
         fontWeight: "bold",
+        textAlign: 'center'
     },
     titre: {
         fontSize: 24,
@@ -74,7 +77,9 @@ const styles = StyleSheet.create({
     image: {
         marginTop: 20,
         marginBottom: 20,
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     sousTitre: {
@@ -87,4 +92,7 @@ const styles = StyleSheet.create({
         width: 230,
         alignItems: "center",
     },
+    imageContainer: {
+        alignItems: 'center'
+    }
 });
