@@ -91,7 +91,7 @@ export default function Disponibilites() {
           headers: headers
         });
         navigation.navigate({
-          name: 'PageDemande',
+          name: 'Tutorat',
           params: { message: response.data.message },
           merge: true,
         });
