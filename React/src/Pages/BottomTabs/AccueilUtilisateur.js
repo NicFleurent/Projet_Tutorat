@@ -12,6 +12,8 @@ export default function Disponibilites() {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeTuteurChoisie, setDemandeTuteurChoisie] = useState();
+  const [demandeTutorat, setDemandeTutorat] = useState();
+  const [demandeTutoratChoisie, setDemandeTutoratChoisie] = useState();
 
   const [state, setState] = useState(0);
 
@@ -38,6 +40,25 @@ export default function Disponibilites() {
       });
   }, [state]);
 
+  useEffect(() => {
+    SecureStore.getValue('user_info')
+      .then((userInfo) => {
+        setUser(JSON.parse(userInfo));
+
+        userDemande = JSON.parse(userInfo);
+        const headers = {
+          'Accept': 'application/vnd.api+json',
+          'Content-Type': 'application/vnd.api+json',
+          'Authorization': `Bearer ${userDemande.token}`,
+        }
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "jumelages/demandeAttente", { headers: headers })
+          .then((response) => {
+            setDemandeTutorat(response.data);
+          })
+          .catch((error) => console.log(error))
+      });
+  }, [state]);
+
   const getDemandeTuteur = () => {
     if(demandeTuteur !== undefined && Object.keys(demandeTuteur).length !== 0){
       return(
@@ -58,10 +79,36 @@ export default function Disponibilites() {
     }
   }
 
-  const bottomSheetRef = useRef(null);
+  const getDemandeTutorat = () => {
+    if(demandeTutorat !== undefined && Object.keys(demandeTutorat).length !== 0){
+      return(
+        <>
+          <Text style={styles.titreSection}>Demandes de jumelages</Text>
+          {(demandeTutorat.map((demande) => {
+            return (
+              <>
+                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemandeTutorat(demande.id)}>
+                  <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
+                  <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
+                </TouchableOpacity>
+              </>
+            )
+          }))}
+        </>
+      )
+    }
+  }
+
+  const bottomSheetTuteur = useRef(null);
   const onPressDemandeTuteur = (idDemande) => {
     setDemandeTuteurChoisie(idDemande);
-    bottomSheetRef.current?.present();
+    bottomSheetTuteur.current?.present();
+  };
+
+  const bottomSheetTutorat = useRef(null);
+  const onPressDemandeTutorat = (idDemande) => {
+    setDemandeTutoratChoisie(idDemande);
+    bottomSheetTutorat.current?.present();
   };
 
   const snapPoints = useMemo(() => ['30%'], []);
@@ -71,7 +118,7 @@ export default function Disponibilites() {
     []
   );
 
-  const handleAccepter = async function () {
+  const handleAccepterTuteur = async function () {
     const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
 
     const headers = {
@@ -100,7 +147,36 @@ export default function Disponibilites() {
       });
   }
 
-  const handleRefuser = async function () {
+  const handleAccepterTutorat = async function () {
+    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
+    const headers = {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      'Authorization': `Bearer ${userInfo.token}`,
+    }
+
+    const data = {}
+
+    axios.patch(process.env.EXPO_PUBLIC_API_URL + "jumelages/acceptJumelage/" + demandeTutoratChoisie, data, {
+      headers: headers
+    })
+      .then(response => {
+        forceRefresh();
+        Toast.show({
+          type: "success",
+          text1: response.data.message
+        });
+      })
+      .catch(error => {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+      });
+  }
+
+  const handleRefuserTuteur = async function () {
     const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
 
     const headers = {
@@ -127,6 +203,33 @@ export default function Disponibilites() {
       });
   }
 
+  const handleRefuserTutorat = async function () {
+    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
+    const headers = {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      'Authorization': `Bearer ${userInfo.token}`,
+    }
+
+    axios.delete(process.env.EXPO_PUBLIC_API_URL + "jumelages/refuseJumelage/" + demandeTutoratChoisie, {
+      headers: headers
+    })
+      .then(response => {
+        forceRefresh();
+        Toast.show({
+          type: "success",
+          text1: response.data.message
+        });
+      })
+      .catch(error => {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+      });
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
@@ -134,10 +237,13 @@ export default function Disponibilites() {
         <View>
           {getDemandeTuteur()}
         </View>
+        <View>
+          {getDemandeTutorat()}
+        </View>
       </ScrollView>
 
       <BottomSheetModal
-        ref={bottomSheetRef}
+        ref={bottomSheetTuteur}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
         handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
@@ -149,8 +255,8 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              handleAccepter();
-              bottomSheetRef.current.close();
+              handleAccepterTuteur();
+              bottomSheetTuteur.current.close();
             }}
           />
           <CustomButton
@@ -158,8 +264,8 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              handleRefuser();
-              bottomSheetRef.current.close();
+              handleRefuserTuteur();
+              bottomSheetTuteur.current.close();
             }}
           />
           <CustomButton
@@ -167,7 +273,44 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              bottomSheetRef.current.close()
+              bottomSheetTuteur.current.close()
+            }}
+          />
+        </View>
+      </BottomSheetModal>
+
+      <BottomSheetModal
+        ref={bottomSheetTutorat}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
+        backgroundStyle={{ backgroundColor: '#092D74' }}
+      >
+        <View style={styles.contentContainer}>
+          <CustomButton
+            text={"Accepter"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              handleAccepterTutorat();
+              bottomSheetTutorat.current.close();
+            }}
+          />
+          <CustomButton
+            text={"Refuser"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              handleRefuserTutorat();
+              bottomSheetTutorat.current.close();
+            }}
+          />
+          <CustomButton
+            text={"Annuler"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              bottomSheetTutorat.current.close()
             }}
           />
         </View>
