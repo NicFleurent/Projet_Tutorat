@@ -4,20 +4,53 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
+const jourSemaine = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
 
-export default function Calendrier() {
+const DATA = [
+    {
+        id: '1',
+        title: 'Première dispo',
+    },
+    {
+        id: '2',
+        title: 'Deuxième dispo',
+    },
+    {
+        id: '3',
+        title: 'Troisième dispo',
+    },
+];
+
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+        <Text style={[styles.title, { color: textColor }]}>{item.title}</Text>
+    </TouchableOpacity>
+);
+
+export default function Calendrier({route}) {
+    const {idCours} = route.params;
     const navigation = useNavigation();
-    
-    const jourSemaine = [
-        'Lun', 'Mar', 'Mer', 'Jeu', 'Ven'
-    ];
-
+    const [selectedId, setSelectedId] = useState();
     const [selectedButton, setSelectedButton] = useState();
 
     const handleButtonPress = (jour) => {
-        console.log(jour);
         setSelectedButton(jour);
     };
+
+    const renderItem = ({ item }) => {
+        const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
+        const color = item.id === selectedId ? 'white' : 'black';
+
+        return (
+            <Item
+                item={item}
+                onPress={() => setSelectedId(item.id)}
+                backgroundColor={backgroundColor}
+                textColor={color}
+            />
+        );
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <Ionicons
@@ -35,7 +68,7 @@ export default function Calendrier() {
                     <TouchableOpacity
                         style={[
                             styles.buttonStyle,
-                            selectedButton === jour && { backgroundColor: '#092D74' }, 
+                            selectedButton === jour && { backgroundColor: '#092D74' },
                         ]}
                         key={index}
                         onPress={() => handleButtonPress(jour)}
@@ -44,7 +77,7 @@ export default function Calendrier() {
                             style={[
                                 styles.buttonText,
                                 selectedButton === jour && {
-                                    color: 'white', 
+                                    color: 'white',
                                 },
                             ]}
                         >
@@ -53,6 +86,13 @@ export default function Calendrier() {
                     </TouchableOpacity>
                 ))}
             </View>
+            <FlatList
+                data={DATA}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                extraData={selectedId}
+            />
+            
         </SafeAreaView>
     );
 }
@@ -70,7 +110,6 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     buttonLayout: {
-        flex: 1,
         marginTop: 20,
         flexDirection: 'row',
         alignContent: 'center',
@@ -89,4 +128,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
-
