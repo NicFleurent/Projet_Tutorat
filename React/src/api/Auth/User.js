@@ -87,19 +87,42 @@ export const logout = async (token) => {
   }
 };
 
-export const deleteAccount = async (id) => {
+export const deleteAccount = async (token) => {
   try {
     const configurationObject = {
-      method: "delete",
-      url: `${baseUrl}utilisateurs/delete/${id}`,
+      method: "patch",
+      url: `${baseUrl}utilisateurs/desactiver`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
     const response = await axios(configurationObject);
     return response;
   } catch (error) {
     throw new Error("Erreur lors de la suppresion : " + error.message);
+  }
+};
+
+export const updatePassword = async (oldPassword, newPassword, token) => {
+  try {
+    const configurationObject = {
+      method: "put",
+      url: `${baseUrl}utilisateurs/updatePassword`,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        old_password: oldPassword,
+        new_password: newPassword,
+      },
+    };
+    const response = await axios(configurationObject);
+    return response;
+  } catch (error) {
+    throw new Error("" + error.message);
   }
 };
