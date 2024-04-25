@@ -9,87 +9,93 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../../Components/CustomButton";
-import LoginCuate from "../../assets/svg/auth/Login-cuate.svg";
+import ResetPasswordImage from "../../assets/svg/auth/Reset password-cuate.svg";
 import CustomInput from "../../Components/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
 import ClickableText from "../../Components/ClickableText";
 import React, { useState, useEffect } from "react";
-import { login } from "../../api/Auth/User";
+import { login, updatePassword } from "../../api/Auth/User";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "../../api/SecureStore";
 
-export default function Login() {
+export default function ResetPassword() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
+
+  const [token, setToken] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [oldPasswordError, setOldPasswordError] = useState(null);
+  const [newPasswordError, setNewPasswordError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
-    setEmailError(null);
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  const handleOldPasswordChange = (text) => {
+    setOldPassword(text);
+    setOldPasswordError(null);
   };
 
-  const handlePasswordChange = (text) => {
-    setPassword(text);
-    setPasswordError(null);
+  const handleNewPasswordChange = (text) => {
+    setNewPassword(text);
+    setNewPasswordError(null);
   };
 
-  const validateEmail = () => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) {
-      setEmailError("Veuillez entrer votre adresse e-mail.");
-
-      return false;
-    }
-    if (regex.test(email) == false) {
-      setEmailError("Entrer une adresse avec un format valide.");
-
+  const validateOldPassword = () => {
+    if (!oldPassword) {
+      setOldPasswordError("Veuillez entrer votre mot de passe.");
       return false;
     }
     return true;
   };
 
-  const validatePassword = () => {
-    if (!password) {
-      setPasswordError("Veuillez entrer votre mot de passe.");
+  const validateNewPassword = () => {
+    if (!newPassword) {
+      setNewPasswordError("Veuillez entrer votre mot de passe.");
       return false;
     }
     return true;
   };
 
-  const handleLoginPress = async () => {
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
+  const getCurrentUser = async () => {
+    const userInfo = JSON.parse(await SecureStore.getValue("user_info"));
+
+    if (userInfo != null) {
+      setToken(userInfo.token);
+    }
+  };
+
+  const handleUpdatePasswordPress = async () => {
+    const isOldPasswordValid = validateOldPassword();
+    const isNewPasswordValid = validateNewPassword();
 
     try {
-      if (isEmailValid && isPasswordValid) {
+      if (isOldPasswordValid && isNewPasswordValid) {
         setIsLoading(true);
-        const response = await login(email, password);
-
-        const userInfo = {
-          token: response.data.data.token,
-          id: response.data.data.user.id,
-          email: response.data.data.user.email,
-          nom: response.data.data.user.nom,
-          prenom: response.data.data.user.prenom,
-          role: response.data.data.user.role,
-        };
-
-        SecureStore.save("user_info", userInfo);
+        const response = await updatePassword(oldPassword, newPassword, token);
 
         setIsLoading(false);
-        navigation.navigate("TabsNavigation");
+        Toast.show({
+          type: "success",
+          text1: response.message,
+          text2: "Modification effectuer",
+        });
+
+        setTimeout(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "AuthChoice" }],
+          });
+        }, 3000);
       }
     } catch (error) {
       setIsLoading(false);
       Toast.show({
         type: "error",
         text1: error.message,
-        text2: "Email ou mot de passe incorrect",
+        text2: "Modification echouer",
       });
     }
   };
@@ -105,21 +111,21 @@ export default function Login() {
           navigation.goBack();
         }}
       />
-
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView>
           <View>
-            <Text style={styles.titre}>De retour ?</Text>
+            <Text style={styles.titre}>Mettre a jour le mot de passe</Text>
             <Text style={styles.sousTitre}>
-              Heureux de vous revoir parmis nous 😊 !
+              Un probleme de memoire ou de securite ? Pas grave mettez a jour
+              votre mot de passe.
             </Text>
           </View>
 
           <View style={styles.image}>
-            <LoginCuate width={280} height={280}></LoginCuate>
+            <ResetPasswordImage width={290} height={290}></ResetPasswordImage>
           </View>
 
           <View>
@@ -127,53 +133,48 @@ export default function Login() {
           </View>
 
           <View style={styles.formulaire}>
-            <View>
-              <Text style={styles.label}>Courriel</Text>
-
-              <CustomInput
-                placeholder={"Johndoe98@gmail.com"}
-                onChangeText={handleEmailChange}
-                value={email}
-              />
-              {emailError == null ? (
-                <Text> </Text>
-              ) : (
-                <Text style={{ color: "red", marginTop: 5 }}>{emailError}</Text>
-              )}
-            </View>
-
             <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Mot de passe</Text>
+              <Text style={styles.label}>Ancien mot de passe</Text>
 
               <CustomInput
                 placeholder={"Mot de passe"}
                 isPassword={true}
-                onChangeText={handlePasswordChange}
-                value={password}
+                onChangeText={handleOldPasswordChange}
+                value={oldPassword}
               />
-              {passwordError == null ? (
+              {oldPasswordError == null ? (
                 <Text> </Text>
               ) : (
                 <Text style={{ color: "red", marginTop: 5 }}>
-                  {passwordError}
+                  {oldPasswordError}
                 </Text>
               )}
             </View>
 
-            <ClickableText
-              textStyle={styles.forgetPassword}
-              text={"Mot de passe oublier ?"}
-              onPress={() =>
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ResetPassword" }],
-                })
-              }
-            ></ClickableText>
+            <View style={styles.labelAndInputSpace}>
+              <Text style={styles.label}>Nouveau mot de passe</Text>
+
+              <CustomInput
+                placeholder={"Mot de passe"}
+                isPassword={true}
+                onChangeText={handleNewPasswordChange}
+                value={newPassword}
+              />
+              {newPasswordError == null ? (
+                <Text> </Text>
+              ) : (
+                <Text style={{ color: "red", marginTop: 5 }}>
+                  {newPasswordError}
+                </Text>
+              )}
+            </View>
           </View>
 
           <View style={styles.butonView}>
-            <CustomButton text={"Se connecter"} onPress={handleLoginPress} />
+            <CustomButton
+              text={"Mettre a jour"}
+              onPress={handleUpdatePasswordPress}
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

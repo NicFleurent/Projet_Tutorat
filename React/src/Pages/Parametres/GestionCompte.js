@@ -153,7 +153,7 @@ export default function GestionCompte() {
   const handleDeletePress = async () => {
     try {
       setIsLoading(true);
-      const response = await UserApi.deleteAccount(id);
+      const response = await UserApi.deleteAccount(token);
 
       const userInfo = {
         token: "",
@@ -199,7 +199,7 @@ export default function GestionCompte() {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => handleDeletePress() },
+        { text: "OK", onPress: () => navigation.navigate("ResetPassword") },
       ]
     );
 
