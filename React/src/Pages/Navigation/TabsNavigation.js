@@ -1,11 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import PageDemande from "../DemandesAidesTuteurs/PageDemande";
 import GestionCompte from '../Parametres/GestionCompte';
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
-import StackNavigationProfilAides from './StackNavigationProfilAides';
-import StackNavigationProfilTuteurs from './StackNavigationPageDemande';
+import StackNavigationProfilPageDemande from './StackNavigationPageDemande';
 
 const StackTabs = createBottomTabNavigator();
 
@@ -28,7 +26,7 @@ export default function TabNavigator() {
       }}
     >
       {/* Mettez les pages qui seront dans les onglets ici */}
-      <StackTabs.Screen name="StackNavigationProfilTuteurs" component={StackNavigationProfilTuteurs}
+      <StackTabs.Screen name="StackNavigationPageDemande" component={StackNavigationProfilPageDemande}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
