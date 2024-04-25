@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import SelectBox from 'react-native-multi-selectbox';
 import { SelectList } from 'react-native-dropdown-select-list';
@@ -9,6 +9,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import CustomButton from '../../Components/CustomButton';
 
 const jourSemaine = [
   'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
@@ -85,15 +86,15 @@ export default function Disponibilites() {
         heure: heure.item,
         user_id: userInfo.id
       };
-      console.log(dataDispo)
       try {
         const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "disponibilites/upload", dataDispo, {
           headers: headers
         });
-        //mettre le data dans une variable
-
-        Alert.alert(response.message);
-        //navigation.navigate("PageDemande");
+        navigation.navigate({
+          name: 'PageDemande',
+          params: { message: response.data.message },
+          merge: true,
+        });
       } catch (error) {
         Toast.show({
           type: "error",
@@ -146,8 +147,14 @@ export default function Disponibilites() {
         />
       </View>
 
-      <Button
+      {/* <Button
         title='Ajouter'
+        onPress={handleAjouterDisponibilites}
+      /> */}
+
+      <CustomButton
+        style={styles.button}
+        text={'Ajouter'}
         onPress={handleAjouterDisponibilites}
       />
       <Toast position="top" bottomOffset={20} />
@@ -181,7 +188,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   button: {
-    marginLeft: 10,
-    backgroundColor: "red",
+    alignSelf: 'flex-end'
   }
 });

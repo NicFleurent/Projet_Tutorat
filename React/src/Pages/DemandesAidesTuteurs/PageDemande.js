@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
 import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomBottomSheet from "../../Components/BottomSheetPageDemande";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import Toast from "react-native-toast-message";
 
-export default function PageDemande() {
+export default function PageDemande({route}) {
+    useEffect(() => {
+        if (route.params?.message) {
+            Toast.show({
+                type: "success",
+                text1: route.params.message,
+                text1Style : { fontSize: 14 }
+            });
+        }
+    }, [route.params?.message]);
+
     const bottomSheetRef = useRef(null);
     const navigation = useNavigation();
     const handlePresentPress = () => bottomSheetRef.current?.present();
@@ -17,7 +28,7 @@ export default function PageDemande() {
             </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
-                    navigation.navigate("ListeCoursAides"); 
+                    navigation.navigate("ListeCoursAides");
                 }}>
                     <Aide width={230} height={230}></Aide>
                     <Text style={styles.titre}>Aidé</Text>
@@ -39,7 +50,7 @@ export default function PageDemande() {
                 </Pressable>
                 <CustomBottomSheet ref={bottomSheetRef} />
             </View>
-
+            <Toast position="top" bottomOffset={20} />
         </SafeAreaView>
     );
 }
@@ -61,7 +72,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     image: {
-        marginTop:20,
+        marginTop: 20,
         marginBottom: 20,
         flex: 1
     },
