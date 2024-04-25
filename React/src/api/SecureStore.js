@@ -23,3 +23,11 @@ export const getValue = async (key) => {
         console.log('No values stored under that key.');
     }
 };
+
+export const deleteValue = async (key) => {
+    try {
+        SecureStore.deleteItemAsync(key);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}

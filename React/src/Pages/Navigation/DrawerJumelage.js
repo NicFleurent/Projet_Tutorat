@@ -3,10 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
-import DrawerCanevas from "./DrawerLayouts/DrawerCanevas";
-import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
-import GestionCompte from "../Parametres/GestionCompte";
-import TabNavigator from "./TabsNavigation";
+import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
+import StackNavigationProfilTuteurs from "./StackNavigationPageDemande";
+import PageDemande from "../DemandesAidesTuteurs/PageDemande";
+import ListeCours from "../DemandesAidesTuteurs/ListeCours";
+import Disponibilites from "../DemandesAidesTuteurs/Disponibilites";
+import ListeCoursAides from "../DemandesAidesTuteurs/ListeCoursAides";
+import Calendrier from "../DemandesAidesTuteurs/Calendrier";
 
 
 const StackNav = () => {
@@ -23,7 +26,7 @@ const StackNav = () => {
                 headerTitleAlign:"center"
             }}
         >
-            <Stack.Screen name="Accueil" component={AccueilUtilisateur} options={{
+            {/*<Stack.Screen name="Tutorat" component={StackNavigationProfilTuteurs} options={{
                 headerLeft:()=>{
                     return(
                         <Ionicons
@@ -34,8 +37,23 @@ const StackNav = () => {
                         />
                     );
                 }
-            }}/>
-            <Stack.Screen name="GestionCompte" component={GestionCompte}/>
+            }}/>*/}
+            <Stack.Screen name="Tutorat" component={PageDemande}  options={{
+                headerLeft:()=>{
+                    return(
+                        <Ionicons
+                            name="menu"
+                            color="#fff"
+                            size={30}
+                            onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}
+                        />
+                    );
+                }
+            }} />
+            <Stack.Screen name="Liste des cours - Tuteur" component={ListeCours} />
+            <Stack.Screen name="Disponibilités" component={Disponibilites} />
+            <Stack.Screen name="Liste des cours - Aidé" component={ListeCoursAides} />
+            <Stack.Screen name="Calendrier" component={Calendrier} />
         </Stack.Navigator>
     );
 }
@@ -52,7 +70,7 @@ const DrawerNav = () =>{
     );
 }
 
-export default function Drawer(){
+export default function DrawerJumelage(){
     return (
         <DrawerNav/>
     );

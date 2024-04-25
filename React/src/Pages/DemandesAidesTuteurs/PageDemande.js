@@ -17,7 +17,7 @@ export default function PageDemande() {
             </View>
             <View style={styles.image}>
                 <Pressable onPress={() => {
-                    navigation.navigate("ListeCoursAides"); 
+                    navigation.navigate("Liste des cours - Aidé"); 
                 }}>
                     <Aide width={230} height={230}></Aide>
                     <Text style={styles.titre}>Aidé</Text>
