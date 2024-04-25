@@ -263,34 +263,8 @@ export default function GestionCompte() {
           {isLoading && <ActivityIndicator size="large" color="#092D74" />}
         </View>
 
-        <View>
-          <View>
-            <CustomButton
-              text={"Modifier"}
-              onPress={() => handleUpdatePress()}
-            />
-          </View>
-
-          <View style={styles.viewHalfButton}>
-            <CustomButton
-              text={"Se deconnecter"}
-              halfButton={true}
-              standartBackgroundColor={"#D9C9E4"}
-              standartTextColor={"#fff"}
-              onPress={() => logoutAlert()}
-            />
-            <View>
-              <Text> </Text>
-            </View>
-            <CustomButton
-              outlinedBorderColor={"#EF3832"}
-              outlinedTextColor={"#EF3832"}
-              text={"Supprimer compte"}
-              halfButton={true}
-              outlined={true}
-              onPress={() => deleteAccountAlert()}
-            />
-          </View>
+        <View style={styles.viewHalfButton}>
+          <CustomButton text={"Modifier"} onPress={() => handleUpdatePress()} />
         </View>
       </View>
     </View>
@@ -306,7 +280,7 @@ const styles = StyleSheet.create({
   titre: {
     fontSize: 32,
     fontWeight: "bold",
-    marginTop: 100,
+    marginTop: 30,
   },
   sousTitre: {
     fontSize: 12,
@@ -321,10 +295,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   viewHalfButton: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
     marginBottom: 20,
   },
 });

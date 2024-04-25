@@ -102,15 +102,6 @@ export default function ResetPassword() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Ionicons
-        style={styles.backIcon}
-        name={"arrow-back-outline"}
-        size={24}
-        color="#000"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -189,9 +180,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 10,
   },
-  backIcon: {
-    marginTop: 20,
-  },
   butonView: {
     flex: 1,
     flexDirection: "column",
@@ -203,7 +191,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    marginTop: 20,
   },
   sousTitre: {
     fontSize: 12,
