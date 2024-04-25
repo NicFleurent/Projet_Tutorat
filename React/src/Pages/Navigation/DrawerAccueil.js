@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
+import ResetPassword from "../Parametres/ResetPassword";
 
 
 const StackNav = () => {
@@ -35,6 +36,7 @@ const StackNav = () => {
                 }
             }}/>
             <Stack.Screen name="Modification du compte" component={GestionCompte}/>
+            <Stack.Screen name="Modification du mot de passe" component={ResetPassword}/>
         </Stack.Navigator>
     );
 }
