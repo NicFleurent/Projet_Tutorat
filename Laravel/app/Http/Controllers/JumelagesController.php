@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JumelageRequest;
 use App\Http\Resources\JumelagesResource;
 use App\Models\Jumelage;
 use App\Traits\HttpResponses;
@@ -23,65 +24,83 @@ class JumelagesController extends Controller
         return response()->json($jumellages, 200);
     }
 
+    public function store(JumelageRequest $request)
+    {
+        $request->validated($request->all());
+
+        $jumelage = Jumelage::create([
+            'journee' => $request->journee,
+            'heure' => $request->heure,
+            'demande_accepte' => $request->demande_accepte,
+            'cours_id' => $request->cours_id,
+            'tuteur_id' => $request->tuteur_id,
+            'aider_id' => $request->aider_id
+
+        ]);
+
+        if ($jumelage) {
+
+            return response()->json([
+                'message' => 'Jumelage creer avec success',
+                'disponibilite' => new JumelagesResource($jumelage)
+            ], 200);
+        } else {
+            return response()->json(['message' => 'Échec de la creation du jumelage'], 500);
+        }
+    }
+
     public function demandeAttente()
     {
         $user_id = Auth::user()->id;
 
-        try{
+        try {
             $demandeTutorat = Jumelage::where('tuteur_id', $user_id)
-                                        ->where('demande_accepte', 0)
-                                        ->orderBy('aider_id')
-                                        ->orderBy('cours_id')
-                                        ->get();
+                ->where('demande_accepte', 0)
+                ->orderBy('aider_id')
+                ->orderBy('cours_id')
+                ->get();
 
             return response()->json(JumelagesResource::collection($demandeTutorat), 200);
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);
         }
-        
     }
 
     public function acceptJumelage(string $id)
     {
-        try{
+        try {
             $demandeTutorat = Jumelage::find($id);
 
-            if($demandeTutorat->demande_accepte == false){
+            if ($demandeTutorat->demande_accepte == false) {
                 $demandeTutorat->demande_accepte = true;
 
                 $demandeTutorat->save();
                 return $this->success('', 'La demande de tutorat a été acceptée');
-            }
-            else{
+            } else {
                 return $this->error('', 'Cette demande est déjà acceptée', 403);
             }
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);
         }
     }
-    
+
     public function refuseJumelage(string $id)
     {
-        try{
+        try {
             $demandeTutorat = Jumelage::find($id);
 
-            if($demandeTutorat->demande_accepte == false){
+            if ($demandeTutorat->demande_accepte == false) {
                 $demandeTutorat->delete();
 
                 return $this->success('', 'La demande de tutorat a été refusée');
-            }
-            else{
+            } else {
                 return $this->error('', 'Cette demande est déjà acceptée', 403);
             }
-
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);
