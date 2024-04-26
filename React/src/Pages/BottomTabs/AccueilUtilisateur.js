@@ -137,7 +137,7 @@ export default function Accueil() {
         <View style={styles.textFlatlist}>
             <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
             <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
-            <Text style={{ color: textColor }}>{'Heure : ' + item.attributes.heure}</Text>
+            <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + ' à ' + item.attributes.heure}</Text>
         </View>
     </TouchableOpacity>
   );
