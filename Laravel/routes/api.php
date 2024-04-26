@@ -19,21 +19,36 @@ Route::get('/user', function (Request $request) {
 
 Route::post('login', [UtilisateursController::class, 'login'])->name('login');
 Route::post('register', [UtilisateursController::class, 'register']);
-Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
+
 
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('logout', [UtilisateursController::class, 'logout']);
-    Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);
-    Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);
-    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);
-    Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);
-    Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);
-    Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);
-    Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);
-    Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);
+    Route::post('logout', [UtilisateursController::class, 'logout']);                                           //Logout
+    Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);              //Update Password
+    Route::put('/utilisateurs/edit', [UtilisateursController::class, 'edit']);                                  //Edit User
+    Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);                    //Desactiver Compte
+    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);                             //Demande Attente
+    Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);                //Accepter Tuteur
+    Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);               //Refuser Tuteur Cours
+    Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);                     //Demande Attente
+    Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);              //Accept Jumelage
+    Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::get('/whoAmI', function () {      //Returns information sure personne auth
