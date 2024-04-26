@@ -180,7 +180,7 @@ export default function GestionCompte() {
   };
 
   const logoutAlert = () =>
-    Alert.alert("Attention", "Vous allez etre deconnecter", [
+    Alert.alert("Attention", "Vous allez être deconnecté", [
       {
         text: "Annuler",
         onPress: () => console.log("Cancel Pressed"),
@@ -192,7 +192,7 @@ export default function GestionCompte() {
   const deleteAccountAlert = () =>
     Alert.alert(
       "Attention",
-      "Etes vous sure de vouloir supprimer votre compte ?",
+      "Êtes vous certain de vouloir supprimer votre compte ?",
       [
         {
           text: "Annuler",

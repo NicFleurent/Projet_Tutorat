@@ -12,15 +12,15 @@ export default function AuthChoice() {
         <MountainBiking width={372} height={372}></MountainBiking>
       </View>
 
-      <Text style={styles.titre}>Votre Chemin vers la Réussite Débute Ici</Text>
+      <Text style={styles.titre}>Votre chemin vers la réussite débute Ici</Text>
 
       <Text style={styles.sousTitre}>
         Votre chemin vers l'excellence commence par une inscription ou une
-        connection.
+        connexion.
       </Text>
       <View style={styles.butonView}>
         <CustomButton
-          text={"Connection"}
+          text={"Connexion"}
           halfButton={true}
           style={styles.buttonSpace}
           onPress={() => {

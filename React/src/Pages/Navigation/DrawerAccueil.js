@@ -20,7 +20,8 @@ const StackNav = () => {
                     backgroundColor:"#092D74"
                 },
                 headerTintColor:"#fff",
-                headerTitleAlign:"center"
+                headerTitleAlign:"center",
+                headerBackTitleVisible: 'false',
             }}
         >
             <Stack.Screen name="Accueil" component={AccueilUtilisateur} options={{

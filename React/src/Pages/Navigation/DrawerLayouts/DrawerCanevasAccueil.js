@@ -91,7 +91,7 @@ function DrawerCanevas(props) {
   const deleteAccountAlert = () =>
     Alert.alert(
       "Attention",
-      "Etes vous sure de vouloir supprimer votre compte ?",
+      "Êtes-vous certain de vouloir supprimer votre compte ?",
       [
         {
           text: "Annuler",
@@ -125,7 +125,7 @@ function DrawerCanevas(props) {
   };
 
   const logoutAlert = () =>
-    Alert.alert("Attention", "Vous allez etre deconnecter", [
+    Alert.alert("Attention", "Vous allez etre déconnecté", [
       {
         text: "Annuler",
         onPress: () => console.log("Cancel Pressed"),

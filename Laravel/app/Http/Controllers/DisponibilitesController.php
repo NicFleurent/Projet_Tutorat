@@ -31,7 +31,6 @@ class DisponibilitesController extends Controller
     {
         $tuteurs = TuteurCours::where('cours_id',$idCours)
                               ->where('demande_accepte',1)->get();
-        // $tuteurs = $idCours->tuteurs()->wherePivot('demande_accepte', 1)->with('disponibilites')->get();
 
         $idTuteurs = [];
         foreach($tuteurs as $tuteur)
@@ -43,8 +42,10 @@ class DisponibilitesController extends Controller
         ->orderBy('journee')
         ->orderBy('heure')
         ->get();
-
-        
+        foreach ($disponibilitesTuteur as $dispo) {
+            $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
+        }
+  
       return response()->json(DisponibilitesResource::collection($disponibilitesTuteur), 200);
     }
     /**
