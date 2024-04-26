@@ -13,7 +13,6 @@ export default function Disponibilites() {
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeChoisie, setDemandeChoisie] = useState();
   const [demandeTutorat, setDemandeTutorat] = useState();
-  const [demandeTutoratChoisie, setDemandeTutoratChoisie] = useState();
   const [typeDemande, setTypeDemande] = useState("");
 
   const [state, setState] = useState(0);
@@ -73,11 +72,13 @@ export default function Disponibilites() {
         <>
           <Text style={styles.titreSection}>Demandes de jumelages</Text>
           {(demandeTutorat.map((demande) => {
+            const heure = demande.attributes.heure.substring(0,5);
             return (
               <>
                 <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Jumelage")}>
                   <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
                   <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
+                  <Text style={styles.text}>Moment : {demande.attributes.journee} à {heure}</Text>
                 </TouchableOpacity>
               </>
             )
@@ -91,6 +92,7 @@ export default function Disponibilites() {
   const onPressDemande = (idDemande, type) => {
     setDemandeChoisie(idDemande);
     setTypeDemande(type);
+    console.log(demandeTutorat);
     bottomSheet.current?.present();
   };
 
