@@ -13,7 +13,7 @@ export default function PageDemande({ route }) {
             Toast.show({
                 type: "success",
                 text1: route.params.message,
-                text1Style: { fontSize: 14 }
+                text1Style: { fontSize: 13 }
             });
         }
     }, [route.params?.message]);

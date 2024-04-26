@@ -38,12 +38,17 @@ export default function ListeCours() {
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <Text style={styles.titre}>Avoir de l'aide ?</Text>
-                <Text style={styles.description}>Sélectionner le programme et le cours pour lequel vous voulez avoir de l'aide.</Text>
+                <Text style={styles.description}>Sélectionner le cours pour lequel vous voulez avoir de l'aide.</Text>
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.section}>
                         <Text style={styles.titreSection}>Cours</Text>
-
-                        <SelectList setSelected={(val) => setSelectedCours(val)} data={dataCours} save="key" placeholder="Choisir un cours" searchPlaceholder="Rechercher" />
+                        <SelectList 
+                        setSelected={(val) => setSelectedCours(val)}
+                        data={dataCours} 
+                        save="key" 
+                        placeholder="Choisir un cours" 
+                        searchPlaceholder="Rechercher"
+                         notFoundText="Aucun résultat trouvé" />
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>

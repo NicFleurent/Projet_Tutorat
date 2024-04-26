@@ -78,7 +78,7 @@ export default function ListeCours() {
                 });*/
         //Voir à ce passer un props et afficher le toast dans la page d'arriver.
         Alert.alert(response.data.message);
-        navigation.navigate("PageDemande");
+        navigation.navigate("Accueil");
       })
       .catch((error) => {
         Toast.show({
@@ -96,7 +96,7 @@ export default function ListeCours() {
       >
         <Text style={styles.titre}>Offrir de l'aide?</Text>
         <Text style={styles.description}>
-          Sélectionner le programme et le cours pour lequel vous souhaitez
+          Sélectionner le cours pour lequel vous souhaitez
           proposer de l'aide.
         </Text>
         <Toast position="top" bottomOffset={20} />
@@ -109,6 +109,7 @@ export default function ListeCours() {
               save="key"
               placeholder="Choisir un cours"
               searchPlaceholder="Rechercher"
+              notFoundText="Aucun résultat trouvé"
             />
           </View>
         </ScrollView>

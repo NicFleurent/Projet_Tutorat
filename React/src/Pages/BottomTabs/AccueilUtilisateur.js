@@ -7,7 +7,7 @@ import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 
-export default function Accueil() {
+export default function Accueil({route}) {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeChoisie, setDemandeChoisie] = useState();
@@ -17,6 +17,16 @@ export default function Accueil() {
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
 
   const [state, setState] = useState(0);
+
+  useEffect(() => {
+    if (route.params?.message) {
+        Toast.show({
+            type: "success",
+            text1: route.params.message,
+            text1Style: { fontSize: 13 }
+        });
+    }
+}, [route.params?.message]);
 
   const forceRefresh = () => {
     setState(state + 1);

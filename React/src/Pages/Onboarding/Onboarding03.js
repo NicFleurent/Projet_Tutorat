@@ -31,8 +31,7 @@ export default function Onboarding03() {
       </Text>
 
       <Text style={styles.sousTitre}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor
+      Un encadrement attentif pour garantir une progression fluide et efficace.
       </Text>
 
       <View style={styles.ellipses}>

@@ -100,7 +100,6 @@ export default function Disponibilites() {
           type: "error",
           text1: error.response.data.message
         });
-        console.log('erreur')
       }
     });
   }
