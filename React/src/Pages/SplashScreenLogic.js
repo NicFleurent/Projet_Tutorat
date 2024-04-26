@@ -40,12 +40,14 @@ export const appRedirect = async (navigation) => {
       } else {
         const userInfo = await getUserInfo();
         if (userInfo === null) {
-          navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+          setTimeout(() => {
+            navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+          }, 3000);
+          
         } else {
-          /*setTimeout(() => {
+          setTimeout(() => {
             navigation.reset({ index: 0, routes: [{ name: "TabsNavigation" }] });
-          }, 30000);*/
-          //navigation.reset({ index: 0, routes: [{ name: "TabsNavigation" }] });
+          }, 3000);
         }
       }
     }
