@@ -15,7 +15,7 @@ const getUserInfo = async () => {
 export function navigateToNextScreen(navigation) {
   setTimeout(() => {
     navigation.replace("Onboarding01");
-  }, 3000);
+  }, 5000);
 }
 
 export const appRedirect = async (navigation) => {
@@ -42,7 +42,10 @@ export const appRedirect = async (navigation) => {
         if (userInfo === null) {
           navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
         } else {
-          navigation.reset({ index: 0, routes: [{ name: "TabsNavigation" }] });
+          /*setTimeout(() => {
+            navigation.reset({ index: 0, routes: [{ name: "TabsNavigation" }] });
+          }, 30000);*/
+          //navigation.reset({ index: 0, routes: [{ name: "TabsNavigation" }] });
         }
       }
     }
