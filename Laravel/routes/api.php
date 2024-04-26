@@ -18,7 +18,7 @@ Route::get('/user', function (Request $request) {
 //Utilisateurs
 
 Route::post('login', [UtilisateursController::class, 'login'])->name('login');
-Route::post('register', [UtilisateursController::class, 'register']); 
+Route::post('register', [UtilisateursController::class, 'register']);
 Route::put('/utilisateurs/edit/{id}', [UtilisateursController::class, 'edit']);
 
 
@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 
-Route::get('/whoAmI', function() {      //Returns information sure personne auth
+Route::get('/whoAmI', function () {      //Returns information sure personne auth
     return auth()->user();
 })->middleware('auth:sanctum');
 
@@ -60,7 +60,7 @@ Route::get('programmes', [ProgrammesController::class, 'index']);
 
 //Disponibilites
 Route::get('disponibilites', [DisponibilitesController::class, 'index']);
-Route::post('disponibilites/upload', [DisponibilitesController::class, 'upload']); 
+Route::post('disponibilites/upload', [DisponibilitesController::class, 'upload']);
 Route::put('disponibilites/edit/{dispo}', [DisponibilitesController::class, 'edit']);
 Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class, 'delete']);
 
@@ -68,3 +68,4 @@ Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class,
 
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
+Route::post('jumelage/create', [JumelagesController::class, 'store']);

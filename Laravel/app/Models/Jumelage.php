@@ -13,6 +13,9 @@ class Jumelage extends Model
         'journee',
         'heure',
         'demande_accepte',
+        'cours_id',
+        'tuteur_id',
+        'aider_id',
     ];
 
     public function tuteur()

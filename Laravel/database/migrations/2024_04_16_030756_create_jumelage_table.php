@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('journee');
             $table->time('heure');
             $table->boolean('demande_accepte')->default(false);
-            $table->foreignId('cours_id')->constrained();
+            $table->foreignId('cours_id')->constrained('cours');
             $table->unsignedBigInteger('tuteur_id');
             $table->unsignedBigInteger('aider_id');
             $table->timestamps();
