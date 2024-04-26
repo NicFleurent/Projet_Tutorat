@@ -63,6 +63,7 @@ Route::get('disponibilites', [DisponibilitesController::class, 'index']);
 Route::post('disponibilites/upload', [DisponibilitesController::class, 'upload']); 
 Route::put('disponibilites/edit/{dispo}', [DisponibilitesController::class, 'edit']);
 Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class, 'delete']);
+Route::get('disponibilites/{idCours}', [DisponibilitesController::class, 'indexDisponibilites']);
 
 
 
