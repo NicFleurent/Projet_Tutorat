@@ -19,10 +19,11 @@ const StackNav = () => {
             screenOptions={{
                 statusBarColor:"#092D74",
                 headerStyle:{
-                    backgroundColor:"#092D74"
+                    backgroundColor:"#092D74"          
                 },
                 headerTintColor:"#fff",
-                headerTitleAlign:"center"
+                headerTitleAlign:"center",
+                headerBackTitleVisible: 'false',
             }}
         >
             {/*<Stack.Screen name="Tutorat" component={StackNavigationProfilTuteurs} options={{
