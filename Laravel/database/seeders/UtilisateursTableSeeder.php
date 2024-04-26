@@ -20,7 +20,7 @@ class UtilisateursTableSeeder extends Seeder
                 'password' => Hash::make('user'),
                 'prenom' => 'User',
                 'nom' => 'User',
-                'role' => 'aidé'
+                'role' => 'aider'
             ],
             [
                 'email' => 'admin@hotmail.ca',
@@ -48,7 +48,7 @@ class UtilisateursTableSeeder extends Seeder
                 'password' => Hash::make('root'), 
                 'prenom' => 'root ',
                 'nom' => 'root ',
-                'role' => 'aidé'
+                'role' => 'aider'
             ]
         ]);
     }
