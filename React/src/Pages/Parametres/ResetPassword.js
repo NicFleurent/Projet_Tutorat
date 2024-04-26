@@ -95,7 +95,7 @@ export default function ResetPassword() {
       Toast.show({
         type: "error",
         text1: error.message,
-        text2: "Modification echouer",
+        text2: "Modification échouée",
       });
     }
   };
@@ -108,9 +108,9 @@ export default function ResetPassword() {
       >
         <ScrollView>
           <View>
-            <Text style={styles.titre}>Mettre a jour le mot de passe</Text>
+            <Text style={styles.titre}>Mettre à jour le mot de passe</Text>
             <Text style={styles.sousTitre}>
-              Un probleme de memoire ou de securite ? Pas grave mettez a jour
+              Un problème de mémoire ou de sécurite ? Pas grave mettez à jour
               votre mot de passe.
             </Text>
           </View>
@@ -163,7 +163,7 @@ export default function ResetPassword() {
 
           <View style={styles.butonView}>
             <CustomButton
-              text={"Mettre a jour"}
+              text={"Mettre à jour"}
               onPress={handleUpdatePasswordPress}
             />
           </View>
