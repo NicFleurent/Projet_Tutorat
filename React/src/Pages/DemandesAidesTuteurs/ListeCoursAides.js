@@ -42,7 +42,6 @@ export default function ListeCours() {
                 <ScrollView style={styles.scrollView}>
                     <View style={styles.section}>
                         <Text style={styles.titreSection}>Cours</Text>
-
                         <SelectList 
                         setSelected={(val) => setSelectedCours(val)}
                         data={dataCours} 
@@ -78,7 +77,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'left',
         marginBottom: 10,
-        backgroundColor:'pink'
     },
     description: {
         fontSize: 14,

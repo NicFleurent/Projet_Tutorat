@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from '../../Components/CustomButton';
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "../../api/SecureStore";
 
 const jourSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
@@ -11,7 +12,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom}{item.tuteur.nom} </Text>
+            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom} </Text>
             <Text style={{ color: textColor }}>{'Heure : ' + item.attributes.heure}</Text>
         </View>
     </TouchableOpacity>
@@ -24,6 +25,7 @@ export default function Calendrier({ route }) {
     const [selectedJour, setSelectedJour] = useState();
     const [disponibilites, setDisponibilites] = useState([]);
     const [selectedId, setSelectedId] = useState();
+    const [selectedDispo, setSelectedDispo] = useState();
 
     useEffect(() => {
         axios.get(`${process.env.EXPO_PUBLIC_API_URL}disponibilites/${idCours}`)
@@ -38,13 +40,52 @@ export default function Calendrier({ route }) {
         return (
             <Item
                 item={item}
-                onPress={() => setSelectedId(item.id)}
+                onPress={() => {
+                    setSelectedId(item.id)
+                    setSelectedDispo(item)
+                }}
+
                 backgroundColor={backgroundColor}
                 textColor={color}
             />
         );
     };
 
+    const handleEnvoyerDemandeTutorat = async function () {
+        const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+   
+        const headers = {
+            'Accept': 'application/vnd.api+json',
+            'Content-Type': 'application/vnd.api+json',
+            'Authorization': `Bearer ${userInfo.token}`,
+        }
+
+    const dataJumelage = {
+        journee: selectedDispo.attributes.journee,
+        heure: selectedDispo.attributes.heure,
+        demande_accepte : false,
+        cours_id: idCours,
+        tuteur_id :selectedDispo.tuteur.id,
+        aider_id : userInfo.id,
+      };  
+
+      try {
+        const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "jumelage/create", dataJumelage, {
+          headers: headers
+        });
+        navigation.navigate({
+          name: 'Accueil',
+          params: { message: response.data.message },
+          merge: true,
+        });
+      } catch (error) {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+      }
+    }
+  
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.titrePage}>Choisir la journée</Text>
@@ -56,7 +97,10 @@ export default function Calendrier({ route }) {
                             selectedJour === jour && { backgroundColor: '#092D74' },
                         ]}
                         key={index}
-                        onPress={() => setSelectedJour(jour)}
+                        onPress={() => {
+                            setSelectedJour(jour)
+                            setSelectedId(-1)
+                        }}
                     >
                         <Text
                             style={[
@@ -71,7 +115,7 @@ export default function Calendrier({ route }) {
                     </TouchableOpacity>
                 ))}
             </View>
-            <Text style={styles.titre}>Choisir un tuteur et heure</Text>
+            <Text style={styles.titre}>Choisir un tuteur et une heure</Text>
             <FlatList
                 data={disponibilites.filter(dispo => dispo.attributes.journee === selectedJour)}
                 renderItem={renderItem}
@@ -79,9 +123,9 @@ export default function Calendrier({ route }) {
                 extraData={selectedId}
             />
 
-            <CustomButton text={'Envoyer la demande de tutorat'} onPress={() => {
-                navigation.navigate("Accueil");
-            }} />
+            <CustomButton
+                text={'Envoyer la demande de tutorat'}
+                onPress={handleEnvoyerDemandeTutorat} />
         </SafeAreaView>
     );
 }
@@ -96,12 +140,12 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'left',
-    },    
+    },
     titre: {
         fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'left',
-        marginTop:10
+        marginTop: 10
     },
     buttonLayout: {
         marginTop: 20,
