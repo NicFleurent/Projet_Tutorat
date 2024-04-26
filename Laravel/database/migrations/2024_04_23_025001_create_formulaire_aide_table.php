@@ -6,22 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * ! MIGRATION TO BE TESTED !
-     * IF MIGRATION OF THIS TABLE CAUSES PROBLEMS COMMENT IT !!!
-     * Alexander
-     * ps: seeder to be made. remove when done
-     */
     public function up(): void
     {
-        Schema::create('formulaire_aide', function (Blueprint $table) {
+        Schema::create('formulaire_aides', function (Blueprint $table) {
             $table->id();
-            $table->string('aisanceAide');
-            $table->string('aisanceTuteur');
-            $table->integer('evaluationTuteur');
+            $table->unsignedBigInteger('jumelage_id');
+            $table->integer('aisanceAide');               //1-5
+            $table->integer('aisanceTuteur');            //1-5
+            $table->integer('evaluationTuteur');        //1-5
+            $table->string('commentaire');
             $table->string('noteProfesseur');
             $table->timestamps();
-            //$table->foreign('jumelage_id')->references('id')->on('jumelages');
+
+
+            $table->foreign('jumelage_id')->references('id')->on('jumelages');
         });
     }
 

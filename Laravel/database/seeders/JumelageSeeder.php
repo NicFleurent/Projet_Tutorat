@@ -53,7 +53,16 @@ class JumelageSeeder extends Seeder
                 'cours_id' => 3,
                 'tuteur_id' => 4,
                 'aider_id' => 1,
-            ]
+            ],
+            [
+                'journee' => "Vendredi",
+                'heure' => "8:30",
+                'demande_accepte' => true,
+                'cours_id' => 5,
+                'tuteur_id' => 16,
+                'aider_id' => 17,
+            ],
+
         ]);
     }
 }

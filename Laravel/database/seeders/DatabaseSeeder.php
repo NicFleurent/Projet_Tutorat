@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CoursSeeder::class);
         $this->call(DisponibilitesSeeder::class);
         $this->call(JumelageSeeder::class);
+        $this->call(FormulaireAideTableSeeder::class);
         $this->call(EmployesSeeder::class);
         $this->call(TuteurCoursSeeder::class);
     }
