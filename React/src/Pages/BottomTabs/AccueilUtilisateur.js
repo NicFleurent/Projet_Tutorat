@@ -11,7 +11,9 @@ import Toast from "react-native-toast-message";
 export default function Disponibilites() {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
-  const [demandeTuteurChoisie, setDemandeTuteurChoisie] = useState();
+  const [demandeChoisie, setDemandeChoisie] = useState();
+  const [demandeTutorat, setDemandeTutorat] = useState();
+  const [typeDemande, setTypeDemande] = useState("");
 
   const [state, setState] = useState(0);
 
@@ -35,6 +37,12 @@ export default function Disponibilites() {
             setDemandeTuteur(response.data);
           })
           .catch((error) => console.log(error))
+
+          axios.get(process.env.EXPO_PUBLIC_API_URL + "jumelages/demandeAttente", { headers: headers })
+            .then((response) => {
+              setDemandeTutorat(response.data);
+            })
+            .catch((error) => console.log(error))
       });
   }, [state]);
 
@@ -46,7 +54,7 @@ export default function Disponibilites() {
           {(demandeTuteur.map((demande) => {
             return (
               <>
-                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemandeTuteur(demande.id)}>
+                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Tuteur")}>
                   <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
                   <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
                 </TouchableOpacity>
@@ -58,10 +66,34 @@ export default function Disponibilites() {
     }
   }
 
-  const bottomSheetRef = useRef(null);
-  const onPressDemandeTuteur = (idDemande) => {
-    setDemandeTuteurChoisie(idDemande);
-    bottomSheetRef.current?.present();
+  const getDemandeTutorat = () => {
+    if(demandeTutorat !== undefined && Object.keys(demandeTutorat).length !== 0){
+      return(
+        <>
+          <Text style={styles.titreSection}>Demandes de jumelages</Text>
+          {(demandeTutorat.map((demande) => {
+            const heure = demande.attributes.heure.substring(0,5);
+            return (
+              <>
+                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Jumelage")}>
+                  <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
+                  <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
+                  <Text style={styles.text}>Moment : {demande.attributes.journee} à {heure}</Text>
+                </TouchableOpacity>
+              </>
+            )
+          }))}
+        </>
+      )
+    }
+  }
+
+  const bottomSheet = useRef(null);
+  const onPressDemande = (idDemande, type) => {
+    setDemandeChoisie(idDemande);
+    setTypeDemande(type);
+    console.log(demandeTutorat);
+    bottomSheet.current?.present();
   };
 
   const snapPoints = useMemo(() => ['30%'], []);
@@ -79,10 +111,18 @@ export default function Disponibilites() {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
+    
+    let route_demande;
+    if(typeDemande === "Tuteur"){
+      route_demande = "cours/acceptTuteurCours/";
+    }
+    else if(typeDemande === "Jumelage"){
+      route_demande = "jumelages/acceptJumelage/";
+    }
 
     const data = {}
 
-    axios.patch(process.env.EXPO_PUBLIC_API_URL + "cours/acceptTuteurCours/" + demandeTuteurChoisie, data, {
+    axios.patch(process.env.EXPO_PUBLIC_API_URL + route_demande + demandeChoisie, data, {
       headers: headers
     })
       .then(response => {
@@ -108,8 +148,16 @@ export default function Disponibilites() {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
+    
+    let route_demande;
+    if(typeDemande === "Tuteur"){
+      route_demande = "cours/refuseTuteurCours/";
+    }
+    else if(typeDemande === "Jumelage"){
+      route_demande = "jumelages/refuseJumelage/";
+    }
 
-    axios.delete(process.env.EXPO_PUBLIC_API_URL + "cours/refuseTuteurCours/" + demandeTuteurChoisie, {
+    axios.delete(process.env.EXPO_PUBLIC_API_URL + route_demande + demandeChoisie, {
       headers: headers
     })
       .then(response => {
@@ -122,7 +170,8 @@ export default function Disponibilites() {
       .catch(error => {
         Toast.show({
           type: "error",
-          text1: error.response.data.message
+          text1: "Une erreur c'est produite",
+          text2: error.response.data.message
         });
       });
   }
@@ -134,10 +183,13 @@ export default function Disponibilites() {
         <View>
           {getDemandeTuteur()}
         </View>
+        <View>
+          {getDemandeTutorat()}
+        </View>
       </ScrollView>
 
       <BottomSheetModal
-        ref={bottomSheetRef}
+        ref={bottomSheet}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
         handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
@@ -150,7 +202,7 @@ export default function Disponibilites() {
             style={styles.buttonSpace}
             onPress={() => {
               handleAccepter();
-              bottomSheetRef.current.close();
+              bottomSheet.current.close();
             }}
           />
           <CustomButton
@@ -159,7 +211,7 @@ export default function Disponibilites() {
             style={styles.buttonSpace}
             onPress={() => {
               handleRefuser();
-              bottomSheetRef.current.close();
+              bottomSheet.current.close();
             }}
           />
           <CustomButton
@@ -167,11 +219,12 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              bottomSheetRef.current.close()
+              bottomSheet.current.close()
             }}
           />
         </View>
       </BottomSheetModal>
+
       <Toast position="top" bottomOffset={20} />
     </View>
   );
@@ -186,7 +239,7 @@ const styles = StyleSheet.create({
   titre: {
     fontSize: 32,
     fontWeight: "bold",
-    marginTop: 50,
+    marginTop: 10,
   },
   sousTitre: {
     fontSize: 12,
