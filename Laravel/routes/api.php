@@ -20,9 +20,6 @@ Route::get('/user', function (Request $request) {
 Route::post('login', [UtilisateursController::class, 'login'])->name('login');
 Route::post('register', [UtilisateursController::class, 'register']);
 
-
-
-
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UtilisateursController::class, 'logout']);                                           //Logout
     Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);              //Update Password
@@ -36,19 +33,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 Route::get('/whoAmI', function () {      //Returns information sure personne auth
