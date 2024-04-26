@@ -8,7 +8,7 @@ import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 
-export default function Disponibilites() {
+export default function Accueil() {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeChoisie, setDemandeChoisie] = useState();
@@ -72,13 +72,12 @@ export default function Disponibilites() {
         <>
           <Text style={styles.titreSection}>Demandes de jumelages</Text>
           {(demandeTutorat.map((demande) => {
-            const heure = demande.attributes.heure.substring(0,5);
             return (
               <>
                 <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Jumelage")}>
                   <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
                   <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
-                  <Text style={styles.text}>Moment : {demande.attributes.journee} à {heure}</Text>
+                  <Text style={styles.text}>Moment : {demande.attributes.journee} à {demande.attributes.heure}</Text>
                 </TouchableOpacity>
               </>
             )
