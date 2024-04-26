@@ -11,9 +11,10 @@ import Toast from "react-native-toast-message";
 export default function Disponibilites() {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
-  const [demandeTuteurChoisie, setDemandeTuteurChoisie] = useState();
+  const [demandeChoisie, setDemandeChoisie] = useState();
   const [demandeTutorat, setDemandeTutorat] = useState();
   const [demandeTutoratChoisie, setDemandeTutoratChoisie] = useState();
+  const [typeDemande, setTypeDemande] = useState("");
 
   const [state, setState] = useState(0);
 
@@ -37,25 +38,12 @@ export default function Disponibilites() {
             setDemandeTuteur(response.data);
           })
           .catch((error) => console.log(error))
-      });
-  }, [state]);
 
-  useEffect(() => {
-    SecureStore.getValue('user_info')
-      .then((userInfo) => {
-        setUser(JSON.parse(userInfo));
-
-        userDemande = JSON.parse(userInfo);
-        const headers = {
-          'Accept': 'application/vnd.api+json',
-          'Content-Type': 'application/vnd.api+json',
-          'Authorization': `Bearer ${userDemande.token}`,
-        }
-        axios.get(process.env.EXPO_PUBLIC_API_URL + "jumelages/demandeAttente", { headers: headers })
-          .then((response) => {
-            setDemandeTutorat(response.data);
-          })
-          .catch((error) => console.log(error))
+          axios.get(process.env.EXPO_PUBLIC_API_URL + "jumelages/demandeAttente", { headers: headers })
+            .then((response) => {
+              setDemandeTutorat(response.data);
+            })
+            .catch((error) => console.log(error))
       });
   }, [state]);
 
@@ -67,7 +55,7 @@ export default function Disponibilites() {
           {(demandeTuteur.map((demande) => {
             return (
               <>
-                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemandeTuteur(demande.id)}>
+                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Tuteur")}>
                   <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
                   <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
                 </TouchableOpacity>
@@ -87,7 +75,7 @@ export default function Disponibilites() {
           {(demandeTutorat.map((demande) => {
             return (
               <>
-                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemandeTutorat(demande.id)}>
+                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Jumelage")}>
                   <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
                   <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
                 </TouchableOpacity>
@@ -99,16 +87,11 @@ export default function Disponibilites() {
     }
   }
 
-  const bottomSheetTuteur = useRef(null);
-  const onPressDemandeTuteur = (idDemande) => {
-    setDemandeTuteurChoisie(idDemande);
-    bottomSheetTuteur.current?.present();
-  };
-
-  const bottomSheetTutorat = useRef(null);
-  const onPressDemandeTutorat = (idDemande) => {
-    setDemandeTutoratChoisie(idDemande);
-    bottomSheetTutorat.current?.present();
+  const bottomSheet = useRef(null);
+  const onPressDemande = (idDemande, type) => {
+    setDemandeChoisie(idDemande);
+    setTypeDemande(type);
+    bottomSheet.current?.present();
   };
 
   const snapPoints = useMemo(() => ['30%'], []);
@@ -118,18 +101,26 @@ export default function Disponibilites() {
     []
   );
 
-  const handleAccepterTuteur = async function () {
+  const handleAccepter = async function () {
     const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
 
     const headers = {
       'Accept': 'application/vnd.api+json',
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
+    }
+    
+    let route_demande;
+    if(typeDemande === "Tuteur"){
+      route_demande = "cours/acceptTuteurCours/";
+    }
+    else if(typeDemande === "Jumelage"){
+      route_demande = "jumelages/acceptJumelage/";
     }
 
     const data = {}
 
-    axios.patch(process.env.EXPO_PUBLIC_API_URL + "cours/acceptTuteurCours/" + demandeTuteurChoisie, data, {
+    axios.patch(process.env.EXPO_PUBLIC_API_URL + route_demande + demandeChoisie, data, {
       headers: headers
     })
       .then(response => {
@@ -147,7 +138,7 @@ export default function Disponibilites() {
       });
   }
 
-  const handleAccepterTutorat = async function () {
+  const handleRefuser = async function () {
     const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
 
     const headers = {
@@ -155,10 +146,16 @@ export default function Disponibilites() {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
+    
+    let route_demande;
+    if(typeDemande === "Tuteur"){
+      route_demande = "cours/refuseTuteurCours/";
+    }
+    else if(typeDemande === "Jumelage"){
+      route_demande = "jumelages/refuseJumelage/";
+    }
 
-    const data = {}
-
-    axios.patch(process.env.EXPO_PUBLIC_API_URL + "jumelages/acceptJumelage/" + demandeTutoratChoisie, data, {
+    axios.delete(process.env.EXPO_PUBLIC_API_URL + route_demande + demandeChoisie, {
       headers: headers
     })
       .then(response => {
@@ -171,61 +168,8 @@ export default function Disponibilites() {
       .catch(error => {
         Toast.show({
           type: "error",
-          text1: error.response.data.message
-        });
-      });
-  }
-
-  const handleRefuserTuteur = async function () {
-    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
-
-    const headers = {
-      'Accept': 'application/vnd.api+json',
-      'Content-Type': 'application/vnd.api+json',
-      'Authorization': `Bearer ${userInfo.token}`,
-    }
-
-    axios.delete(process.env.EXPO_PUBLIC_API_URL + "cours/refuseTuteurCours/" + demandeTuteurChoisie, {
-      headers: headers
-    })
-      .then(response => {
-        forceRefresh();
-        Toast.show({
-          type: "success",
-          text1: response.data.message
-        });
-      })
-      .catch(error => {
-        Toast.show({
-          type: "error",
-          text1: error.response.data.message
-        });
-      });
-  }
-
-  const handleRefuserTutorat = async function () {
-    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
-
-    const headers = {
-      'Accept': 'application/vnd.api+json',
-      'Content-Type': 'application/vnd.api+json',
-      'Authorization': `Bearer ${userInfo.token}`,
-    }
-
-    axios.delete(process.env.EXPO_PUBLIC_API_URL + "jumelages/refuseJumelage/" + demandeTutoratChoisie, {
-      headers: headers
-    })
-      .then(response => {
-        forceRefresh();
-        Toast.show({
-          type: "success",
-          text1: response.data.message
-        });
-      })
-      .catch(error => {
-        Toast.show({
-          type: "error",
-          text1: error.response.data.message
+          text1: "Une erreur c'est produite",
+          text2: error.response.data.message
         });
       });
   }
@@ -243,7 +187,7 @@ export default function Disponibilites() {
       </ScrollView>
 
       <BottomSheetModal
-        ref={bottomSheetTuteur}
+        ref={bottomSheet}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
         handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
@@ -255,8 +199,8 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              handleAccepterTuteur();
-              bottomSheetTuteur.current.close();
+              handleAccepter();
+              bottomSheet.current.close();
             }}
           />
           <CustomButton
@@ -264,8 +208,8 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              handleRefuserTuteur();
-              bottomSheetTuteur.current.close();
+              handleRefuser();
+              bottomSheet.current.close();
             }}
           />
           <CustomButton
@@ -273,48 +217,12 @@ export default function Disponibilites() {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              bottomSheetTuteur.current.close()
+              bottomSheet.current.close()
             }}
           />
         </View>
       </BottomSheetModal>
 
-      <BottomSheetModal
-        ref={bottomSheetTutorat}
-        snapPoints={snapPoints}
-        backdropComponent={renderBackdrop}
-        handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
-        backgroundStyle={{ backgroundColor: '#092D74' }}
-      >
-        <View style={styles.contentContainer}>
-          <CustomButton
-            text={"Accepter"}
-            halfButton={false}
-            style={styles.buttonSpace}
-            onPress={() => {
-              handleAccepterTutorat();
-              bottomSheetTutorat.current.close();
-            }}
-          />
-          <CustomButton
-            text={"Refuser"}
-            halfButton={false}
-            style={styles.buttonSpace}
-            onPress={() => {
-              handleRefuserTutorat();
-              bottomSheetTutorat.current.close();
-            }}
-          />
-          <CustomButton
-            text={"Annuler"}
-            halfButton={false}
-            style={styles.buttonSpace}
-            onPress={() => {
-              bottomSheetTutorat.current.close()
-            }}
-          />
-        </View>
-      </BottomSheetModal>
       <Toast position="top" bottomOffset={20} />
     </View>
   );
@@ -329,7 +237,7 @@ const styles = StyleSheet.create({
   titre: {
     fontSize: 32,
     fontWeight: "bold",
-    marginTop: 50,
+    marginTop: 10,
   },
   sousTitre: {
     fontSize: 12,

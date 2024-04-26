@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { Ionicons } from '@expo/vector-icons';
