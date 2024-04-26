@@ -82,6 +82,12 @@ function DrawerCanevas(props) {
     }
   };
 
+  const deleteFirstOpenSecureKey = () => {
+    SecureStore.deleteValue("first_open");
+
+    navigation.reset({ index: 0, routes: [{ name: "AuthChoice" }] });
+  };
+
   const deleteAccountAlert = () =>
     Alert.alert(
       "Attention",
@@ -177,6 +183,27 @@ function DrawerCanevas(props) {
           }}
           label="Suppression"
           onPress={deleteAccountAlert}
+          labelStyle={{
+            color: "#fff",
+          }}
+          style={{
+            backgroundColor: "red",
+          }}
+        />
+
+        <DrawerItem
+          icon={() => {
+            return (
+              <Ionicons
+                name="refresh-circle-outline"
+                color="#fff"
+                size={30}
+                style={styles.icons}
+              />
+            );
+          }}
+          label="ResetKeySecureStore"
+          onPress={deleteFirstOpenSecureKey}
           labelStyle={{
             color: "#fff",
           }}
