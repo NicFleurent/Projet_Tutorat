@@ -135,7 +135,7 @@ export default function Accueil() {
   const ItemJumelage = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
+            <Text style={{ color: textColor }}>{'Nom : ' + item.aide.prenom} {item.aide.nom}</Text>
             <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
             <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + ' à ' + item.attributes.heure}</Text>
         </View>
