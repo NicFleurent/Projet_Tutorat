@@ -27,7 +27,7 @@ export default function Onboarding01() {
       </View>
 
       <Text style={styles.titre}>
-        Trouvez Votre Tuteur Idéal de façon simple
+        Trouvez votre tuteur idéal de façon simple
       </Text>
 
       <Text style={styles.sousTitre}>
