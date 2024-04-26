@@ -1,98 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios"; // Importez axios
 
-const jourSemaine = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
+const jourSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
-const DATA = [
-    {
-        id: '1',
-        title: 'Première dispo',
-    },
-    {
-        id: '2',
-        title: 'Deuxième dispo',
-    },
-    {
-        id: '3',
-        title: 'Troisième dispo',
-    },
-];
-
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <Text style={[styles.title, { color: textColor }]}>{item.title}</Text>
-    </TouchableOpacity>
+const Item = ({ item }) => (
+    <View style={styles.item}>
+        <Text>{item.tuteur.nom} {item.tuteur.prenom}</Text>
+        <Text>{item.heure}</Text>
+    </View>
 );
 
-export default function Calendrier({route}) {
-    const {idCours} = route.params;
-    const navigation = useNavigation();
-    const [selectedId, setSelectedId] = useState();
-    const [selectedButton, setSelectedButton] = useState();
+export default function Calendrier({ route }) {
+    const { idCours } = route.params;
+    const [selectedJour, setSelectedJour] = useState();
+    const [disponibilites, setDisponibilites] = useState([]);
 
-    const handleButtonPress = (jour) => {
-        setSelectedButton(jour);
-    };
-
-    const renderItem = ({ item }) => {
-        const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-        const color = item.id === selectedId ? 'white' : 'black';
-
-        return (
-            <Item
-                item={item}
-                onPress={() => setSelectedId(item.id)}
-                backgroundColor={backgroundColor}
-                textColor={color}
-            />
-        );
-    };
-
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}disponibilites/${idCours}`);
+                setDisponibilites(response.data);
+            } catch (error) {
+                console.log('Erreur lors de la récupération des disponibilités:', error);
+            }
+        };
+        if (selectedJour) {
+            fetchData();
+        }
+    }, [selectedJour]);
+console.log(disponibilites)
     return (
         <SafeAreaView style={styles.container}>
-            <Ionicons
-                style={styles.backIcon}
-                name={'arrow-back-outline'}
-                size={24}
-                color={'#000'}
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            />
-            <Text style={styles.titrePage}>Disponibilités</Text>
+            <Text style={styles.titrePage}>Journée</Text>
             <View style={styles.buttonLayout}>
                 {jourSemaine.map((jour, index) => (
                     <TouchableOpacity
                         style={[
                             styles.buttonStyle,
-                            selectedButton === jour && { backgroundColor: '#092D74' },
+                            selectedJour === jour && { backgroundColor: '#092D74' },
                         ]}
                         key={index}
-                        onPress={() => handleButtonPress(jour)}
+                        onPress={() => setSelectedJour(jour)}
                     >
                         <Text
                             style={[
                                 styles.buttonText,
-                                selectedButton === jour && {
+                                selectedJour === jour && {
                                     color: 'white',
                                 },
                             ]}
                         >
-                            {jour}
+                            {jour.slice(0,3)}
                         </Text>
                     </TouchableOpacity>
                 ))}
             </View>
             <FlatList
-                data={DATA}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                extraData={selectedId}
+                data={disponibilites}
+                renderItem={({ item }) => <Item item={item} />}
+                keyExtractor={item => item.id.toString()}
             />
-            
         </SafeAreaView>
     );
 }
@@ -104,8 +74,7 @@ const styles = StyleSheet.create({
         padding: 15
     },
     titrePage: {
-        fontSize: 32,
-        marginTop: 30,
+        fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'left',
     },
@@ -124,7 +93,15 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        color: 'black',
         fontWeight: 'bold'
+    },
+    item: {
+        backgroundColor: '#fff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        borderRadius: 7,
+        borderWidth: 1,
+        borderColor: '#ccc'
     }
 });

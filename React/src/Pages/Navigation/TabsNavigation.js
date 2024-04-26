@@ -14,7 +14,7 @@ export default function TabNavigator() {
       initialRouteName='DrawerAccueil'
       screenOptions={{
         tabBarActiveTintColor: '#E8B1F7',
-        tabBarInactiveTintColor: '#E8B1F7',
+        tabBarInactiveTintColor: 'white',
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 90,
@@ -31,7 +31,7 @@ export default function TabNavigator() {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"}
+              name={focused ? "people" : "people-outline"}
               color={color}
               size={30}
             />
@@ -55,7 +55,7 @@ export default function TabNavigator() {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "person-circle" : "person-circle-outline"}
+              name={focused ? "chatbox-ellipses" : "chatbox-ellipses-outline"}
               color={color}
               size={30}
             />

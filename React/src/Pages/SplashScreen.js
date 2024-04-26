@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Image } from "react-native";
-import { navigateToNextScreen } from "./SplashScreenLogic";
+import { appRedirect } from "./SplashScreenLogic";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -7,8 +7,8 @@ export default function SplashScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    navigateToNextScreen(navigation);
-  }, []);
+    appRedirect(navigation);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
