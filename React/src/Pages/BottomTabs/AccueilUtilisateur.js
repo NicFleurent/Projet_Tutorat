@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, FlatList } from "react-native";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import ParametreOption from "../../Components/ParametreOption";
 import * as SecureStore from "../../api/SecureStore";
@@ -7,6 +7,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
+
+const Item = ({ item }) => (
+  <View style={styles.item}>
+      <Text>{item.tuteur.nom} {item.tuteur.prenom}</Text>
+      <Text>{item.cours.nom}</Text>
+  </View>
+);
 
 export default function Accueil() {
   const [user, setUser] = useState([]);
@@ -175,6 +182,20 @@ export default function Accueil() {
       });
   }
 
+  const renderItem = ({ item }) => {
+      const backgroundColor = item.id === selectedId ? '#092D74' : '#E8ECF2';
+      const color = item.id === selectedId ? 'white' : 'black';
+
+      return (
+          <Item
+              item={item}
+              onPress={() => setSelectedId(item.id)}
+              backgroundColor={backgroundColor}
+              textColor={color}
+          />
+      );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
@@ -185,6 +206,12 @@ export default function Accueil() {
         <View>
           {getDemandeTutorat()}
         </View>
+
+        <FlatList
+            data={demandeTuteur}
+            renderItem={({ item }) => <Item item={item} />}
+            keyExtractor={item => item.id.toString()}
+        />
       </ScrollView>
 
       <BottomSheetModal
@@ -270,4 +297,13 @@ const styles = StyleSheet.create({
   ScrollView: {
     marginBottom:20
   },
+  item: {
+      backgroundColor: '#fff',
+      padding: 20,
+      marginVertical: 8,
+      marginHorizontal: 16,
+      borderRadius: 7,
+      borderWidth: 1,
+      borderColor: '#ccc'
+  }
 });
