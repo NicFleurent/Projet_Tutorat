@@ -1,6 +1,5 @@
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, FlatList } from "react-native";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import ParametreOption from "../../Components/ParametreOption";
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,19 +7,14 @@ import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 
-const Item = ({ item }) => (
-  <View style={styles.item}>
-      <Text>{item.tuteur.nom} {item.tuteur.prenom}</Text>
-      <Text>{item.cours.nom}</Text>
-  </View>
-);
-
 export default function Accueil() {
   const [user, setUser] = useState([]);
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeChoisie, setDemandeChoisie] = useState();
   const [demandeTutorat, setDemandeTutorat] = useState();
   const [typeDemande, setTypeDemande] = useState("");
+  const [selectedIdTuteur, setSelectedIdTuteur] = useState();
+  const [selectedIdTutorat, setSelectedIdTutorat] = useState();
 
   const [state, setState] = useState(0);
 
@@ -58,16 +52,12 @@ export default function Accueil() {
       return(
         <>
           <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
-          {(demandeTuteur.map((demande) => {
-            return (
-              <>
-                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Tuteur")}>
-                  <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
-                  <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
-                </TouchableOpacity>
-              </>
-            )
-          }))}
+          <FlatList
+                  data={demandeTuteur}
+                  renderItem={renderItemTuteur}
+                  keyExtractor={item => item.id.toString()}
+                  extraData={selectedIdTuteur}
+              />
         </>
       )
     }
@@ -78,17 +68,12 @@ export default function Accueil() {
       return(
         <>
           <Text style={styles.titreSection}>Demandes de jumelages</Text>
-          {(demandeTutorat.map((demande) => {
-            return (
-              <>
-                <TouchableOpacity key={demande.id} style={styles.button} onPress={() => onPressDemande(demande.id, "Jumelage")}>
-                  <Text style={styles.text}>Cours : {demande.cours.nom} </Text>
-                  <Text style={styles.text}>Demandeur : {demande.tuteur.prenom} {demande.tuteur.nom}</Text>
-                  <Text style={styles.text}>Moment : {demande.attributes.journee} à {demande.attributes.heure}</Text>
-                </TouchableOpacity>
-              </>
-            )
-          }))}
+          <FlatList
+              data={demandeTutorat}
+              renderItem={renderItemJumelage}
+              keyExtractor={item => item.id.toString()}
+              extraData={selectedIdTutorat}
+          />
         </>
       )
     }
@@ -98,9 +83,64 @@ export default function Accueil() {
   const onPressDemande = (idDemande, type) => {
     setDemandeChoisie(idDemande);
     setTypeDemande(type);
-    console.log(demandeTutorat);
+    if(type === "Tuteur"){
+      setSelectedIdTuteur(idDemande);
+      setSelectedIdTutorat(-1);
+    }
+    else if(type === "Jumelage"){
+      setSelectedIdTutorat(idDemande);
+      setSelectedIdTuteur(-1);
+    }
+    
     bottomSheet.current?.present();
   };
+
+  const renderItemTuteur = ({ item }) => {
+      const backgroundColor = item.id === selectedIdTuteur ? '#092D74' : '#E8ECF2';
+      const color = item.id === selectedIdTuteur ? 'white' : 'black';
+
+      return (
+          <ItemTuteur
+              item={item}
+              onPress={() => onPressDemande(item.id, "Tuteur")}
+              backgroundColor={backgroundColor}
+              textColor={color}
+          />
+      );
+  };
+
+  const renderItemJumelage = ({ item }) => {
+      const backgroundColor = item.id === selectedIdTutorat ? '#092D74' : '#E8ECF2';
+      const color = item.id === selectedIdTutorat ? 'white' : 'black';
+
+      return (
+          <ItemJumelage
+              item={item}
+              onPress={() => onPressDemande(item.id, "Jumelage")}
+              backgroundColor={backgroundColor}
+              textColor={color}
+          />
+      );
+  };
+
+  const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+        <View style={styles.textFlatlist}>
+            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
+            <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
+        </View>
+    </TouchableOpacity>
+  );
+
+  const ItemJumelage = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+        <View style={styles.textFlatlist}>
+            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
+            <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
+            <Text style={{ color: textColor }}>{'Heure : ' + item.attributes.heure}</Text>
+        </View>
+    </TouchableOpacity>
+  );
 
   const snapPoints = useMemo(() => ['30%'], []);
 
@@ -182,37 +222,17 @@ export default function Accueil() {
       });
   }
 
-  const renderItem = ({ item }) => {
-      const backgroundColor = item.id === selectedId ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedId ? 'white' : 'black';
-
-      return (
-          <Item
-              item={item}
-              onPress={() => setSelectedId(item.id)}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
-      <ScrollView style={styles.ScrollView}>
         <View>
           {getDemandeTuteur()}
         </View>
         <View>
           {getDemandeTutorat()}
         </View>
-
-        <FlatList
-            data={demandeTuteur}
-            renderItem={({ item }) => <Item item={item} />}
-            keyExtractor={item => item.id.toString()}
-        />
-      </ScrollView>
+      {/* <ScrollView style={styles.ScrollView}>
+      </ScrollView> */}
 
       <BottomSheetModal
         ref={bottomSheet}
@@ -260,7 +280,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingHorizontal: 10,
+    padding: 15,
   },
   titre: {
     fontSize: 32,
