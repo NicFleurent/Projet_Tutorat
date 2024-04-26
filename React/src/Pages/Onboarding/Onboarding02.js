@@ -26,7 +26,7 @@ export default function Onboarding02() {
         <Decision width={372} height={372}></Decision>
       </View>
 
-      <Text style={styles.titre}>Large Choix de tuteurs pour chaque Cours</Text>
+      <Text style={styles.titre}>Large choix de tuteurs pour chaque cours</Text>
 
       <Text style={styles.sousTitre}>
         Découvrez nos tuteurs, prêts à vous aider dans une large gamme de

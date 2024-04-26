@@ -11,7 +11,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.nom} {item.tuteur.prenom}</Text>
+            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom}{item.tuteur.nom} </Text>
             <Text style={{ color: textColor }}>{'Heure : ' + item.attributes.heure}</Text>
         </View>
     </TouchableOpacity>
