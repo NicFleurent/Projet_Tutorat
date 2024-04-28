@@ -6,6 +6,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
+import { Ionicons } from '@expo/vector-icons';
+import Collapsible from "react-native-collapsible";
 
 export default function Accueil({route}) {
   const [user, setUser] = useState([]);
@@ -15,6 +17,8 @@ export default function Accueil({route}) {
   const [typeDemande, setTypeDemande] = useState("");
   const [selectedIdTuteur, setSelectedIdTuteur] = useState();
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
+  const [collapsedTuteur, setCollapsedTuteur] = useState(true);
+  const [collapsedTutorat, setCollapsedTutorat] = useState(true);
 
   const [state, setState] = useState(0);
 
@@ -61,13 +65,23 @@ export default function Accueil({route}) {
     if(demandeTuteur !== undefined && Object.keys(demandeTuteur).length !== 0){
       return(
         <>
-          <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
-          <FlatList
-                  data={demandeTuteur}
-                  renderItem={renderItemTuteur}
-                  keyExtractor={item => item.id.toString()}
-                  extraData={selectedIdTuteur}
-              />
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedTuteur(!collapsedTuteur); setCollapsedTutorat(true);}}>
+              <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
+              <Ionicons
+                  name={collapsedTuteur ? "arrow-down-circle" : "arrow-up-circle"}
+                  color={"#092D74"}
+                  size={30}/>
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedTuteur}>
+              <FlatList
+                    data={demandeTuteur}
+                    renderItem={renderItemTuteur}
+                    keyExtractor={item => item.id.toString()}
+                    extraData={selectedIdTuteur}
+                />
+            </Collapsible>
+          </View>
         </>
       )
     }
@@ -77,13 +91,24 @@ export default function Accueil({route}) {
     if(demandeTutorat !== undefined && Object.keys(demandeTutorat).length !== 0){
       return(
         <>
-          <Text style={styles.titreSection}>Demandes de jumelages</Text>
-          <FlatList
-              data={demandeTutorat}
-              renderItem={renderItemJumelage}
-              keyExtractor={item => item.id.toString()}
-              extraData={selectedIdTutorat}
-          />
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedTutorat(!collapsedTutorat); setCollapsedTuteur(true);}}>
+              <Text style={styles.titreSection}>Demandes de jumelages</Text>
+              <Ionicons
+                  name={collapsedTutorat ? "arrow-down-circle" : "arrow-up-circle"}
+                  color={"#092D74"}
+                  size={30}/>
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedTutorat}>
+              <FlatList
+                  data={demandeTutorat}
+                  renderItem={renderItemJumelage}
+                  keyExtractor={item => item.id.toString()}
+                  extraData={selectedIdTutorat}
+              />
+            </Collapsible>
+          </View>
+          
         </>
       )
     }
@@ -235,12 +260,12 @@ export default function Accueil({route}) {
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
-        <View>
-          {getDemandeTuteur()}
-        </View>
-        <View>
-          {getDemandeTutorat()}
-        </View>
+      <View>
+        {getDemandeTuteur()}
+      </View>
+      <View>
+        {getDemandeTutorat()}
+      </View>
       {/* <ScrollView style={styles.ScrollView}>
       </ScrollView> */}
 
@@ -275,7 +300,9 @@ export default function Accueil({route}) {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              bottomSheet.current.close()
+              bottomSheet.current.close();
+              setSelectedIdTuteur(-1);
+              setSelectedIdTutorat(-1);
             }}
           />
         </View>
@@ -301,10 +328,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 10,
   },
+  boxTitreSection:{
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent:'space-between',
+  },
   titreSection: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
-    marginTop: 20
   },
   parameterView: {
     marginTop: 45,
@@ -331,7 +362,14 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       padding: 20,
       marginVertical: 8,
-      marginHorizontal: 16,
+      borderRadius: 7,
+      borderWidth: 1,
+      borderColor: '#ccc'
+  },
+  dropdownView: {
+      backgroundColor: '#fff',
+      padding: 10,
+      marginVertical: 8,
       borderRadius: 7,
       borderWidth: 1,
       borderColor: '#ccc'
