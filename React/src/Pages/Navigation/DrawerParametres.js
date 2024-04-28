@@ -4,7 +4,7 @@ import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
-import GestionCompte from "../Parametres/GestionCompte";
+import Messagerie from "../Messagerie/Messagerie";
 
 
 const StackNav = () => {
@@ -22,7 +22,7 @@ const StackNav = () => {
                 headerBackTitleVisible: 'false',
             }}
         >
-            <Stack.Screen name="Paramètres" component={GestionCompte} options={{
+            <Stack.Screen name="Messagerie" component={Messagerie} options={{
                 headerLeft:()=>{
                     return(
                         <Ionicons
