@@ -47,32 +47,13 @@ class RencontresController extends Controller
         foreach($jumelages as $jumelage){
             array_push($idJumelages, $jumelage->id);
         }
-
-        /*$tuteurs = TuteurCours::where('cours_id',$idCours)
-                              ->where('demande_accepte',1)->get();
-
-        $idTuteurs = [];
-        foreach($tuteurs as $tuteur)
-        {
-            array_push($idTuteurs, $tuteur->user_id);
-        }
-        
-        $disponibilitesTuteur = Disponibilite::whereIn('user_id', $idTuteurs)
-        ->orderBy('journee')
-        ->orderBy('heure')
-        ->get();
-        foreach ($disponibilitesTuteur as $dispo) {
-            $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
-        }*/
         
         $rencontres = Rencontre::whereIn('jumelage_id', $idJumelages)
                                 ->whereDate('date', '>', Carbon::now())
                                 ->orderBy('date')
                                 ->limit(3)
                                 ->get();
-        //Carbon::setLocale('fr');
-        setlocale(LC_TIME, 'fr_FR');
-        Carbon::setLocale('fr');
+                                
         foreach ($rencontres as $rencontre) {
             $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
             $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
