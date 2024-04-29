@@ -70,8 +70,12 @@ class RencontresController extends Controller
                                 ->orderBy('date')
                                 ->limit(3)
                                 ->get();
+        //Carbon::setLocale('fr');
+        setlocale(LC_TIME, 'fr_FR');
+        Carbon::setLocale('fr');
         foreach ($rencontres as $rencontre) {
             $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
+            $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
         }
 
         return response()->json(RecontresResource::collection($rencontres), 200);
