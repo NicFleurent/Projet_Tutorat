@@ -7,6 +7,7 @@ import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
 import ResetPassword from "../Parametres/ResetPassword";
+import FormulaireTuteur from "../Formulaires/FormulaireTuteur";
 
 
 const StackNav = () => {
@@ -38,6 +39,7 @@ const StackNav = () => {
             }}/>
             <Stack.Screen name="Modification du compte" component={GestionCompte}/>
             <Stack.Screen name="Modification du mot de passe" component={ResetPassword}/>
+            <Stack.Screen name="Formulaire de rencontre" component={FormulaireTuteur}/>
         </Stack.Navigator>
     );
 }
