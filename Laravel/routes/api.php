@@ -6,6 +6,8 @@ use App\Http\Controllers\DisponibilitesController;
 use App\Http\Controllers\JumelagesController;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\EmployesController;
+use App\Http\Controllers\RencontresController;
+use App\Http\Controllers\SessionDureeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,3 +71,11 @@ Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class,
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
 Route::post('jumelage/create', [JumelagesController::class, 'store']);
+
+//Rencontres
+Route::get('rencontres', [RencontresController::class, 'index']);
+Route::post('rencontres/create  ', [RencontresController::class, 'store']);
+
+//SessionDuree
+
+Route::get('session', [SessionDureeController::class, 'index']);

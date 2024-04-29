@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JumelageSeeder::class);
         $this->call(EmployesSeeder::class);
         $this->call(TuteurCoursSeeder::class);
+        $this->call(RencontresTableSeeder::class);
+        $this->call(sessionDureesSeeder::class);
     }
 }
