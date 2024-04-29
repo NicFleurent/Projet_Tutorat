@@ -2,7 +2,6 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, FlatList } from
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
-import { ScrollView } from "react-native-gesture-handler";
 import CustomButton from "../../Components/CustomButton";
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
@@ -11,14 +10,17 @@ import Collapsible from "react-native-collapsible";
 
 export default function Accueil({route}) {
   const [user, setUser] = useState([]);
-  const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeChoisie, setDemandeChoisie] = useState();
+  const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeTutorat, setDemandeTutorat] = useState();
+  const [rencontresAVenir, setRencontreAVenir] = useState();
   const [typeDemande, setTypeDemande] = useState("");
   const [selectedIdTuteur, setSelectedIdTuteur] = useState();
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
+  const [selectedIdRencontreVenir, setSelectedIdRencontreVenir] = useState();
   const [collapsedTuteur, setCollapsedTuteur] = useState(true);
   const [collapsedTutorat, setCollapsedTutorat] = useState(true);
+  const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
 
   const [state, setState] = useState(0);
 
@@ -56,6 +58,12 @@ export default function Accueil({route}) {
           axios.get(process.env.EXPO_PUBLIC_API_URL + "jumelages/demandeAttente", { headers: headers })
             .then((response) => {
               setDemandeTutorat(response.data);
+            })
+            .catch((error) => console.log(error))
+
+          axios.get(process.env.EXPO_PUBLIC_API_URL + "rencontres/prochainesRencontres", { headers: headers })
+            .then((response) => {
+              setRencontreAVenir(response.data);
             })
             .catch((error) => console.log(error))
       });
@@ -114,20 +122,58 @@ export default function Accueil({route}) {
     }
   }
 
+  const getRencontreAVenir = () => {
+    if(rencontresAVenir !== undefined && Object.keys(rencontresAVenir).length !== 0){
+      return(
+        <>
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedRencontreVenir(!collapsedRencontreVenir); setCollapsedTutorat(true); setCollapsedTuteur(true);}}>
+              <Text style={styles.titreSection}>Rencontre à venir</Text>
+              <Ionicons
+                  name={collapsedRencontreVenir ? "arrow-down-circle" : "arrow-up-circle"}
+                  color={"#092D74"}
+                  size={30}/>
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedRencontreVenir}>
+              <FlatList
+                  data={rencontresAVenir}
+                  renderItem={renderItemRencontre}
+                  keyExtractor={item => item.id.toString()}
+                  extraData={selectedIdRencontreVenir}
+              />
+            </Collapsible>
+          </View>
+          
+        </>
+      )
+    }
+  }
+
   const bottomSheet = useRef(null);
+  const bottomSheetRencontre = useRef(null);
+
   const onPressDemande = (idDemande, type) => {
     setDemandeChoisie(idDemande);
     setTypeDemande(type);
     if(type === "Tuteur"){
       setSelectedIdTuteur(idDemande);
       setSelectedIdTutorat(-1);
+      setSelectedIdRencontreVenir(-1);
+      bottomSheet.current?.present();
     }
     else if(type === "Jumelage"){
       setSelectedIdTutorat(idDemande);
       setSelectedIdTuteur(-1);
+      setSelectedIdRencontreVenir(-1);
+      bottomSheet.current?.present();
+    }
+    else if(type === "RencontreVenir"){
+      setSelectedIdRencontreVenir(idDemande);
+      setSelectedIdTutorat(-1);
+      setSelectedIdTuteur(-1);
+      bottomSheetRencontre.current?.present();
     }
     
-    bottomSheet.current?.present();
   };
 
   const renderItemTuteur = ({ item }) => {
@@ -158,6 +204,20 @@ export default function Accueil({route}) {
       );
   };
 
+  const renderItemRencontre = ({ item }) => {
+      const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+      const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+
+      return (
+          <ItemRencontre
+              item={item}
+              onPress={() => onPressDemande(item.id, "RencontreVenir")}
+              backgroundColor={backgroundColor}
+              textColor={color}
+          />
+      );
+  };
+
   const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
@@ -173,6 +233,25 @@ export default function Accueil({route}) {
             <Text style={{ color: textColor }}>{'Nom : ' + item.aide.prenom} {item.aide.nom}</Text>
             <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
             <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + ' à ' + item.attributes.heure}</Text>
+        </View>
+    </TouchableOpacity>
+  );
+
+  const TextRencontre = function(jumelage){
+    if(jumelage.tuteur_id === user.id){
+      return(<Text>{'Aidé : ' + jumelage.aide.prenom + " " + jumelage.aide.nom}</Text>);
+    }
+    else{
+      return(<Text>{'Tuteur : ' + jumelage.tuteur.prenom + " " + jumelage.tuteur.nom}</Text>);
+    }
+  }
+
+  const ItemRencontre = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+        <View style={styles.textFlatlist}>
+            <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
+            <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
+            <Text style={{ color: textColor }}>{TextRencontre(item.jumelage)}</Text>
         </View>
     </TouchableOpacity>
   );
@@ -266,6 +345,9 @@ export default function Accueil({route}) {
       <View>
         {getDemandeTutorat()}
       </View>
+      <View>
+        {getRencontreAVenir()}
+      </View>
       {/* <ScrollView style={styles.ScrollView}>
       </ScrollView> */}
 
@@ -303,6 +385,48 @@ export default function Accueil({route}) {
               bottomSheet.current.close();
               setSelectedIdTuteur(-1);
               setSelectedIdTutorat(-1);
+            }}
+          />
+        </View>
+      </BottomSheetModal>
+
+      <BottomSheetModal
+        ref={bottomSheetRencontre}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        handleIndicatorStyle={{ backgroundColor: '#DFCCE4' }}
+        backgroundStyle={{ backgroundColor: '#092D74' }}
+      >
+        <View style={styles.contentContainer}>
+          <CustomButton
+            text={"Modifier"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              Alert.alert("Fonctionnalité à venir");
+              bottomSheetRencontre.current.close();
+              setSelectedIdRencontreVenir(-1);
+            }}
+          />
+          <CustomButton
+            text={"Canceller"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              Alert.alert("Fonctionnalité à venir");
+              bottomSheetRencontre.current.close();
+              setSelectedIdRencontreVenir(-1);
+            }}
+          />
+          <CustomButton
+            text={"Annuler"}
+            halfButton={false}
+            style={styles.buttonSpace}
+            onPress={() => {
+              bottomSheetRencontre.current.close();
+              setSelectedIdTuteur(-1);
+              setSelectedIdTutorat(-1);
+              setSelectedIdRencontreVenir(-1);
             }}
           />
         </View>

@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Traits\RencontreTrait;
 use App\Traits\SessionsDurresTrait;
-use Carbon\Carbon;
-
-
 
 class JumelagesController extends Controller
 {
