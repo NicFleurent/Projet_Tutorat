@@ -30,4 +30,28 @@ class RencontresController extends Controller
 
         return $response;
     }
+
+    public function prochainesRencontres()
+    {
+        /*$tuteurs = TuteurCours::where('cours_id',$idCours)
+                              ->where('demande_accepte',1)->get();
+
+        $idTuteurs = [];
+        foreach($tuteurs as $tuteur)
+        {
+            array_push($idTuteurs, $tuteur->user_id);
+        }
+        
+        $disponibilitesTuteur = Disponibilite::whereIn('user_id', $idTuteurs)
+        ->orderBy('journee')
+        ->orderBy('heure')
+        ->get();
+        foreach ($disponibilitesTuteur as $dispo) {
+            $dispo->heure = Carbon::parse($dispo->heure)->format('H:i');
+        }*/
+        
+        $rencontres = Rencontre::all();
+
+        return response()->json(RecontresResource::collection($rencontres), 200);
+    }
 }
