@@ -27,12 +27,11 @@ export default function Onboarding03() {
       </View>
 
       <Text style={styles.titre}>
-        Un suivi continu tout au cours de la session
+        Un suivi continu tout au long de la session
       </Text>
 
       <Text style={styles.sousTitre}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor
+      Un encadrement attentif pour garantir une progression fluide et efficace.
       </Text>
 
       <View style={styles.ellipses}>

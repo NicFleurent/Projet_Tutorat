@@ -60,7 +60,7 @@ export default function Register() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
-      setEmailError("Veuillez entrer votre adresse e-mail.");
+      setEmailError("Veuillez entrer votre courriel.");
 
       return false;
     }
@@ -82,7 +82,7 @@ export default function Register() {
 
   const validatePrenom = () => {
     if (!prenom) {
-      setPrenomError("Veuillez entrer votre prenom.");
+      setPrenomError("Veuillez entrer votre prénom.");
       return false;
     }
     return true;
@@ -131,7 +131,7 @@ export default function Register() {
       setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: "Email ou mot de passe incorrect",
+        text1: "Courriel ou mot de passe incorrect",
         text2: error.message,
       });
       console.log(error.message);
@@ -161,7 +161,7 @@ export default function Register() {
             <View>
               <Text style={styles.titre}>Enregistrez vous</Text>
               <Text style={styles.sousTitre}>
-                Hate de commencer a collaborer avec vous
+                Hâte de commencer à collaborer avec vous
               </Text>
             </View>
             <Triangle width={141} height={139}></Triangle>
@@ -205,7 +205,7 @@ export default function Register() {
             </View>
 
             <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Prenom</Text>
+              <Text style={styles.label}>Prénom</Text>
 
               <CustomInput
                 placeholder={"Doe"}
@@ -240,7 +240,7 @@ export default function Register() {
             </View>
 
             <View style={styles.labelAndInputSpace}>
-              <Text style={styles.label}>Confimer le mot de passe</Text>
+              <Text style={styles.label}>Confirmer le mot de passe</Text>
 
               <CustomInput
                 placeholder={"Mot de passe"}

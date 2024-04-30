@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Alert } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, View, StyleSheet, KeyboardAvoidingView, Platform  } from 'react-native';
 import SelectBox from 'react-native-multi-selectbox';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { xorBy } from 'lodash';
@@ -91,7 +90,7 @@ export default function Disponibilites() {
           headers: headers
         });
         navigation.navigate({
-          name: 'PageDemande',
+          name: 'Tutorat',
           params: { message: response.data.message },
           merge: true,
         });
@@ -100,24 +99,13 @@ export default function Disponibilites() {
           type: "error",
           text1: error.response.data.message
         });
-        console.log('erreur')
       }
     });
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Ionicons
-        style={styles.backIcon}
-        name={"arrow-back-outline"}
-        size={24}
-        color="#000"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
-      <Text style={styles.titrePage}> Vos disponibilités</Text>
-      <View style={styles.viewCont} >
+    <View style={styles.container}>
+     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Text style={styles.titreSection}>Choisir le jour</Text>
         <SelectList
           setSelected={(val) => setSelectedJour(val)}
@@ -127,7 +115,7 @@ export default function Disponibilites() {
           searchPlaceholder="Rechercher"
           search={false}
         />
-      </View>
+   
 
       <View style={styles.viewCont}>
         <Text style={styles.titreSection}>Choisir les heures</Text>
@@ -146,19 +134,13 @@ export default function Disponibilites() {
           isMulti
         />
       </View>
-
-      {/* <Button
-        title='Ajouter'
-        onPress={handleAjouterDisponibilites}
-      /> */}
-
+      </KeyboardAvoidingView>
       <CustomButton
-        style={styles.button}
         text={'Ajouter'}
         onPress={handleAjouterDisponibilites}
       />
       <Toast position="top" bottomOffset={20} />
-    </SafeAreaView>
+    </View>
   )
 
 }
@@ -169,25 +151,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
   },
-  backIcon: {
-    marginTop: 20,
-  },
   viewCont: {
     marginTop: 20,
   },
-  titrePage: {
-    fontSize: 32,
-    marginTop: 30,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
   titreSection: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "left",
     paddingBottom: 5
   },
-  button: {
-    alignSelf: 'flex-end'
-  }
 });

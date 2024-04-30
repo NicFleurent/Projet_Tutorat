@@ -8,13 +8,13 @@ use App\Http\Requests\RencontreRequest;
 use App\Http\Resources\JumelagesResource;
 use App\Models\Jumelage;
 use App\Traits\HttpResponses;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Traits\RencontreTrait;
 use App\Traits\SessionsDureesTrait;
 use Carbon\Carbon;
-
 
 
 class JumelagesController extends Controller
@@ -68,6 +68,10 @@ class JumelagesController extends Controller
                 ->orderBy('aider_id')
                 ->orderBy('cours_id')
                 ->get();
+
+            foreach ($demandeTutorat as $jumelage) {
+                $jumelage->heure = Carbon::parse($jumelage->heure)->format('H:i');
+            }
 
             return response()->json(JumelagesResource::collection($demandeTutorat), 200);
         } catch (\Throwable $e) {

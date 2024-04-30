@@ -3,11 +3,10 @@ import {
   View,
   Text,
   ScrollView,
-  Pressable,
   KeyboardAvoidingView,
   Alert,
+  Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
@@ -78,7 +77,7 @@ export default function ListeCours() {
                 });*/
         //Voir à ce passer un props et afficher le toast dans la page d'arriver.
         Alert.alert(response.data.message);
-        navigation.navigate("PageDemande");
+        navigation.navigate("Accueil");
       })
       .catch((error) => {
         Toast.show({
@@ -89,29 +88,27 @@ export default function ListeCours() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.titre}>Demande</Text>
-
+    <View style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 8 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <Text style={styles.titrePage}>Offrir de l'aide?</Text>
+        <Text style={styles.titre}>Offrir de l'aide?</Text>
         <Text style={styles.description}>
-          Sélectionner le programme et le cours pour lequel vous souhaitez
+          Sélectionner le cours pour lequel vous souhaitez
           proposer de l'aide.
         </Text>
         <Toast position="top" bottomOffset={20} />
         <ScrollView style={styles.scrollView}>
           <View>
             <Text style={styles.titreSection}>Cours</Text>
-
             <SelectList
               setSelected={(val) => setSelectedCours(val)}
               data={dataCours}
               save="key"
               placeholder="Choisir un cours"
               searchPlaceholder="Rechercher"
+              notFoundText="Aucun résultat trouvé"
             />
           </View>
         </ScrollView>
@@ -119,11 +116,9 @@ export default function ListeCours() {
 
       <CustomButton
         text={"Proposer mes services"}
-        halfButton={true}
-        outlined={false}
         onPress={handleProposerService}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -131,20 +126,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "start",
-    padding: 10,
+    padding: 15,
   },
   scrollView: {
     height: "85%",
   },
   titre: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  titrePage: {
-    fontSize: 32,
-    marginTop: 30,
+    fontSize: 24,
     fontWeight: "bold",
     textAlign: "left",
   },
@@ -152,11 +140,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 10,
     textAlign: "left",
+    marginTop:10,
   },
   titreSection: {
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "left",
+    marginBottom: 10
   },
 });
 

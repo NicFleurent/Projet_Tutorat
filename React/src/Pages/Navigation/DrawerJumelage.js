@@ -4,7 +4,6 @@ import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
-import StackNavigationProfilTuteurs from "./StackNavigationPageDemande";
 import PageDemande from "../DemandesAidesTuteurs/PageDemande";
 import ListeCours from "../DemandesAidesTuteurs/ListeCours";
 import Disponibilites from "../DemandesAidesTuteurs/Disponibilites";
@@ -20,10 +19,11 @@ const StackNav = () => {
             screenOptions={{
                 statusBarColor:"#092D74",
                 headerStyle:{
-                    backgroundColor:"#092D74"
+                    backgroundColor:"#092D74"          
                 },
                 headerTintColor:"#fff",
-                headerTitleAlign:"center"
+                headerTitleAlign:"center",
+                headerBackTitleVisible: 'false',
             }}
         >
             {/*<Stack.Screen name="Tutorat" component={StackNavigationProfilTuteurs} options={{

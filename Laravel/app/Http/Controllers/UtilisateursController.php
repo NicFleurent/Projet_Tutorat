@@ -26,7 +26,6 @@ class UtilisateursController extends Controller
             return $this->error('','Le courriel ou le mot de passe n\'est pas valide', 401);
         }
         
-
         $user = User::where('email', $request->email)->first();
 
         if ($user->activer === 1)
@@ -67,54 +66,51 @@ class UtilisateursController extends Controller
             'message' => 'Déconnecté et token supprimé'
         ]);
     }
-    
-    public function edit(Request $request, $id) //Remember to change to auth when testing done
+
+
+    public function edit(Request $request)
     {
-        
-        Log::info('Edit request received.', ['id' => $id, 'request_data' => $request->all()]);
+        $user = Auth::user();
 
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'prenom' => 'required',
-            'nom' => 'required',
-            'role' => 'required'
-        ]);
+        Log::info('User before update:', $user->toArray());
 
-        if ($validator->fails()) {
-            
-            Log::error('Validation failed:', ['errors' => $validator->errors()]);
-            return response()->json(['error' => $validator->errors()], 422);
-        } else {
-            $user = User::findOrFail($id);
+        $email = $request->input('email');
 
-            
-            Log::info('User before update:', $user->toArray());
-
-            $user->email = $request->email;
-            $user->prenom = $request->prenom;
-            $user->nom = $request->nom;
-            $user->role = $request->role;
-
-            $user->save();
-
-            
-            Log::info('User updated:', $user->toArray());
-
-            return response()->json(['message' => 'User updated successfully'], 200);
+        if ($request->filled('email') && $request->email !== $user->email) {
+            if(filter_var($email, FILTER_VALIDATE_EMAIL)){$user->email = $request->email;}
+            else{return response()->json(['error' => 'Veuillez saisir un email valide'], 422);}
         }
+
+        if ($request->filled('prenom') && $request->prenom !== $user->prenom) {
+            $user->prenom = $request->prenom;
+        }
+
+        if ($request->filled('nom') && $request->nom !== $user->nom) {
+            $user->nom = $request->nom;
+        }
+
+        if ($request->filled('role') && $request->role !== $user->role) {
+            $validRoles = ['aider', 'admin', 'proffeseur', 'tuteur'];
+            if (in_array($request->role, $validRoles)) {
+                $user->role = $request->role;
+            } else {
+                return response()->json(['error' => 'Role incorrect'], 422);
+            }
+        }
+
+        $user->save();
+
+        Log::info('User updated:', $user->toArray());
+
+        return response()->json(['message' => 'User updated successfully'], 200);
     }
 
     
-    //"old_password"
-    //"new_password"
+    //"old_password"    //Log::info('User ID: ' . Auth::id());
+    //"new_password"    //Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
     public function updatePassword(Request $request)
     {
-        
         $user = Auth::user();
-
-        //Log::info('User ID: ' . Auth::id());
-
-        //Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
 
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json(['error' => 'Old password is incorrect'], 422);
@@ -127,7 +123,7 @@ class UtilisateursController extends Controller
         
     }
 
-    //1 activer, 0 desactiver
+    // 1 activer, 0 desactiver
     public function desactiver(Request $request)
     {
         $user = Auth::user();
@@ -143,17 +139,4 @@ class UtilisateursController extends Controller
         return response()->json($data,200);
     }
     
-    // TODO : Voir si necessaire
-    /*public function index()
-    {
-        $utilisateur = Utilisateur::all();
-
-        $data = [
-            'status'=>200,
-            'utilisateur'=>$utilisateur
-        ];
-
-        return response()->json($data, 200);
-    }*/
-
 }
