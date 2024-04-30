@@ -7,7 +7,10 @@ import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
 import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
 import ResetPassword from "../Parametres/ResetPassword";
-import FormulaireTuteur from "../Formulaires/FormulaireTuteur";
+import FormulaireTuteurMatiere from "../Formulaires/FormulaireTuteur/FormulaireTuteurMatiere";
+import FormulaireTuteurAide from "../Formulaires/FormulaireTuteur/FormulaireTuteurAide";
+import FormulaireTuteurTuteur from "../Formulaires/FormulaireTuteur/FormulaireTuteurTuteur";
+import FormulaireTuteurEvaluation from "../Formulaires/FormulaireTuteur/FormulaireTuteurEvaluation";
 
 
 const StackNav = () => {
@@ -39,7 +42,10 @@ const StackNav = () => {
             }}/>
             <Stack.Screen name="Modification du compte" component={GestionCompte}/>
             <Stack.Screen name="Modification du mot de passe" component={ResetPassword}/>
-            <Stack.Screen name="Formulaire de rencontre" component={FormulaireTuteur}/>
+            <Stack.Screen name="Rencontres - Matière vu" component={FormulaireTuteurMatiere}/>
+            <Stack.Screen name="Rencontres - Aidé" component={FormulaireTuteurAide}/>
+            <Stack.Screen name="Rencontres - Tuteur" component={FormulaireTuteurTuteur}/>
+            <Stack.Screen name="Rencontres - Évaluation" component={FormulaireTuteurEvaluation}/>
         </Stack.Navigator>
     );
 }
