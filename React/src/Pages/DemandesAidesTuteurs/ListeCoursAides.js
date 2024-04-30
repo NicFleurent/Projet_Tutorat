@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Alert, Platform } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../Components/CustomButton';
@@ -35,7 +34,7 @@ export default function ListeCours() {
     });
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <Text style={styles.titre}>Avoir de l'aide ?</Text>
                 <Text style={styles.description}>Sélectionner le cours pour lequel vous voulez avoir de l'aide.</Text>
@@ -48,7 +47,7 @@ export default function ListeCours() {
                         save="key" 
                         placeholder="Choisir un cours" 
                         searchPlaceholder="Rechercher"
-                         notFoundText="Aucun résultat trouvé" />
+                        notFoundText="Aucun résultat trouvé" />
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -59,7 +58,7 @@ export default function ListeCours() {
                 });
             }} />
 
-        </SafeAreaView>
+        </View>
     );
 }
 

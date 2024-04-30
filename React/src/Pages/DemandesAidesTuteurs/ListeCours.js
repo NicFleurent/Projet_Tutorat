@@ -7,7 +7,6 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useState, useEffect } from "react";
 import CustomButton from "../../Components/CustomButton";
@@ -89,7 +88,7 @@ export default function ListeCours() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <KeyboardAvoidingView
         style={{ flex: 8 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -119,7 +118,7 @@ export default function ListeCours() {
         text={"Proposer mes services"}
         onPress={handleProposerService}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "left",
+    marginBottom: 10
   },
 });
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from '../../Components/CustomButton';
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +17,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     </TouchableOpacity>
 
 );
+
+
 
 export default function Calendrier({ route }) {
     const navigation = useNavigation();
@@ -87,7 +88,7 @@ export default function Calendrier({ route }) {
     }
   
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.titrePage}>Choisir la journée</Text>
             <View style={styles.buttonLayout}>
                 {jourSemaine.map((jour, index) => (
@@ -119,14 +120,18 @@ export default function Calendrier({ route }) {
             <FlatList
                 data={disponibilites.filter(dispo => dispo.attributes.journee === selectedJour)}
                 renderItem={renderItem}
+                ListEmptyComponent={() => (
+                    <Text style={styles.noAvailabilityText}>Aucune disponibilité pour cette journée.</Text>
+                )}
                 keyExtractor={item => item.id.toString()}
                 extraData={selectedId}
+                renderOnScroll
             />
 
             <CustomButton
                 text={'Envoyer la demande de tutorat'}
                 onPress={handleEnvoyerDemandeTutorat} />
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'left',
-        marginTop: 10
+        marginTop: 20
     },
     buttonLayout: {
         marginTop: 20,
@@ -175,5 +180,11 @@ const styles = StyleSheet.create({
     textFlatlist: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    noAvailabilityText: {
+        textAlign: 'left',
+        marginTop: 20,
+        fontSize: 18,
+        color: '#777',
+    }   
 });

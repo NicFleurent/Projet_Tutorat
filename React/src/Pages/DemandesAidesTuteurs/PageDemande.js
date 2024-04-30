@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import Aide from "../../assets/svg/DemandeAideTuteur/Student.svg";
 import Tuteur from "../../assets/svg/DemandeAideTuteur/Teacher.svg";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CustomBottomSheet from "../../Components/BottomSheetPageDemande";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from "react-native-toast-message";
@@ -22,13 +21,13 @@ export default function PageDemande({ route }) {
     const navigation = useNavigation();
     const handlePresentPress = () => bottomSheetRef.current?.present();
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.image}>
                 <Pressable onPress={() => {
                     navigation.navigate("Liste des cours - Aidé");
                 }}>
                     <View style={styles.imageContainer}>
-                        <Aide width={185} height={185}></Aide>
+                        <Aide width={200} height={200}></Aide>
                     </View>
                     <Text style={styles.titre}>Aidé</Text>
                     <View style={styles.sousTitreContainer}>
@@ -40,7 +39,7 @@ export default function PageDemande({ route }) {
             <View style={styles.image}>
                 <Pressable onPress={handlePresentPress}>
                     <View style={styles.imageContainer}>
-                        <Tuteur width={185} height={185}></Tuteur>
+                        <Tuteur width={200} height={200}></Tuteur>
                     </View>
                     <Text style={styles.titre}>Tuteur</Text>
                     <View style={styles.sousTitreContainer}>
@@ -50,7 +49,7 @@ export default function PageDemande({ route }) {
                 <CustomBottomSheet ref={bottomSheetRef} />
             </View>
             <Toast position="top" bottomOffset={20} />
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -58,7 +57,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-
     },
     titre: {
         fontSize: 24,
@@ -72,7 +70,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
     sousTitre: {
         fontSize: 13,
         fontStyle: 'italic',
@@ -84,6 +81,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     imageContainer: {
-        alignItems: 'center'
+        alignItems: 'center',
     }
 });
