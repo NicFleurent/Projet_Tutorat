@@ -91,7 +91,7 @@ export default function GestionCompte() {
     try {
       if (isEmailValid && isNomValid && isPrenomValid) {
         setIsLoading(true);
-        const response = await UserApi.edit(email, nom, prenom, id);
+        const response = await UserApi.edit(email, nom, prenom, token);
 
         const userInfo = {
           token: token,
