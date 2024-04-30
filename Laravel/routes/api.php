@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\CoursController;
 use App\Http\Controllers\ProgrammesController;
 use App\Http\Controllers\DisponibilitesController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\FormulaireTuteurController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
 use App\Http\Controllers\FormulaireAideController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +37,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
     Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
     Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
-    Route::put('formulaireAide/store', [FormulaireAideController::class, 'store']);                            //Ajoute le formulaire aider
+    Route::put('formulaireAide/store', [FormulaireAideController::class, 'store']);                             //Ajoute le formulaire aider
+    //Route::get('formulaireAide/index', [FormulaireAideController::class, 'index']);
+    Route::post('/message/create',[MessageController::class,'store']);                                          //Creer un message
+    Route::get('/message/get',[MessageController::class,'index']);
 });
 
 

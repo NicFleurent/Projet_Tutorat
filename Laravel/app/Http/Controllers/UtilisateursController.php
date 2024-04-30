@@ -139,4 +139,6 @@ class UtilisateursController extends Controller
         return response()->json($data,200);
     }
     
+    
+
 }
