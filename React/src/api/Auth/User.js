@@ -46,20 +46,20 @@ export const register = async (email, nom, prenom, password) => {
   }
 };
 
-export const edit = async (email, nom, prenom, id) => {
+export const edit = async (email, nom, prenom, token) => {
   try {
     const configurationObject = {
       method: "put",
-      url: `${baseUrl}utilisateurs/edit/${id}`,
+      url: `${baseUrl}utilisateurs/edit`,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       data: {
         email: email,
         nom: nom,
         prenom: prenom,
-        role: "RAS",
       },
     };
     const response = await axios(configurationObject);
