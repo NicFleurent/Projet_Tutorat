@@ -6,6 +6,7 @@ use App\Http\Controllers\DisponibilitesController;
 use App\Http\Controllers\JumelagesController;
 use App\Http\Controllers\UtilisateursController;
 use App\Http\Controllers\EmployesController;
+use App\Http\Controllers\FormulaireTuteurController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
 use Illuminate\Http\Request;
@@ -33,7 +34,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);                     //Demande Attente
     Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);              //Accept Jumelage
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
-    Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);         //Get 3 prochaines rencontres
+    Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
+    Route::post('formulaireTuteur', [FormulaireTuteurController::class, 'store']);                              //Ajoute le formulaire tuteur
 });
 
 

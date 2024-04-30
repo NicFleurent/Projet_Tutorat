@@ -14,14 +14,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('formulaire_tuteur', function (Blueprint $table) {
+        Schema::create('formulaire_tuteurs', function (Blueprint $table) {
             $table->id();
-            $table->string('matiereVu');
-            $table->string('aisanceAide');
-            $table->string('aisanceTuteur');
-            $table->integer('evaluation');
-            $table->string('noteProfesseur');
-            //ajouter rencontre quand fait
+            $table->string('matiere_vu');
+            $table->integer('note_aisance_aide');
+            $table->string('commentaire_aisance_aide');
+            $table->integer('note_aisance_tuteur');
+            $table->string('commentaire_aisance_tuteur');
+            $table->integer('note_evaluation');
+            $table->string('commentaire_evaluation');
+            $table->string('commentaire_professeur')->default("Pas encore commenté");
+            $table->unsignedBigInteger('rencontre_id');
+            $table->foreign('rencontre_id')->references('id')->on('rencontres');
             $table->timestamps();
         });
     }
