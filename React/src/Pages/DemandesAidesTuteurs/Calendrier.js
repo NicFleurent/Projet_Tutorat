@@ -74,10 +74,9 @@ export default function Calendrier({ route }) {
         const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "jumelage/create", dataJumelage, {
           headers: headers
         });
-        navigation.navigate({
-          name: 'Accueil',
-          params: { message: response.data.message },
-          merge: true,
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Tutorat', params: { message: response.data.message } }]
         });
       } catch (error) {
         Toast.show({

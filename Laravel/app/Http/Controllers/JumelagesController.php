@@ -49,11 +49,11 @@ class JumelagesController extends Controller
         if ($jumelage) {
 
             return response()->json([
-                'message' => 'Jumelage creer avec success',
+                'message' => 'Demande de tutorat envoyée',
                 'jumelage' => new JumelagesResource($jumelage)
             ], 200);
         } else {
-            return response()->json(['message' => 'Échec de la creation du jumelage'], 500);
+            return response()->json(['message' => 'Échec de la création du jumelage'], 500);
         }
     }
 

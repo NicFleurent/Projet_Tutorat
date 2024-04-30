@@ -6,7 +6,6 @@ import { xorBy } from 'lodash';
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import Toast from "react-native-toast-message";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from '../../Components/CustomButton';
 
@@ -89,10 +88,10 @@ export default function Disponibilites() {
         const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "disponibilites/upload", dataDispo, {
           headers: headers
         });
-        navigation.navigate({
-          name: 'Tutorat',
-          params: { message: response.data.message },
-          merge: true,
+        
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Tutorat', params: { message: response.data.message } }]
         });
       } catch (error) {
         Toast.show({

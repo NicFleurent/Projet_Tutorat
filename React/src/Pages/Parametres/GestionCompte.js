@@ -104,11 +104,21 @@ export default function GestionCompte() {
         SecureStore.save("user_info", userInfo);
 
         setIsLoading(false);
-        Toast.show({
-          type: "success",
-          text1: "Effectuer",
-          text2: "Modification effectuée avec succès",
+        navigation.reset({
+          index: 0,
+          routes: [
+            { 
+              name: 'Accueil',
+              params: {
+                message: 'Modification effectuée avec succès'
+              } 
+            }
+          ],
         });
+        // Toast.show({
+        //   type: "success",
+        //   text1: "Modification effectuée avec succès",
+        // });
       }
     } catch (error) {
       setIsLoading(false);

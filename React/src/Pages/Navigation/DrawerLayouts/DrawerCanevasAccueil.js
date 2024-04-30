@@ -7,6 +7,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import * as SecureStore from "../../../api/SecureStore";
 import * as UserApi from "../../../api/Auth/User";
+import {useDrawerStatus} from "@react-navigation/drawer";
+
 
 const DrawerList = [
   { icon: "home", label: "Accueil", navigateTo: "Accueil" },
@@ -59,7 +61,7 @@ function DrawerCanevas(props) {
     SecureStore.getValue("user_info").then((userInfo) => {
       setUser(JSON.parse(userInfo));
     });
-  }, []);
+  }, [useDrawerStatus()]);
 
   const handleDeletePress = async () => {
     try {
@@ -125,7 +127,7 @@ function DrawerCanevas(props) {
   };
 
   const logoutAlert = () =>
-    Alert.alert("Attention", "Vous allez etre déconnecté", [
+    Alert.alert("Attention", "Vous allez être déconnecté", [
       {
         text: "Annuler",
         onPress: () => console.log("Cancel Pressed"),

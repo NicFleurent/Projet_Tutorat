@@ -7,7 +7,7 @@ import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 import { Ionicons } from '@expo/vector-icons';
 import Collapsible from "react-native-collapsible";
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 
 export default function Accueil({route}) {
   const [user, setUser] = useState([]);
