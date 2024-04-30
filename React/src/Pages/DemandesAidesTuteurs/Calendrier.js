@@ -19,6 +19,8 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
 
 );
 
+
+
 export default function Calendrier({ route }) {
     const navigation = useNavigation();
     const { idCours } = route.params;
@@ -119,8 +121,12 @@ export default function Calendrier({ route }) {
             <FlatList
                 data={disponibilites.filter(dispo => dispo.attributes.journee === selectedJour)}
                 renderItem={renderItem}
+                ListEmptyComponent={() => (
+                    <Text style={styles.noAvailabilityText}>Aucune disponibilité pour cette journée.</Text>
+                )}
                 keyExtractor={item => item.id.toString()}
                 extraData={selectedId}
+                renderOnScroll
             />
 
             <CustomButton
@@ -175,5 +181,11 @@ const styles = StyleSheet.create({
     textFlatlist: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    noAvailabilityText: {
+        textAlign: 'left',
+        marginTop: 20,
+        fontSize: 18,
+        color: '#777',
+    }   
 });
