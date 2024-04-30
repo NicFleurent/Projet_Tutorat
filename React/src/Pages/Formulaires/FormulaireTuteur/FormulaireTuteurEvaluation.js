@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 export default function FormulaireTuteurMatiere({route}) {
     const [matiereVu, setMatiereVu] = useState();
     const [rencontre_id, setRencontreId] = useState();
+    const [rencontre_date, setRencontreDate] = useState();
     const [noteAide, setNoteAide] = useState(3);
     const [commantaireAide, setCommentaireAide] = useState();
     const [noteTuteur, setNoteTuteur] = useState(3);
@@ -22,6 +23,7 @@ export default function FormulaireTuteurMatiere({route}) {
 
     useEffect(() => {
       setRencontreId(route.params?.rencontre_id);
+      setRencontreDate(route.params?.rencontre_date);
       setMatiereVu(route.params?.matiereVu);
       setNoteAide(route.params?.noteAide);
       setCommentaireAide(route.params?.commantaireAide);
@@ -30,6 +32,7 @@ export default function FormulaireTuteurMatiere({route}) {
     }, 
     [
       route.params?.rencontre_id,
+      route.params?.rencontre_date,
       route.params?.matiereVu,
       route.params?.noteAide,
       route.params?.commantaireAide,
@@ -63,7 +66,8 @@ export default function FormulaireTuteurMatiere({route}) {
           })
           .then((response) => {
             navigation.navigate("Accueil", {
-              message: response.data.message
+              //message: response.data.message
+              message: "Formulaire du " + rencontre_date + " ajouté"
             });
           })
           .catch((error) => {
