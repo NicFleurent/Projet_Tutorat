@@ -30,7 +30,6 @@ class FormulaireTuteurController extends Controller
 
         $formulaireTuteur->save();
 
-        //return new FormulaireTuteurResource($formulaireTuteur);
         return $this->success('', 'Le formulaire a été enregistré');
     }
 }
