@@ -125,7 +125,11 @@ export default function Register() {
         setIsLoading(true);
         const response = await register(email, nom, prenom, password);
         setIsLoading(false);
-        navigation.navigate("BottomTabs");
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TabsNavigation" }],
+        });
       }
     } catch (error) {
       setIsLoading(false);

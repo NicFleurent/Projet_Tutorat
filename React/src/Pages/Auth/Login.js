@@ -82,7 +82,10 @@ export default function Login() {
         SecureStore.save("user_info", userInfo);
 
         setIsLoading(false);
-        navigation.navigate("TabsNavigation");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "TabsNavigation" }],
+        });
       }
     } catch (error) {
       setIsLoading(false);
