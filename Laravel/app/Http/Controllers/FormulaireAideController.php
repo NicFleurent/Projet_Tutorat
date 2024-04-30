@@ -19,9 +19,24 @@ class FormulaireAideController extends Controller
 
     }
 
-    public function createFromAide(StoreFormAideRequest $request)
+    public function store(StoreFormAideRequest $request)
     {
-        $request->validated($request->all());
+        Log::info($request->validated($request->all()));
+
+        $formulaireAide = FormulaireAide::create([
+            'jumelage_id' => $request->jumelage_id,
+            'aisanceAide' => $request->aisanceAide,
+            'commentaireAisanceAide' => $request->commentaireAisanceAide,
+            'aisanceTuteur' => $request->aisanceTuteur,
+            'commentaireAisanceTuteur' => $request->commentaireAisanceTuteur,
+            'evaluationTuteur' => $request->evaluationTuteur,
+            'commentaireEvaluationTuteur' => $request->commentaireEvaluationTuteur
+        ]);
+
+        $formulaireAide->save();
+
+        return $this->success('', 'Le formulaire a été enregistré');
+
     }
 
     public function teacherAddCommentAide(Request $request)

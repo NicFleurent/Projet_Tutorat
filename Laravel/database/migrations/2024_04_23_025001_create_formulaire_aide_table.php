@@ -11,11 +11,13 @@ return new class extends Migration
         Schema::create('formulaire_aides', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('jumelage_id');
-            $table->integer('aisanceAide');               //1-5
-            $table->integer('aisanceTuteur');            //1-5
-            $table->integer('evaluationTuteur');        //1-5
-            $table->string('commentaire');
-            $table->string('noteProfesseur');
+            $table->integer('aisanceAide');               //1-4
+            $table->string('commentaireAisanceAide');       //new
+            $table->integer('aisanceTuteur');            //1-4
+            $table->string('commentaireAisanceTuteur');     //new
+            $table->integer('evaluationTuteur');        //1-4
+            $table->string('commentaireEvaluationTuteur');  //Modified
+            $table->string('noteProfesseur')->default("Pas encore commenté");
             $table->timestamps();
 
 

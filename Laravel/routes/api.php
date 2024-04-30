@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployesController;
 use App\Http\Controllers\FormulaireTuteurController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
+use App\Http\Controllers\FormulaireAideController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,18 +36,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);              //Accept Jumelage
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
     Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
-    Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                              //Ajoute le formulaire tuteur
+    Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
+    Route::put('formulaireAide/store', [FormulaireAideController::class, 'store']);                            //Ajoute le formulaire aider
 });
 
 
 Route::get('/whoAmI', function () {      //Returns information sure personne auth
     return auth()->user();
 })->middleware('auth:sanctum');
-
-
-//Décommenter ou supprimer selon page admin (Voir controller)
-//Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
-
 
 //Employes
 Route::get('/employes', [EmployesController::class, 'index']);

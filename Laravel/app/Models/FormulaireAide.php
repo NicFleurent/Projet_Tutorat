@@ -12,9 +12,11 @@ class FormulaireAide extends Model
     protected $fillable= [
         'jumelage_id',
         'aisanceAide',
+        'commentaireAisanceAide',
         'aisanceTuteur',
+        'commentaireAisanceTuteur',
         'evaluationTuteur',
-        'commentaire',
+        'commentaireEvaluationTuteur',
         'noteProfesseur',
     ];
 
