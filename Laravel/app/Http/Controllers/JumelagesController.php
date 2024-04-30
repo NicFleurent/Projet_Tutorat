@@ -13,13 +13,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Traits\RencontreTrait;
-use App\Traits\SessionsDurresTrait;
+use App\Traits\SessionsDureesTrait;
+use Carbon\Carbon;
+
 
 class JumelagesController extends Controller
 {
     use HttpResponses;
     use RencontreTrait;
-    use SessionsDurresTrait;
+    use SessionsDureesTrait;
 
     /**
      * Display a listing of the resource.
@@ -46,8 +48,6 @@ class JumelagesController extends Controller
         ]);
 
         if ($jumelage) {
-
-            $this->createRencontresSessions($request->journee, $request->heure,  $jumelage->id);
 
             return response()->json([
                 'message' => 'Jumelage creer avec success',
@@ -89,6 +89,8 @@ class JumelagesController extends Controller
             if ($demandeTutorat->demande_accepte == false) {
                 $demandeTutorat->demande_accepte = true;
 
+                $this->createRencontresSessions($demandeTutorat->journee, $demandeTutorat->heure,  $demandeTutorat->id);
+
                 $demandeTutorat->save();
                 return $this->success('', 'La demande de tutorat a été acceptée');
             } else {
@@ -122,45 +124,31 @@ class JumelagesController extends Controller
     public function createRencontresSessions($jourDeLaSemaine, $heure, $jumelageId)
     {
         try {
-            Log::info('1');
             $response = $this->getCurrentSession();
-
-            Log::info($response);
 
             $jsonData = json_decode($response, true);
 
-            Log::info($jsonData[0]);
-
             if ($jsonData != null) {
-                Log::info('2');
 
-                $dateDebut = Carbon::parse($jsonData[0]['debut']);
+                $dateDebut = Carbon::now();
                 $dateFin = Carbon::parse($jsonData[0]['fin']);
 
-                Log::info('3');
-
                 for ($date = $dateDebut; $date->lte($dateFin); $date->addDay()) {
-                    Log::info('4');
                     if ($date->dayOfWeek == $this->getDayOfWeekNumber($jourDeLaSemaine)) {
-                        Log::info('5');
                         $request = new RencontreRequest([
                             'date' => $date,
                             'heure' => $heure,
                             'duree' => 1,
                             'jumelage_id' => $jumelageId
                         ]);
-
-                        Log::info('6');
                         $this->createRencontre($request);
                     }
                 }
             } else {
-                Log::info('lol');
                 $dateDebut = null;
                 $dateFin = null;
             }
         } catch (\Exception $e) {
-            // Gérer l'exception ici, par exemple, en journalisant l'erreur
             Log::error('Une erreur est survenue lors de la création des rencontres : ' . $e->getMessage());
         }
     }
