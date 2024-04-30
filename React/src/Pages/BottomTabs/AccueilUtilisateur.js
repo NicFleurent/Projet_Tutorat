@@ -7,6 +7,7 @@ import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 import { Ionicons } from '@expo/vector-icons';
 import Collapsible from "react-native-collapsible";
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function Accueil({route}) {
   const [user, setUser] = useState([]);
@@ -23,6 +24,8 @@ export default function Accueil({route}) {
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
 
   const [state, setState] = useState(0);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (route.params?.message) {
@@ -348,8 +351,11 @@ export default function Accueil({route}) {
       <View>
         {getRencontreAVenir()}
       </View>
-      {/* <ScrollView style={styles.ScrollView}>
-      </ScrollView> */}
+
+
+      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("Rencontres - Matière vu");}}>
+        <Text style={styles.textButton}>Formulaire rencontre</Text>
+      </TouchableOpacity>
 
       <BottomSheetModal
         ref={bottomSheet}
