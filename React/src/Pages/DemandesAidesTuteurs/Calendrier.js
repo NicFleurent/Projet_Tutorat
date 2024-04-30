@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from '../../Components/CustomButton';
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -89,7 +88,7 @@ export default function Calendrier({ route }) {
     }
   
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.titrePage}>Choisir la journée</Text>
             <View style={styles.buttonLayout}>
                 {jourSemaine.map((jour, index) => (
@@ -132,7 +131,7 @@ export default function Calendrier({ route }) {
             <CustomButton
                 text={'Envoyer la demande de tutorat'}
                 onPress={handleEnvoyerDemandeTutorat} />
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         textAlign: 'left',
-        marginTop: 10
+        marginTop: 20
     },
     buttonLayout: {
         marginTop: 20,
