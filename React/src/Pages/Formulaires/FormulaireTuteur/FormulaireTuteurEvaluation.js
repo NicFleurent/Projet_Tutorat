@@ -1,9 +1,12 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
+import * as SecureStore from "../../../api/SecureStore";
+import axios from "axios";
+import Toast from "react-native-toast-message";
 
 export default function FormulaireTuteurMatiere({route}) {
     const [matiereVu, setMatiereVu] = useState();
@@ -34,17 +37,41 @@ export default function FormulaireTuteurMatiere({route}) {
       route.params?.commentaireTuteur
     ]);
 
-    const handleSoumettre = function(){
-        console.log(noteEvaluation);
-        console.log(commantaireEvaluation);
-        console.log(noteTuteur);
-        console.log(commentaireTuteur);
-        console.log(noteAide);
-        console.log(commantaireAide);
-        console.log(rencontre_id);
-        console.log(matiereVu);
-        
-        //navigation.navigate("Accueil");
+    const handleSoumettre = async function(){
+        const userInfo = JSON.parse(await SecureStore.getValue("user_info"));
+
+        const headers = {
+          'Accept': "application/vnd.api+json",
+          'Content-Type': "application/vnd.api+json",
+          'Authorization': `Bearer ${userInfo.token}`,
+        };
+    
+        const data = {
+          rencontre_id: rencontre_id,
+          matiere_vu: matiereVu,
+          note_aisance_aide: noteAide,
+          commentaire_aisance_aide: commantaireAide,
+          note_aisance_tuteur: noteTuteur,
+          commentaire_aisance_tuteur: commentaireTuteur,
+          note_evaluation: noteEvaluation,
+          commentaire_evaluation: commantaireEvaluation
+        };
+    
+        axios
+          .post(process.env.EXPO_PUBLIC_API_URL + "formulaireTuteur/store", data, {
+            headers: headers,
+          })
+          .then((response) => {
+            navigation.navigate("Accueil", {
+              message: response.data.message
+            });
+          })
+          .catch((error) => {
+            Toast.show({
+              type: "error",
+              text1: error.response.data.message,
+            });
+          });
     }
 
     return (
@@ -78,6 +105,8 @@ export default function FormulaireTuteurMatiere({route}) {
             <TouchableOpacity style={styles.button} onPress={() => {handleSoumettre()}}>
                 <Text style={styles.textButton}>Soumettre</Text>
             </TouchableOpacity>
+
+            <Toast position="top" bottomOffset={20} />
         </View>
     );
 }
