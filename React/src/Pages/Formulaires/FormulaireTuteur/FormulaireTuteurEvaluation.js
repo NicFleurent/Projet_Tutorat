@@ -5,16 +5,46 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function FormulaireTuteurMatiere() {
+export default function FormulaireTuteurMatiere({route}) {
+    const [matiereVu, setMatiereVu] = useState();
+    const [rencontre_id, setRencontreId] = useState();
+    const [noteAide, setNoteAide] = useState(3);
+    const [commantaireAide, setCommentaireAide] = useState();
+    const [noteTuteur, setNoteTuteur] = useState(3);
+    const [commentaireTuteur, setCommentaireTuteur] = useState();
     const [noteEvaluation, setNoteEvaluation] = useState(3);
     const [commantaireEvaluation, setCommentaireEvaluation] = useState("aucun");
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+      setRencontreId(route.params?.rencontre_id);
+      setMatiereVu(route.params?.matiereVu);
+      setNoteAide(route.params?.noteAide);
+      setCommentaireAide(route.params?.commantaireAide);
+      setNoteTuteur(route.params?.noteTuteur);
+      setCommentaireTuteur(route.params?.commentaireTuteur);
+    }, 
+    [
+      route.params?.rencontre_id,
+      route.params?.matiereVu,
+      route.params?.noteAide,
+      route.params?.commantaireAide,
+      route.params?.noteTuteur,
+      route.params?.commentaireTuteur
+    ]);
+
     const handleSoumettre = function(){
         console.log(noteEvaluation);
         console.log(commantaireEvaluation);
-        navigation.navigate("Accueil");
+        console.log(noteTuteur);
+        console.log(commentaireTuteur);
+        console.log(noteAide);
+        console.log(commantaireAide);
+        console.log(rencontre_id);
+        console.log(matiereVu);
+        
+        //navigation.navigate("Accueil");
     }
 
     return (

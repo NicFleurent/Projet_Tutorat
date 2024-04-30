@@ -353,7 +353,7 @@ export default function Accueil({route}) {
       </View>
 
 
-      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("Rencontres - Matière vu");}}>
+      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("Rencontres - Matière vu", {rencontre_id: 1});}}>
         <Text style={styles.textButton}>Formulaire rencontre</Text>
       </TouchableOpacity>
 
