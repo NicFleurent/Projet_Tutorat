@@ -71,6 +71,8 @@ Route::delete('disponibilites/delete/{dispo}', [DisponibilitesController::class,
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
 Route::post('jumelage/create', [JumelagesController::class, 'store']);
+Route::post('jumelage/accepte/{id}', [JumelagesController::class, 'acceptJumelage']);
+Route::post('jumelage/refuse/{id}', [JumelagesController::class, 'refuseJumelage']);
 
 //Rencontres
 Route::get('rencontres', [RencontresController::class, 'index']);
