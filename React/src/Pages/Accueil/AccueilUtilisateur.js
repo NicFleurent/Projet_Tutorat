@@ -15,12 +15,15 @@ export default function Accueil({route}) {
   const [demandeTuteur, setDemandeTuteur] = useState();
   const [demandeTutorat, setDemandeTutorat] = useState();
   const [rencontresAVenir, setRencontreAVenir] = useState();
+  const [formulaireTuteur, setFormulaireTuteur] = useState();
   const [typeDemande, setTypeDemande] = useState("");
   const [selectedIdTuteur, setSelectedIdTuteur] = useState();
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
   const [selectedIdRencontreVenir, setSelectedIdRencontreVenir] = useState();
+  const [selectedIdFormulaireTuteur, setSelectedIdFormulaireTuteur] = useState();
   const [collapsedTuteur, setCollapsedTuteur] = useState(true);
   const [collapsedTutorat, setCollapsedTutorat] = useState(true);
+  const [collapsedFormulaireTuteur, setCollapsedFormulaireTuteur] = useState(true);
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
 
   const [state, setState] = useState(0);
@@ -28,6 +31,11 @@ export default function Accueil({route}) {
   const navigation = useNavigation();
 
   useEffect(() => {
+    forceRefresh();
+    setCollapsedTuteur(true); 
+    setCollapsedTutorat(true);
+    setCollapsedFormulaireTuteur(true); 
+    setCollapsedRencontreVenir(false); 
     if (route.params?.message) {
         Toast.show({
             type: "success",
@@ -69,7 +77,18 @@ export default function Accueil({route}) {
               setRencontreAVenir(response.data);
             })
             .catch((error) => console.log(error))
+
+          axios.get(process.env.EXPO_PUBLIC_API_URL + "rencontres/rencontresSansFormulaire", { headers: headers })
+            .then((response) => {
+              setFormulaireTuteur(response.data);
+            })
+            .catch((error) => console.log(error))
       });
+
+      getDemandeTuteur();
+      getDemandeTutorat();
+      getRencontreAVenir();
+      getFormulaireTuteur();
   }, [state]);
 
   const getDemandeTuteur = () => {
@@ -77,7 +96,13 @@ export default function Accueil({route}) {
       return(
         <>
           <View style={styles.dropdownView}>
-            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedTuteur(!collapsedTuteur); setCollapsedTutorat(true);}}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh(); 
+              setCollapsedTuteur(!collapsedTuteur); 
+              setCollapsedTutorat(true);
+              setCollapsedFormulaireTuteur(true); 
+              setCollapsedRencontreVenir(true); 
+            }}>
               <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
               <Ionicons
                   name={collapsedTuteur ? "arrow-down-circle" : "arrow-up-circle"}
@@ -90,6 +115,9 @@ export default function Accueil({route}) {
                     renderItem={renderItemTuteur}
                     keyExtractor={item => item.id.toString()}
                     extraData={selectedIdTuteur}
+                    initialNumToRender={3}
+                    maxToRenderPerBatch={1}
+                    windowSize={1}
                 />
             </Collapsible>
           </View>
@@ -103,7 +131,13 @@ export default function Accueil({route}) {
       return(
         <>
           <View style={styles.dropdownView}>
-            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedTutorat(!collapsedTutorat); setCollapsedTuteur(true);}}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedTutorat(!collapsedTutorat); 
+              setCollapsedTuteur(true);
+              setCollapsedFormulaireTuteur(true); 
+              setCollapsedRencontreVenir(true); 
+            }}>
               <Text style={styles.titreSection}>Demandes de jumelages</Text>
               <Ionicons
                   name={collapsedTutorat ? "arrow-down-circle" : "arrow-up-circle"}
@@ -116,6 +150,9 @@ export default function Accueil({route}) {
                   renderItem={renderItemJumelage}
                   keyExtractor={item => item.id.toString()}
                   extraData={selectedIdTutorat}
+                  initialNumToRender={3}
+                  maxToRenderPerBatch={1}
+                  windowSize={1}
               />
             </Collapsible>
           </View>
@@ -130,7 +167,13 @@ export default function Accueil({route}) {
       return(
         <>
           <View style={styles.dropdownView}>
-            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {setCollapsedRencontreVenir(!collapsedRencontreVenir); setCollapsedTutorat(true); setCollapsedTuteur(true);}}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedRencontreVenir(!collapsedRencontreVenir); 
+              setCollapsedTutorat(true); 
+              setCollapsedTuteur(true);
+              setCollapsedFormulaireTuteur(true); 
+            }}>
               <Text style={styles.titreSection}>Rencontre à venir</Text>
               <Ionicons
                   name={collapsedRencontreVenir ? "arrow-down-circle" : "arrow-up-circle"}
@@ -152,6 +195,42 @@ export default function Accueil({route}) {
     }
   }
 
+  const getFormulaireTuteur = () => {
+    if(formulaireTuteur !== undefined && Object.keys(formulaireTuteur).length !== 0){
+      return(
+        <>
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedFormulaireTuteur(!collapsedFormulaireTuteur); 
+              setCollapsedRencontreVenir(true); 
+              setCollapsedTutorat(true); 
+              setCollapsedTuteur(true);
+            }}>
+              <Text style={styles.titreSection}>Formulaire de rencontre</Text>
+              <Ionicons
+                  name={collapsedFormulaireTuteur ? "arrow-down-circle" : "arrow-up-circle"}
+                  color={"#092D74"}
+                  size={30}/>
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedFormulaireTuteur}>
+              <FlatList
+                  data={formulaireTuteur}
+                  renderItem={renderItemFormulaireTuteur}
+                  keyExtractor={item => item.id.toString()}
+                  extraData={selectedIdFormulaireTuteur}
+                  initialNumToRender={3}
+                  maxToRenderPerBatch={1}
+                  windowSize={1}
+              />
+            </Collapsible>
+          </View>
+          
+        </>
+      )
+    }
+  }
+
   const bottomSheet = useRef(null);
   const bottomSheetRencontre = useRef(null);
 
@@ -162,21 +241,32 @@ export default function Accueil({route}) {
       setSelectedIdTuteur(idDemande);
       setSelectedIdTutorat(-1);
       setSelectedIdRencontreVenir(-1);
+      setSelectedIdFormulaireTuteur(-1);
       bottomSheet.current?.present();
     }
     else if(type === "Jumelage"){
       setSelectedIdTutorat(idDemande);
       setSelectedIdTuteur(-1);
       setSelectedIdRencontreVenir(-1);
+      setSelectedIdFormulaireTuteur(-1);
       bottomSheet.current?.present();
     }
     else if(type === "RencontreVenir"){
       setSelectedIdRencontreVenir(idDemande);
       setSelectedIdTutorat(-1);
       setSelectedIdTuteur(-1);
+      setSelectedIdFormulaireTuteur(-1);
       bottomSheetRencontre.current?.present();
     }
-    
+  };
+
+  const onPressFormulaire = (id, date, type) => {
+    if(type === "Tuteur"){
+      navigation.navigate("Rencontres - Matière vu", {rencontre_id: id, rencontre_date:date});
+    }
+    else if(type === "Aide"){
+      
+    }
   };
 
   const renderItemTuteur = ({ item }) => {
@@ -221,6 +311,20 @@ export default function Accueil({route}) {
       );
   };
 
+  const renderItemFormulaireTuteur = ({ item }) => {
+      const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+      const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+
+      return (
+          <ItemFormulaireTuteur
+              item={item}
+              onPress={() => onPressFormulaire(item.id, item.attributes.date, "Tuteur")}
+              backgroundColor={backgroundColor}
+              textColor={color}
+          />
+      );
+  };
+
   const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
@@ -250,6 +354,16 @@ export default function Accueil({route}) {
   }
 
   const ItemRencontre = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+        <View style={styles.textFlatlist}>
+            <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
+            <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
+            <Text style={{ color: textColor }}>{TextRencontre(item.jumelage)}</Text>
+        </View>
+    </TouchableOpacity>
+  );
+
+  const ItemFormulaireTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
         <View style={styles.textFlatlist}>
             <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
@@ -341,21 +455,22 @@ export default function Accueil({route}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
-      <View>
-        {getDemandeTuteur()}
+      <View style={styles.containerFlatlists}>
+        <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
+        <View>
+          {getDemandeTuteur()}
+        </View>
+        <View>
+          {getDemandeTutorat()}
+        </View>
+        <View>
+          {getFormulaireTuteur()}
+        </View>
+        <View>
+          {getRencontreAVenir()}
+        </View>
       </View>
-      <View>
-        {getDemandeTutorat()}
-      </View>
-      <View>
-        {getRencontreAVenir()}
-      </View>
-
-
-      <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("Rencontres - Matière vu", {rencontre_id: 1});}}>
-        <Text style={styles.textButton}>Formulaire rencontre</Text>
-      </TouchableOpacity>
+      
 
       <BottomSheetModal
         ref={bottomSheet}
@@ -449,6 +564,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
   },
+  containerFlatlists:{
+    height:'80%'
+  },
   titre: {
     fontSize: 32,
     fontWeight: "bold",
@@ -502,6 +620,6 @@ const styles = StyleSheet.create({
       marginVertical: 8,
       borderRadius: 7,
       borderWidth: 1,
-      borderColor: '#ccc'
+      borderColor: '#ccc',
   }
 });
