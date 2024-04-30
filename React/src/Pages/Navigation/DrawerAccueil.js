@@ -4,7 +4,7 @@ import { DrawerContent, createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import DrawerCanevas from "./DrawerLayouts/DrawerCanevasAccueil";
-import AccueilUtilisateur from "../BottomTabs/AccueilUtilisateur";
+import AccueilUtilisateur from "../Accueil/AccueilUtilisateur";
 import GestionCompte from "../Parametres/GestionCompte";
 import ResetPassword from "../Parametres/ResetPassword";
 import FormulaireTuteurMatiere from "../Formulaires/FormulaireTuteur/FormulaireTuteurMatiere";
