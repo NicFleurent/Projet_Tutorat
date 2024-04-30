@@ -24,9 +24,11 @@ class StoreFormAideRequest extends FormRequest
         return [
             'jumelage_id' => ['required'],
             'aisanceAide' => ['required'],
+            'commentaireAisanceAide' => ['required'],
             'aisanceTuteur' => ['required'],
+            'commentaireAisanceTuteur' => ['required'],
             'evaluationTuteur' => ['required'],
-            'commentaire' => ['required']
+            'commentaireEvaluationTuteur' => ['required']
             //noteProfesseur n'est pas neccesaire pour la creation
         ];
     }

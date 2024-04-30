@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     *! MIGRATION TO BE TESTED !
-     * IF MIGRATION OF THIS TABLE CAUSES PROBLEMS COMMENT IT !!!
-     * Alexander
-     * ps: seeder to be made. remove when done
-     */
+    
     public function up(): void
     {
         Schema::create('formulaire_tuteurs', function (Blueprint $table) {

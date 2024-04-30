@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, KeyboardAvoidingView, Platform  } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
 import SelectBox from 'react-native-multi-selectbox';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { xorBy } from 'lodash';
@@ -105,7 +104,7 @@ export default function Disponibilites() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Text style={styles.titreSection}>Choisir le jour</Text>
         <SelectList
@@ -141,7 +140,7 @@ export default function Disponibilites() {
         onPress={handleAjouterDisponibilites}
       />
       <Toast position="top" bottomOffset={20} />
-    </SafeAreaView>
+    </View>
   )
 
 }

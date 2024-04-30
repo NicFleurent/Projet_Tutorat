@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployesController;
 use App\Http\Controllers\FormulaireTuteurController;
 use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
+use App\Http\Controllers\FormulaireAideController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,17 +38,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
     Route::get('rencontres/rencontresSansFormulaire', [RencontresController::class, 'rencontresSansFormulaire']);//Get les rencontres sans formulaire pour le tuteur
     Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
+    Route::put('formulaireAide/store', [FormulaireAideController::class, 'store']);                            //Ajoute le formulaire aider
 });
 
 
 Route::get('/whoAmI', function () {      //Returns information sure personne auth
     return auth()->user();
 })->middleware('auth:sanctum');
-
-
-//Décommenter ou supprimer selon page admin (Voir controller)
-//Route::get('/utilisateurs', [UtilisateursController::class, 'index']);
-
 
 //Employes
 Route::get('/employes', [EmployesController::class, 'index']);
@@ -74,6 +71,8 @@ Route::get('disponibilites/{idCours}', [DisponibilitesController::class, 'indexD
 //Jumellages
 Route::get('jumelages', [JumelagesController::class, 'index']);
 Route::post('jumelage/create', [JumelagesController::class, 'store']);
+Route::post('jumelage/accepte/{id}', [JumelagesController::class, 'acceptJumelage']);
+Route::post('jumelage/refuse/{id}', [JumelagesController::class, 'refuseJumelage']);
 
 //Rencontres
 Route::get('rencontres', [RencontresController::class, 'index']);
