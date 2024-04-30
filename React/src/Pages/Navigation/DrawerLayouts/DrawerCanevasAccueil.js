@@ -202,7 +202,7 @@ function DrawerCanevas(props) {
               />
             );
           }}
-          label="ResetKeySecureStore"
+          label="Redémarrage"
           onPress={deleteFirstOpenSecureKey}
           labelStyle={{
             color: "#fff",
