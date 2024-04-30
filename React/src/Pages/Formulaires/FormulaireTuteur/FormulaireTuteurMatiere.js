@@ -1,18 +1,24 @@
 import { StyleSheet, View, Text } from "react-native";
-import { Rating, AirbnbRating } from 'react-native-ratings';
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function FormulaireTuteurMatiere() {
+export default function FormulaireTuteurMatiere({route}) {
     const [matiereVu, setMatiereVu] = useState("aucune");
+    const [rencontre_id, setRencontreId] = useState();
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+      setRencontreId(route.params?.rencontre_id);
+    }, [route.params?.rencontre_id]);
+
     const handleSoumettre = function(){
-        console.log(matiereVu);
-        navigation.navigate("Rencontres - Aidé");
+        navigation.navigate("Rencontres - Aidé", {
+          rencontre_id: rencontre_id,
+          matiereVu: matiereVu
+        });
     }
 
     return (

@@ -5,16 +5,38 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function FormulaireTuteurMatiere() {
+export default function FormulaireTuteurMatiere({route}) {
+    const [matiereVu, setMatiereVu] = useState();
+    const [rencontre_id, setRencontreId] = useState();
+    const [noteAide, setNoteAide] = useState(3);
+    const [commantaireAide, setCommentaireAide] = useState();
     const [noteTuteur, setNoteTuteur] = useState(3);
     const [commentaireTuteur, setCommentaireTuteur] = useState("aucun");
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+      setRencontreId(route.params?.rencontre_id);
+      setMatiereVu(route.params?.matiereVu);
+      setNoteAide(route.params?.noteAide);
+      setCommentaireAide(route.params?.commantaireAide);
+    }, 
+    [
+      route.params?.rencontre_id,
+      route.params?.matiereVu,
+      route.params?.noteAide,
+      route.params?.commantaireAide
+    ]);
+
     const handleSoumettre = function(){
-        console.log(noteTuteur);
-        console.log(commentaireTuteur);
-        navigation.navigate("Rencontres - Évaluation");
+        navigation.navigate("Rencontres - Évaluation", {
+          rencontre_id: rencontre_id,
+          matiereVu: matiereVu,
+          noteAide: noteAide,
+          commantaireAide: commantaireAide,
+          noteTuteur: noteTuteur,
+          commentaireTuteur: commentaireTuteur
+        });
     }
 
     return (
