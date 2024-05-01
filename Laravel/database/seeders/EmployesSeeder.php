@@ -19,7 +19,6 @@ class EmployesSeeder extends Seeder
                 'no_employe' => '44444',
                 'salaire' => '15.75',
             ],
-
         ]);
     }
 }

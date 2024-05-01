@@ -16,7 +16,7 @@ class JumelageSeeder extends Seeder
         DB::table('jumelages')->insert([
             [
                 'journee' => "Lundi",
-                'heure' => "08:30",
+                'heure' => "08:00",
                 'demande_accepte' => true,
                 'cours_id' => 1,
                 'tuteur_id' => 4,
@@ -24,7 +24,7 @@ class JumelageSeeder extends Seeder
             ],
             [
                 'journee' => "Mardi",
-                'heure' => "09:30",
+                'heure' => "09:50",
                 'demande_accepte' => false,
                 'cours_id' => 5,
                 'tuteur_id' => 4,
@@ -32,7 +32,7 @@ class JumelageSeeder extends Seeder
             ],
             [
                 'journee' => "Mercredi",
-                'heure' => "14:30",
+                'heure' => "10:45",
                 'demande_accepte' => true,
                 'cours_id' => 10,
                 'tuteur_id' => 4,
@@ -40,7 +40,7 @@ class JumelageSeeder extends Seeder
             ],
             [
                 'journee' => "Jeudi",
-                'heure' => "13:30",
+                'heure' => "13:05",
                 'demande_accepte' => false,
                 'cours_id' => 12,
                 'tuteur_id' => 4,
@@ -48,21 +48,12 @@ class JumelageSeeder extends Seeder
             ],
             [
                 'journee' => "Vendredi",
-                'heure' => "11:30",
+                'heure' => "15:00",
                 'demande_accepte' => true,
                 'cours_id' => 3,
                 'tuteur_id' => 4,
                 'aider_id' => 1,
             ],
-            [
-                'journee' => "Vendredi",
-                'heure' => "8:30",
-                'demande_accepte' => true,
-                'cours_id' => 5,
-                'tuteur_id' => 16,
-                'aider_id' => 17,
-            ],
-
         ]);
     }
 }

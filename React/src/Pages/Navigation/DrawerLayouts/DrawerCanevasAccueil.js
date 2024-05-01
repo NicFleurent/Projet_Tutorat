@@ -108,7 +108,6 @@ function DrawerCanevas(props) {
     try {
       //setIsLoading(true);
       const response = await UserApi.logout(user.token);
-      console.log(response);
 
       SecureStore.deleteValue("user_info");
 
