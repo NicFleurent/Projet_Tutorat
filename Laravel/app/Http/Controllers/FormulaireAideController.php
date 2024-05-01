@@ -14,9 +14,12 @@ class FormulaireAideController extends Controller
 {
     use HttpResponses;
 
-    public function showFormAide(Request $request)
-    {
 
+    
+    public function index()
+    {
+        //$formulaireAide = FormulaireAide::all();
+        //return response()->json($formulaireAide, 200);
     }
 
     public function store(StoreFormAideRequest $request)

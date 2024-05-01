@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JumelageRequest;
 use App\Http\Requests\RencontreRequest;
 use App\Http\Resources\JumelagesResource;
+use App\Models\FormulaireAide;
 use App\Models\Jumelage;
+use App\Models\Rencontre;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,6 +80,41 @@ class JumelagesController extends Controller
             Log::debug($e);
             return $this->error('', $e, 403);
         }
+    }
+
+    public function jumelageSansFormulaire()
+    {
+        $user_id = Auth::user()->id;
+
+        $jumelages = Jumelage::where('aider_id', $user_id)->get();
+
+        $idJumelages = [];
+
+        foreach($jumelages as $jumelage){
+            array_push($idJumelages, $jumelage->id);
+        }
+
+        $formulairesAide = FormulaireAide::all();
+        
+        $idJumelageDejaFait = [];
+
+        foreach($formulairesAide as $formulaireAide){
+            array_push($idJumelageDejaFait, $formulaireAide->jumelage_id);
+        }
+        
+        $rencontres = Rencontre::whereIn('jumelage_id', $idJumelages)
+                                ->whereDate('date', '>', Carbon::now())
+                                ->get();
+
+        foreach($rencontres as $rencontres){
+            array_push($idJumelageDejaFait, $rencontres->jumelage_id);
+        }
+
+        $jumelagesSansFormulaire = Jumelage::where('aider_id', $user_id)
+                                    ->whereNotIn('id', $idJumelageDejaFait)
+                                    ->get();
+        return response()->json(JumelagesResource::collection($jumelagesSansFormulaire), 200);
+
     }
 
     public function acceptJumelage(string $id)
