@@ -130,6 +130,7 @@ export default function Disponibilites() {
           selectedItemStyle={{ backgroundcolor: 'black' }}
           toggleIconColor='black'
           arrowIconColor='black'
+          searchIconColor='black'
           isMulti
         />
       </View>
