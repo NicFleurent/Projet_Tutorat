@@ -181,7 +181,7 @@ export default function Accueil({route}) {
               setCollapsedFormulaireTuteur(true); 
               setCollapsedFormulaireJumelage(true); 
             }}>
-              <Text style={styles.titreSection}>Rencontre à venir</Text>
+              <Text style={styles.titreSection}>Rencontres à venir</Text>
               <Ionicons
                   name={collapsedRencontreVenir ? "arrow-down-circle" : "arrow-up-circle"}
                   color={"#092D74"}
@@ -215,7 +215,7 @@ export default function Accueil({route}) {
               setCollapsedTuteur(true);
               setCollapsedFormulaireJumelage(true); 
             }}>
-              <Text style={styles.titreSection}>Formulaire de rencontre</Text>
+              <Text style={styles.titreSection}>Formulaires de rencontre</Text>
               <Ionicons
                   name={collapsedFormulaireTuteur ? "arrow-down-circle" : "arrow-up-circle"}
                   color={"#092D74"}
