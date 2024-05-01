@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/message/create',[MessageController::class,'store']);                                          //Creer un message
     Route::get('/message/get',[MessageController::class,'index']);
     Route::post('formulaireAide/store', [FormulaireAideController::class, 'store']);                            //Ajoute le formulaire aider
+    Route::delete('message/{id}', [MessageController::class, 'destroy']);                                       //effacer message
 });
 
 

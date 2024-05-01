@@ -34,23 +34,21 @@ class MessageController extends Controller
         return response()->json(['message' => 'Sucesse'], 200);
     }
 
-    public function show(string $id)
+    //needs to be verified if it works
+    public function destroy($id)
     {
-        //
-    }
+        $message = Message::find($id);
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
 
-    public function edit(string $id)
-    {
-        //
-    }
+        $user = auth()->user();
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        if ($user->id !== $message->from_id && $user->id !== $message->to_id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
-    public function destroy(string $id)
-    {
-        //
+        $message->delete();
+        return response()->json(['message' => 'Message deleted successfully'], 200);
     }
 }
