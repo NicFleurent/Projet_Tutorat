@@ -23,7 +23,7 @@ class Jumelage extends Model
         return $this->belongsTo(User::class, 'tuteur_id');
     }
 
-    public function aider()
+    public function aide()
     {
         return $this->belongsTo(User::class, 'aider_id');
     }
