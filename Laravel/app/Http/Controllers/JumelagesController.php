@@ -113,6 +113,10 @@ class JumelagesController extends Controller
         $jumelagesSansFormulaire = Jumelage::where('aider_id', $user_id)
                                     ->whereNotIn('id', $idJumelageDejaFait)
                                     ->get();
+
+        foreach ($jumelagesSansFormulaire as $jumelage) {
+            $jumelage->heure = Carbon::parse($jumelage->heure)->format('H:i');
+        }
         return response()->json(JumelagesResource::collection($jumelagesSansFormulaire), 200);
 
     }
