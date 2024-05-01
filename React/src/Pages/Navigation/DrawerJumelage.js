@@ -14,15 +14,15 @@ import Calendrier from "../DemandesAidesTuteurs/Calendrier";
 const StackNav = () => {
     const Stack = createNativeStackNavigator();
     const navigation = useNavigation();
-    return(
-        <Stack.Navigator 
+    return (
+        <Stack.Navigator
             screenOptions={{
-                statusBarColor:"#092D74",
-                headerStyle:{
-                    backgroundColor:"#092D74"          
+                statusBarColor: "#092D74",
+                headerStyle: {
+                    backgroundColor: "#092D74"
                 },
-                headerTintColor:"#fff",
-                headerTitleAlign:"center",
+                headerTintColor: "#fff",
+                headerTitleAlign: "center",
                 headerBackTitleVisible: 'false',
             }}
         >
@@ -38,14 +38,14 @@ const StackNav = () => {
                     );
                 }
             }}/>*/}
-            <Stack.Screen name="Tutorat" component={PageDemande}  options={{
-                headerLeft:()=>{
-                    return(
+            <Stack.Screen name="Tutorat" component={PageDemande} options={{
+                headerLeft: () => {
+                    return (
                         <Ionicons
                             name="menu"
                             color="#fff"
                             size={30}
-                            onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}
+                            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
                         />
                     );
                 }
@@ -58,21 +58,21 @@ const StackNav = () => {
     );
 }
 
-const DrawerNav = () =>{
+const DrawerNav = () => {
     const Drawer = createDrawerNavigator();
-    return(
-        <Drawer.Navigator 
-            drawerContent={props => <DrawerCanevas {...props}/>}
-            screenOptions={{ headerShown:false }} 
+    return (
+        <Drawer.Navigator
+            drawerContent={props => <DrawerCanevas {...props} />}
+            screenOptions={{ headerShown: false }}
         >
-            <Drawer.Screen name="StackNav" component={StackNav}/>
+            <Drawer.Screen name="StackNav" component={StackNav} />
         </Drawer.Navigator>
     );
 }
 
-export default function DrawerJumelage(){
+export default function DrawerJumelage() {
     return (
-        <DrawerNav/>
+        <DrawerNav />
     );
 }
 
