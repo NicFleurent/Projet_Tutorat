@@ -68,7 +68,7 @@ export default function FormulaireTuteurMatiere({route}) {
             </ScrollView>
 
             <TouchableOpacity style={styles.button} onPress={() => {handleSoumettre()}}>
-                <Text style={styles.textButton}>Vers évaluation</Text>
+                <Text style={styles.textButton}>Suivant</Text>
             </TouchableOpacity>
         </View>
     );

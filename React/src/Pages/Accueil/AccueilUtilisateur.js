@@ -313,7 +313,7 @@ export default function Accueil({route}) {
       navigation.navigate("Rencontres - Matière vu", {rencontre_id: id});
     }
     else if(type === "Jumelage"){
-      console.log(id);
+      navigation.navigate("Jumelage - Aidé", {jumelage_id: id});
     }
   };
 

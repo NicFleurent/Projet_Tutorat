@@ -6,26 +6,22 @@ import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function FormulaireTuteurMatiere({route}) {
-    const [matiereVu, setMatiereVu] = useState();
-    const [rencontre_id, setRencontreId] = useState();
+    const [jumelage_id, setJumelageId] = useState();
     const [noteAide, setNoteAide] = useState(3);
     const [commantaireAide, setCommentaireAide] = useState("aucun");
 
     const navigation = useNavigation();
 
     useEffect(() => {
-      setRencontreId(route.params?.rencontre_id);
-      setMatiereVu(route.params?.matiereVu);
+      setJumelageId(route.params?.jumelage_id);
     }, 
     [
-      route.params?.rencontre_id,
-      route.params?.matiereVu
+      route.params?.jumelage_id,
     ]);
 
     const handleSoumettre = function(){
-        navigation.navigate("Rencontres - Tuteur", {
-          rencontre_id: rencontre_id,
-          matiereVu: matiereVu,
+        navigation.navigate("Jumelage - Tuteur", {
+          jumelage_id: jumelage_id,
           noteAide: noteAide,
           commantaireAide: commantaireAide
         });
@@ -35,14 +31,14 @@ export default function FormulaireTuteurMatiere({route}) {
         <View style={styles.container}>
             <ScrollView>
                 <Text style={styles.sousTitre}>
-                    Est-ce que votre aidé semblait à l'aise tout au long de la rencontre?
+                    Est-ce que vous étiez à l'aise tout au long des rencontres?
                 </Text>
                 <AirbnbRating 
                         reviews={[
-                            "L'aidé était très incorfortable", 
-                            "L'aidé était inconfortable", 
-                            "L'aidé était à l'aise", 
-                            "L'aidé était très à l'aise"]}
+                            "J'étais très incorfortable", 
+                            "J'étais inconfortable", 
+                            "J'étais à l'aise", 
+                            "J'étais très à l'aise"]}
                         selectedColor="#092D74"
                         reviewColor="#092D74"
                         reviewSize={20}

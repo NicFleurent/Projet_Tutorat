@@ -6,28 +6,32 @@ import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function FormulaireTuteurMatiere({route}) {
-    const [matiereVu, setMatiereVu] = useState();
-    const [rencontre_id, setRencontreId] = useState();
+    const [jumelage_id, setJumelageId] = useState();
     const [noteAide, setNoteAide] = useState(3);
-    const [commantaireAide, setCommentaireAide] = useState("aucun");
+    const [commantaireAide, setCommentaireAide] = useState();
+    const [noteTuteur, setNoteTuteur] = useState(3);
+    const [commentaireTuteur, setCommentaireTuteur] = useState("aucun");
 
     const navigation = useNavigation();
 
     useEffect(() => {
-      setRencontreId(route.params?.rencontre_id);
-      setMatiereVu(route.params?.matiereVu);
+      setJumelageId(route.params?.jumelage_id);
+      setNoteAide(route.params?.noteAide);
+      setCommentaireAide(route.params?.commantaireAide);
     }, 
     [
-      route.params?.rencontre_id,
-      route.params?.matiereVu
+      route.params?.jumelage_id,
+      route.params?.noteAide,
+      route.params?.commantaireAide
     ]);
 
     const handleSoumettre = function(){
-        navigation.navigate("Rencontres - Tuteur", {
-          rencontre_id: rencontre_id,
-          matiereVu: matiereVu,
+        navigation.navigate("Jumelage - Évaluation", {
+          jumelage_id: jumelage_id,
           noteAide: noteAide,
-          commantaireAide: commantaireAide
+          commantaireAide: commantaireAide,
+          noteTuteur: noteTuteur,
+          commentaireTuteur: commentaireTuteur
         });
     }
 
@@ -35,27 +39,27 @@ export default function FormulaireTuteurMatiere({route}) {
         <View style={styles.container}>
             <ScrollView>
                 <Text style={styles.sousTitre}>
-                    Est-ce que votre aidé semblait à l'aise tout au long de la rencontre?
+                    Est-ce que votre tuteur était à l'aise tout au long des rencontres?
                 </Text>
                 <AirbnbRating 
                         reviews={[
-                            "L'aidé était très incorfortable", 
-                            "L'aidé était inconfortable", 
-                            "L'aidé était à l'aise", 
-                            "L'aidé était très à l'aise"]}
+                            "Le tuteur était très incorfortable", 
+                            "Le tuteur était inconfortable", 
+                            "Le tuteur était à l'aise", 
+                            "Le tuteur était très à l'aise"
+                        ]}
                         selectedColor="#092D74"
                         reviewColor="#092D74"
                         reviewSize={20}
                         count={4}
-                        showRating={true}
                         ratingContainerStyle={styles.rating}
-                        onFinishRating={(rating)=>{setNoteAide(rating)}}
+                        onFinishRating={(rating)=>{setNoteTuteur(rating)}}
                 />
                 <TextInput 
                     style={styles.input} 
                     multiline
                     placeholder="Commentaire"
-                    onChangeText={text => setCommentaireAide(text)}
+                    onChangeText={text => setCommentaireTuteur(text)}
                 />
             </ScrollView>
 
