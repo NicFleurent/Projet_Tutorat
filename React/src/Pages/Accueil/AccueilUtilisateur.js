@@ -484,7 +484,7 @@ export default function Accueil({route}) {
       .catch(error => {
         Toast.show({
           type: "error",
-          text1: error.response.data.message
+          text1: error.response.data.status
         });
       });
   }
@@ -519,8 +519,7 @@ export default function Accueil({route}) {
       .catch(error => {
         Toast.show({
           type: "error",
-          text1: "Une erreur c'est produite",
-          text2: error.response.data.message
+          text1: error.response.data.message
         });
       });
   }

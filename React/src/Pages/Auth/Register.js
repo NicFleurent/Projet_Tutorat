@@ -16,6 +16,7 @@ import { register } from "../../api/Auth/User";
 import React, { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "../../api/SecureStore";
 
 export default function Register() {
   const navigation = useNavigation();
@@ -124,6 +125,15 @@ export default function Register() {
       ) {
         setIsLoading(true);
         const response = await register(email, nom, prenom, password);
+        const userInfo = {
+          token: response.data.data.token,
+          id: response.data.data.user.id,
+          email: response.data.data.user.email,
+          nom: response.data.data.user.nom,
+          prenom: response.data.data.user.prenom,
+          role: response.data.data.user.role,
+        };
+        SecureStore.save("user_info", userInfo);
         setIsLoading(false);
 
         navigation.reset({
@@ -135,10 +145,8 @@ export default function Register() {
       setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: "Courriel ou mot de passe incorrect",
-        text2: error.message,
+        text1:  error.message
       });
-      console.log(error.message);
     }
   };
 
