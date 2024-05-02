@@ -91,8 +91,7 @@ export default function Login() {
       setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Courriel ou mot de passe incorrect",
+        text1:"Courriel ou mot de passe incorrect",
       });
     }
   };

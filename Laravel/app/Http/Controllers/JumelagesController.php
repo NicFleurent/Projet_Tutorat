@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JumelageRequest;
 use App\Http\Requests\RencontreRequest;
 use App\Http\Resources\JumelagesResource;
+use App\Models\Disponibilite;
 use App\Models\FormulaireAide;
 use App\Models\Jumelage;
 use App\Models\Rencontre;
@@ -112,6 +113,7 @@ class JumelagesController extends Controller
 
         $jumelagesSansFormulaire = Jumelage::where('aider_id', $user_id)
                                     ->whereNotIn('id', $idJumelageDejaFait)
+                                    ->where('demande_accepte', true)
                                     ->get();
 
         foreach ($jumelagesSansFormulaire as $jumelage) {
@@ -130,7 +132,10 @@ class JumelagesController extends Controller
                 $demandeTutorat->demande_accepte = true;
 
                 $this->createRencontresSessions($demandeTutorat->journee, $demandeTutorat->heure,  $demandeTutorat->id);
-
+                $dispos = Disponibilite::where('user_id', $demandeTutorat->tuteur_id)->where('journee', $demandeTutorat->journee)->where('heure',$demandeTutorat->heure)->get();
+                foreach($dispos as $dispo){
+                    $dispo->delete();
+                }
                 $demandeTutorat->save();
                 return $this->success('', 'La demande de tutorat a été acceptée');
             } else {
