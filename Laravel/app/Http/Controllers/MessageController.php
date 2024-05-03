@@ -11,13 +11,35 @@ use Illuminate\Support\Facades\Log;
 class MessageController extends Controller
 {
 
+    //function destroy and get need thinking on
+
+
     //Needs to return the names instead of id if possible
+    //
     public function index()
     {
         $userId = Auth::id();
         $messages = Message::where('to_id', $userId)->get();
         return response()->json($messages, 200);
     }
+
+    //A etre tester
+    public function getMessage($id)
+    {
+        $userId = Auth::id();
+        
+        $message = Message::where(function ($query) use ($userId) {
+            $query->where('from_id', $userId)
+                  ->orWhere('to_id', $userId);
+        })->find($id);
+    
+        if (!$message) {
+            return response()->json(['error' => 'Message pas trouver'], 404);
+        }
+    
+        return response()->json($message, 200);
+    }
+
 
     public function store(StoreMessageRequest $request)
     {
