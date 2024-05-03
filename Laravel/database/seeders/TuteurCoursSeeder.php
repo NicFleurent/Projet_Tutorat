@@ -19,16 +19,18 @@ class TuteurCoursSeeder extends Seeder
                 'user_id' => 4,
                 'cours_id' => 1,
                 'demande_accepte' => true,
-            ],[
+            ],
+            [
                 'id' => 2,
                 'user_id' => 4,
                 'cours_id' => 2,
                 'demande_accepte' => false,
-            ],[
+            ],
+            [
                 'id' => 3,
                 'user_id' => 4,
                 'cours_id' => 3,
-                'demande_accepte' => true,
+                'demande_accepte' => false,
             ],
         ]);
     }

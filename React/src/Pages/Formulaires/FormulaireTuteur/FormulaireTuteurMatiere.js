@@ -7,19 +7,16 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 export default function FormulaireTuteurMatiere({route}) {
     const [matiereVu, setMatiereVu] = useState("aucune");
     const [rencontre_id, setRencontreId] = useState();
-    const [rencontre_date, setRencontreDate] = useState();
 
     const navigation = useNavigation();
 
     useEffect(() => {
       setRencontreId(route.params?.rencontre_id);
-      setRencontreDate(route.params?.rencontre_date);
-    }, [route.params?.rencontre_id, route.params?.rencontre_id]);
+    }, [route.params?.rencontre_id]);
 
     const handleSoumettre = function(){
         navigation.navigate("Rencontres - Aidé", {
           rencontre_id: rencontre_id,
-          rencontre_date: rencontre_date,
           matiereVu: matiereVu
         });
     }
@@ -39,7 +36,7 @@ export default function FormulaireTuteurMatiere({route}) {
             </ScrollView>
 
             <TouchableOpacity style={styles.button} onPress={() => {handleSoumettre()}}>
-                <Text style={styles.textButton}>Vers aisance aidé</Text>
+                <Text style={styles.textButton}>Suivant</Text>
             </TouchableOpacity>
         </View>
     );

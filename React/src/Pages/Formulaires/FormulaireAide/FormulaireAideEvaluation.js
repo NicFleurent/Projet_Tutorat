@@ -9,8 +9,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 
 export default function FormulaireTuteurMatiere({route}) {
-    const [matiereVu, setMatiereVu] = useState();
-    const [rencontre_id, setRencontreId] = useState();
+    const [jumelage_id, setJumelageId] = useState();
     const [noteAide, setNoteAide] = useState(3);
     const [commantaireAide, setCommentaireAide] = useState();
     const [noteTuteur, setNoteTuteur] = useState(3);
@@ -21,16 +20,14 @@ export default function FormulaireTuteurMatiere({route}) {
     const navigation = useNavigation();
 
     useEffect(() => {
-      setRencontreId(route.params?.rencontre_id);
-      setMatiereVu(route.params?.matiereVu);
+      setJumelageId(route.params?.jumelage_id);
       setNoteAide(route.params?.noteAide);
       setCommentaireAide(route.params?.commantaireAide);
       setNoteTuteur(route.params?.noteTuteur);
       setCommentaireTuteur(route.params?.commentaireTuteur);
     }, 
     [
-      route.params?.rencontre_id,
-      route.params?.matiereVu,
+      route.params?.jumelage_id,
       route.params?.noteAide,
       route.params?.commantaireAide,
       route.params?.noteTuteur,
@@ -47,18 +44,17 @@ export default function FormulaireTuteurMatiere({route}) {
         };
     
         const data = {
-          rencontre_id: rencontre_id,
-          matiere_vu: matiereVu,
-          note_aisance_aide: noteAide,
-          commentaire_aisance_aide: commantaireAide,
-          note_aisance_tuteur: noteTuteur,
-          commentaire_aisance_tuteur: commentaireTuteur,
-          note_evaluation: noteEvaluation,
-          commentaire_evaluation: commantaireEvaluation
+          jumelage_id: jumelage_id,
+          aisanceAide: noteAide,
+          commentaireAisanceAide: commantaireAide,
+          aisanceTuteur: noteTuteur,
+          commentaireAisanceTuteur: commentaireTuteur,
+          evaluationTuteur: noteEvaluation,
+          commentaireEvaluationTuteur: commantaireEvaluation
         };
     
         axios
-          .post(process.env.EXPO_PUBLIC_API_URL + "formulaireTuteur/store", data, {
+          .post(process.env.EXPO_PUBLIC_API_URL + "formulaireAide/store", data, {
             headers: headers,
           })
           .then((response) => {
@@ -79,14 +75,14 @@ export default function FormulaireTuteurMatiere({route}) {
         <View style={styles.container}>
             <ScrollView>
                 <Text style={styles.sousTitre}>
-                    Comment évaluer vous le déroulement de la rencontre?
+                    Comment évaluer vous le déroulement des rencontres?
                 </Text>
                 <AirbnbRating 
                         reviews={[
-                            "Elle a très mal été", 
-                            "Elle a mal été", 
-                            "Elle s'est bien déroulé", 
-                            "Elle s'est très bien déroulé"
+                            "Elles ont très mal été", 
+                            "Elles ont mal été", 
+                            "Elles se sont bien déroulé", 
+                            "Elles se sont très bien déroulé"
                         ]}
                         selectedColor="#092D74"
                         reviewColor="#092D74"

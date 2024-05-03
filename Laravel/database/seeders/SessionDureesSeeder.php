@@ -18,7 +18,7 @@ class sessionDureesSeeder extends Seeder
             [
                 'nom' => 'H24',
                 'debut' => '2024-01-25',
-                'fin' => '2024-05-23',
+                'fin' => '2024-06-08',
                 'session_courante' => true
             ]
         ]);

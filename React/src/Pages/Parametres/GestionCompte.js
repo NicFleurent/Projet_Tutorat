@@ -55,12 +55,12 @@ export default function GestionCompte() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
-      setEmailError("Veuillez entrer votre adresse e-mail.");
+      setEmailError("Veuillez entrer votre courriel.");
 
       return false;
     }
     if (regex.test(email) == false) {
-      setEmailError("Entrer une adresse avec un format valide.");
+      setEmailError("Entrez une adresse avec un format valide.");
 
       return false;
     }
@@ -77,7 +77,7 @@ export default function GestionCompte() {
 
   const validatePrenom = () => {
     if (!prenom) {
-      setPrenomError("Veuillez entrer votre prenom.");
+      setPrenomError("Veuillez entrer votre prénom.");
       return false;
     }
     return true;
@@ -104,18 +104,28 @@ export default function GestionCompte() {
         SecureStore.save("user_info", userInfo);
 
         setIsLoading(false);
-        Toast.show({
-          type: "success",
-          text1: "Effectuer",
-          text2: "Modification effectuer avec suceess",
+        navigation.reset({
+          index: 0,
+          routes: [
+            { 
+              name: 'Accueil',
+              params: {
+                message: 'Modification effectuée avec succès'
+              } 
+            }
+          ],
         });
+        // Toast.show({
+        //   type: "success",
+        //   text1: "Modification effectuée avec succès",
+        // });
       }
     } catch (error) {
       setIsLoading(false);
       Toast.show({
         type: "error",
         text1: "Erreur",
-        text2: "Erreur lors de l'operation",
+        text2: "Erreur lors de l'opération",
       });
       console.log(error.message);
     }
@@ -144,7 +154,7 @@ export default function GestionCompte() {
       Toast.show({
         type: "error",
         text1: "Erreur",
-        text2: "Erreur lors de la deconnexion",
+        text2: "Erreur lors de la déconnexion",
       });
       console.log(error.message);
     }
@@ -173,7 +183,7 @@ export default function GestionCompte() {
       Toast.show({
         type: "error",
         text1: "Erreur",
-        text2: "Erreur lors de la suppresion",
+        text2: "Erreur lors de la suppression",
       });
       console.log(error.message);
     }
@@ -192,7 +202,7 @@ export default function GestionCompte() {
   const deleteAccountAlert = () =>
     Alert.alert(
       "Attention",
-      "Êtes vous certain de vouloir supprimer votre compte ?",
+      "Êtes-vous certain de vouloir supprimer votre compte ?",
       [
         {
           text: "Annuler",
@@ -244,10 +254,10 @@ export default function GestionCompte() {
           </View>
 
           <View>
-            <Text style={styles.label}>Prenom</Text>
+            <Text style={styles.label}>Prénom</Text>
 
             <CustomInput
-              placeholder={"Prenom"}
+              placeholder={"Prénom"}
               onChangeText={handlePrenomChange}
               value={prenom}
             />

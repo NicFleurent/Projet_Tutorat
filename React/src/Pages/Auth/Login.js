@@ -41,7 +41,7 @@ export default function Login() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
-      setEmailError("Veuillez entrer votre adresse e-mail.");
+      setEmailError("Veuillez entrer votre adresse courriel.");
 
       return false;
     }
@@ -91,8 +91,7 @@ export default function Login() {
       setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: error.message,
-        text2: "Email ou mot de passe incorrect",
+        text1:"Courriel ou mot de passe incorrect",
       });
     }
   };
@@ -163,16 +162,6 @@ export default function Login() {
               )}
             </View>
 
-            <ClickableText
-              textStyle={styles.forgetPassword}
-              text={"Mot de passe oublier ?"}
-              onPress={() =>
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ResetPassword" }],
-                })
-              }
-            ></ClickableText>
           </View>
 
           <View style={styles.butonView}>

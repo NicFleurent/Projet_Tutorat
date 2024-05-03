@@ -80,7 +80,7 @@ export default function ResetPassword() {
         Toast.show({
           type: "success",
           text1: response.message,
-          text2: "Modification effectuer",
+          text2: "Modification effectuée",
         });
 
         setTimeout(() => {

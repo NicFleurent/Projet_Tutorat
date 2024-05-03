@@ -8,7 +8,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 export default function FormulaireTuteurMatiere({route}) {
     const [matiereVu, setMatiereVu] = useState();
     const [rencontre_id, setRencontreId] = useState();
-    const [rencontre_date, setRencontreDate] = useState();
     const [noteAide, setNoteAide] = useState(3);
     const [commantaireAide, setCommentaireAide] = useState();
     const [noteTuteur, setNoteTuteur] = useState(3);
@@ -18,14 +17,12 @@ export default function FormulaireTuteurMatiere({route}) {
 
     useEffect(() => {
       setRencontreId(route.params?.rencontre_id);
-      setRencontreDate(route.params?.rencontre_date);
       setMatiereVu(route.params?.matiereVu);
       setNoteAide(route.params?.noteAide);
       setCommentaireAide(route.params?.commantaireAide);
     }, 
     [
       route.params?.rencontre_id,
-      route.params?.rencontre_date,
       route.params?.matiereVu,
       route.params?.noteAide,
       route.params?.commantaireAide
@@ -34,7 +31,6 @@ export default function FormulaireTuteurMatiere({route}) {
     const handleSoumettre = function(){
         navigation.navigate("Rencontres - Évaluation", {
           rencontre_id: rencontre_id,
-          rencontre_date: rencontre_date,
           matiereVu: matiereVu,
           noteAide: noteAide,
           commantaireAide: commantaireAide,
@@ -72,7 +68,7 @@ export default function FormulaireTuteurMatiere({route}) {
             </ScrollView>
 
             <TouchableOpacity style={styles.button} onPress={() => {handleSoumettre()}}>
-                <Text style={styles.textButton}>Vers évaluation</Text>
+                <Text style={styles.textButton}>Suivant</Text>
             </TouchableOpacity>
         </View>
     );

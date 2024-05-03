@@ -51,4 +51,25 @@ class User extends Authenticatable
     public function disponibilites(){
         return $this->hasMany(Disponibilite::class);
     }
+
+    public function formulaireAides()
+    {
+        return $this->hasMany(FormulaireAide::class);
+    }
+
+    //public function jumelages()
+    //{
+    //    return $this->hasMany(Jumelage::class);
+    //}
+
+    public function jumelagesAsTuteur()
+    {
+        return $this->hasMany(Jumelage::class, 'tuteur_id');
+    }
+
+    public function jumelagesAsAider()
+    {
+        return $this->hasMany(Jumelage::class, 'aider_id');
+    }
+    
 }
