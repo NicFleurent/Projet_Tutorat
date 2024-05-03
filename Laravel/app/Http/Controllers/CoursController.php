@@ -33,16 +33,16 @@ class CoursController extends Controller
         $cours_id = [];
 
         $cours = Cours::where('responsable_id', $user_id)->get();
-        foreach($cours as $cour){
+        foreach ($cours as $cour) {
             array_push($cours_id, $cour->id);
         }
 
         $demandeTuteur = TuteurCours::with('cours')
-                                    ->with('tuteur')
-                                    ->whereIn('cours_id', $cours_id)
-                                    ->where('demande_accepte', 0)
-                                    ->orderBy('cours_id')
-                                    ->get();
+            ->with('tuteur')
+            ->whereIn('cours_id', $cours_id)
+            ->where('demande_accepte', 0)
+            ->orderBy('cours_id')
+            ->get();
 
         return response()->json(TuteurCoursResource::collection($demandeTuteur), 200);
     }
@@ -74,18 +74,15 @@ class CoursController extends Controller
             $user = User::find($request->tuteur_id);
             $cours = Cours::find($request->cours_id);
 
-            if($cours->tuteurs->contains($user)){
+            if ($cours->tuteurs->contains($user)) {
                 Log::debug("La relation existe déjà");
                 return $this->error('', 'Vous êtes déjà tuteur pour ce cours', 403);
-            }
-            else{
+            } else {
                 $cours->tuteurs()->attach($user);
                 $cours->save();
                 return $this->success('', 'La demande d\'être tuteur a fonctionné');
             }
-        }
-    
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);
@@ -121,20 +118,18 @@ class CoursController extends Controller
      */
     public function acceptTuteurCours(string $id)
     {
-        try{
+        try {
             $demandeTuteur = TuteurCours::find($id);
 
-            if($demandeTuteur->demande_accepte == false){
+            if ($demandeTuteur->demande_accepte == false) {
                 $demandeTuteur->demande_accepte = true;
 
                 $demandeTuteur->save();
                 return $this->success('', 'La demande d\'être tuteur a été acceptée');
-            }
-            else{
+            } else {
                 return $this->error('', 'Cette demande est déjà acceptée', 403);
             }
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);
@@ -154,20 +149,17 @@ class CoursController extends Controller
      */
     public function refuseTuteurCours(string $id)
     {
-        try{
+        try {
             $demandeTuteur = TuteurCours::find($id);
 
-            if($demandeTuteur->demande_accepte == false){
+            if ($demandeTuteur->demande_accepte == false) {
                 $demandeTuteur->delete();
 
                 return $this->success('', 'La demande d\'être tuteur a été refusée');
-            }
-            else{
+            } else {
                 return $this->error('', 'Cette demande est déjà acceptée', 403);
             }
-
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             //Gérer l'erreur
             Log::debug($e);
             return $this->error('', $e, 403);

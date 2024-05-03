@@ -22,21 +22,20 @@ class UtilisateursController extends Controller
     {
         $request->validated($request->all());
 
-        if(!Auth::attempt($request->only('email','password'))){
-            return $this->error('','Le courriel ou le mot de passe n\'est pas valide', 401);
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return $this->error('', 'Le courriel ou le mot de passe n\'est pas valide', 401);
         }
-        
+
         $user = User::where('email', $request->email)->first();
 
-        if ($user->activer === 1)
-        {
+        if ($user->activer === 1) {
             return $this->success([
                 'user' => $user,
-                'token' => $user->createToken('API Token of '. $user->name)->plainTextToken
+                'token' => $user->createToken('API Token of ' . $user->name)->plainTextToken
             ]);
+        } else {
+            return $this->error('', 'compte desactiver', 401);
         }
-        else{return $this->error('','compte desactiver', 401);}
-       
     }
 
     public function register(StoreUserRequest $request)
@@ -77,8 +76,11 @@ class UtilisateursController extends Controller
         $email = $request->input('email');
 
         if ($request->filled('email') && $request->email !== $user->email) {
-            if(filter_var($email, FILTER_VALIDATE_EMAIL)){$user->email = $request->email;}
-            else{return response()->json(['error' => 'Veuillez saisir un email valide'], 422);}
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $user->email = $request->email;
+            } else {
+                return response()->json(['error' => 'Veuillez saisir un email valide'], 422);
+            }
         }
 
         if ($request->filled('prenom') && $request->prenom !== $user->prenom) {
@@ -105,7 +107,7 @@ class UtilisateursController extends Controller
         return response()->json(['message' => 'User updated successfully'], 200);
     }
 
-    
+
     //"old_password"    //Log::info('User ID: ' . Auth::id());
     //"new_password"    //Log::info('Old Password Check: ' . Hash::check($request->old_password, Auth::user()->password));
     public function updatePassword(Request $request)
@@ -120,23 +122,21 @@ class UtilisateursController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Password updated successfully'], 200);
-        
     }
 
     // 1 activer, 0 desactiver
     public function desactiver(Request $request)
     {
         $user = Auth::user();
-           
+
         $user->activer = "0";
         $user->save();
 
         $data = [
-            'status'=>200,
-            'message'=>'Desactiver Success'
+            'status' => 200,
+            'message' => 'Desactiver Success'
         ];
 
-        return response()->json($data,200);
+        return response()->json($data, 200);
     }
-    
 }
