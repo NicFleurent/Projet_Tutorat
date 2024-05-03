@@ -284,7 +284,7 @@ export default function Accueil({route}) {
         (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0)){
       return(
         <>
-              <Text style={styles.titreVide}>Aucune actualités</Text>
+              <Text style={styles.titreVide}>Aucune actualité</Text>
         </>
       )
     }
