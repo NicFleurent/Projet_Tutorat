@@ -35,6 +35,7 @@ class RencontresController extends Controller
         return $response;
     }
 
+    
     public function prochainesRencontres()
     {
         $user_id = Auth::user()->id;
