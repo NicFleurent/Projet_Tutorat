@@ -34,7 +34,7 @@ class ConversationsController extends Controller
 
     public function show($id)
     {
-        $messages = $this->r->getMessagesFor(Auth::id(), $id)->get()->reverse();
+        $messages = $this->r->getMessagesFor(Auth::id(), $id)->get();
 
         return response()->json(MessageResource::collection($messages), 200);
     }

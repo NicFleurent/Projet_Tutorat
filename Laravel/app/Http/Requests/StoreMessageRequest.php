@@ -24,11 +24,12 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             'content' => 'required|min:4'
-
+        ];
     }
 
-    public function messages(){
-        return[
+    public function messages()
+    {
+        return [
             'content.required' => 'Un message est requis',
         ];
     }

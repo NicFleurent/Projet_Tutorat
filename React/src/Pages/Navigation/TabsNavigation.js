@@ -1,32 +1,33 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import DrawerAccueil from "./DrawerAccueil";
 import DrawerJumelage from "./DrawerJumelage";
-import DrawerParametres from "./DrawerParametres";
+import DrawerParametres from "./DrawerMessagerie";
 
 const StackTabs = createBottomTabNavigator();
 
 export default function TabNavigator() {
-
   return (
     <StackTabs.Navigator
-      initialRouteName='DrawerAccueil'
+      initialRouteName="DrawerAccueil"
       screenOptions={{
-        tabBarActiveTintColor: '#E8B1F7',
-        tabBarInactiveTintColor: 'white',
+        tabBarActiveTintColor: "#E8B1F7",
+        tabBarInactiveTintColor: "white",
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 90,
-          backgroundColor: '#092D74',
+          backgroundColor: "#092D74",
         },
         tabBarLabelStyle: {
           fontSize: 13,
-        }
+        },
       }}
     >
       {/* Mettez les pages qui seront dans les onglets ici */}
-      <StackTabs.Screen name="DrawerJumelage" component={DrawerJumelage}
+      <StackTabs.Screen
+        name="DrawerJumelage"
+        component={DrawerJumelage}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -38,7 +39,9 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="DrawerAccueil" component={DrawerAccueil}
+      <StackTabs.Screen
+        name="DrawerAccueil"
+        component={DrawerAccueil}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -50,7 +53,9 @@ export default function TabNavigator() {
           ),
         }}
       />
-      <StackTabs.Screen name="DrawerParametres" component={DrawerParametres}
+      <StackTabs.Screen
+        name="DrawerParametres"
+        component={DrawerParametres}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
