@@ -276,6 +276,20 @@ export default function Accueil({route}) {
     }
   }
 
+  const getAccueilVide = () => {
+    if((formulaireJumelage == undefined || Object.keys(formulaireJumelage).length == 0)&&
+        (formulaireTuteur == undefined || Object.keys(formulaireTuteur).length == 0)&&
+        (rencontresAVenir == undefined || Object.keys(rencontresAVenir).length == 0)&&
+        (demandeTutorat == undefined || Object.keys(demandeTutorat).length == 0)&&
+        (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0)){
+      return(
+        <>
+              <Text style={styles.titreVide}>Aucune actualités</Text>
+        </>
+      )
+    }
+  }
+
   const bottomSheet = useRef(null);
   const bottomSheetRencontre = useRef(null);
 
@@ -543,6 +557,9 @@ export default function Accueil({route}) {
         <View>
           {getRencontreAVenir()}
         </View>
+        <View>
+          {getAccueilVide()}
+        </View>
       </View>
       
 
@@ -658,6 +675,12 @@ const styles = StyleSheet.create({
   titreSection: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  titreVide: {
+    textAlign:'center',
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop:20
   },
   parameterView: {
     marginTop: 45,
