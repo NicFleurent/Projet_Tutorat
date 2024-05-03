@@ -10,39 +10,32 @@ import { Ionicons } from "@expo/vector-icons";
 import { getConversations } from "../../api/Messagerie/MessagerieApi";
 import * as SecureStore from "../../api/SecureStore";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 export default function Messagerie() {
   const navigation = useNavigation();
+  const [user, setUser] = useState([]);
   const [conversations, setConversations] = useState([]);
-  const [token, setToken] = useState("");
 
   useEffect(() => {
-    SecureStore.getValue("user_info").then((userInfoJson) => {
-      const userInfo = JSON.parse(userInfoJson);
+    SecureStore.getValue("user_info").then((userInfo) => {
+      setUser(JSON.parse(userInfo));
 
-      if (userInfo != null) {
-        console.log(userInfo);
-        setToken(userInfo.token);
-      }
-    });
-
-    const fetchData = async () => {
-      if (token) {
-        try {
-          const response = await getConversations(token);
+      userDemande = JSON.parse(userInfo);
+      const headers = {
+        Accept: "application/vnd.api+json",
+        "Content-Type": "application/vnd.api+json",
+        Authorization: `Bearer ${userDemande.token}`,
+      };
+      axios
+        .get(process.env.EXPO_PUBLIC_API_URL + "conversations", {
+          headers: headers,
+        })
+        .then((response) => {
           setConversations(response.data);
-        } catch (error) {
-          console.error(
-            "Erreur lors de la récupération des conversations:",
-            error
-          );
-        }
-      } else {
-        console.warn("Token non trouvé.");
-      }
-    };
-
-    fetchData();
+        })
+        .catch((error) => console.log(error));
+    });
   }, []);
 
   const renderConversationItem = ({ item }) => (
