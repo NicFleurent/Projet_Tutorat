@@ -6,6 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMessageRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+
     public function authorize(): bool
     {
         return true;
@@ -18,17 +22,14 @@ class StoreMessageRequest extends FormRequest
      */
     public function rules(): array
     {
-        return 
-        [
-            'to_id' => ['required'],
-            'message' => ['required']
-        ];
+        return [
+            'content' => 'required|min:4'
+
     }
 
     public function messages(){
         return[
-            'to_id.required' => 'Un receveur est requis',
-            'message.required' => 'Un message est requis',
+            'content.required' => 'Un message est requis',
         ];
     }
 }

@@ -10,17 +10,22 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
+        'content',
         'from_id',
         'to_id',
-        'message',
+        'updated_at'
     ];
 
-    public function fromUser()
+    public $timestamps = false;
+
+    protected $dates = ['created_at', 'read_at'];
+
+    public function from()
     {
         return $this->belongsTo(User::class, 'from_id');
     }
 
-    public function toUser()
+    public function to()
     {
         return $this->belongsTo(User::class, 'to_id');
     }
