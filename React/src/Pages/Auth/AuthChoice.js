@@ -35,7 +35,6 @@ export default function AuthChoice() {
           halfButton={true}
           outlined={true}
           onPress={() => {
-            
             navigation.navigate("Register");
           }}
           standartBackgroundColor={"red"}

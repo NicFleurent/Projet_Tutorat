@@ -9,7 +9,6 @@ import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 import TabsNavigation from "../Navigation/TabsNavigation";
 import ResetPassword from "../Parametres/ResetPassword";
-import Chat from "../Messagerie/ChatPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +24,6 @@ export default function StackNavigationDepart() {
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="TabsNavigation" component={TabsNavigation} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
-      <Stack.Screen name="chat" component={Chat} />
     </Stack.Navigator>
   );
 }

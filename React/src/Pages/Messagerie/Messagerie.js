@@ -41,7 +41,7 @@ export default function Messagerie() {
   const renderConversationItem = ({ item }) => (
     <TouchableOpacity
       style={styles.conversationItem}
-      onPress={() => navigation.navigate("chat", { conversationId: item.id })}
+      onPress={() => navigation.navigate("Chat", { conversationId: item.id })}
     >
       <Text style={styles.conversationName}>{item.attributes.prenom}</Text>
       <Ionicons name="chevron-forward-outline" size={24} color="#092D74" />

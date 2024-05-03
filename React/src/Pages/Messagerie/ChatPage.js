@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {
 import { useRoute } from "@react-navigation/native";
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -21,8 +22,8 @@ const Chat = () => {
   const [user, setUser] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const route = useRoute();
-  const [messagesLength, setMessagesLength] = useState(0);
   const { conversationId } = route.params;
+  const flatListRef = useRef(null);
 
   useEffect(() => {
     SecureStore.getValue("user_info").then((userInfo) => {
@@ -46,9 +47,7 @@ const Chat = () => {
         )
         .then((response) => {
           console.log(response.data);
-
           setMessages(response.data);
-          setMessagesLength(response.data.length);
           setLoading(false);
         })
         .catch((error) => {
@@ -57,6 +56,12 @@ const Chat = () => {
         });
     });
   }, []);
+
+  const scrollToTop = (isAnimated = false) => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToOffset({ offset: 0, animated: isAnimated });
+    }
+  };
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -116,9 +121,13 @@ const Chat = () => {
       console.log("Message envoyé avec succès:", response.data);
 
       const newMessage = response.data;
-      setMessages([...messages, newMessage]);
+      setNewMessage("");
+      setMessages([newMessage, ...messages]);
+      scrollToTop(true);
     } catch (error) {
       console.error("Erreur lors de l'envoi du message:", error);
+      console.error(user.token);
+      console.error(conversationId);
     }
   };
 
@@ -145,7 +154,7 @@ const Chat = () => {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Ajustez la hauteur du clavier ici
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
       <View style={styles.container}>
         {loading ? (
@@ -153,32 +162,38 @@ const Chat = () => {
         ) : (
           <FlatList
             data={messages}
+            ref={flatListRef}
             renderItem={renderMessageItem}
             keyExtractor={(item) => item.id.toString()}
+            inverted={true}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
-            initialScrollIndex={messages.length - 1}
-            onScrollToIndexFailed={(info) => {
-              const wait = new Promise((resolve) => setTimeout(resolve, 500));
-              wait.then(() => {
-                listRef.current?.scrollToIndex({
-                  index: info.index,
-                  animated: true,
-                });
-              });
-            }}
           />
         )}
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={newMessage}
-            onChangeText={setNewMessage}
-            placeholder="Type your message..."
-          />
-          <Button title="Send" onPress={() => sendMessage(newMessage)} />
-        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          value={newMessage}
+          onChangeText={setNewMessage}
+          placeholder="Ecrivez votre message..."
+        />
+        <Ionicons
+          style={styles.refreshIcon}
+          name={"refresh-outline"}
+          size={32}
+          color="#092D74"
+          onPress={() => onRefresh()}
+        />
+
+        <Ionicons
+          style={styles.sendIcon}
+          name={"send-outline"}
+          size={32}
+          color="#092D74"
+          onPress={() => sendMessage(newMessage)}
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -187,8 +202,8 @@ const Chat = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
     paddingHorizontal: 10,
+    backgroundColor: "#E8ECF2",
   },
   messageContainer: {
     flexDirection: "row",
@@ -208,18 +223,17 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
+    justifyContent: "center",
   },
   input: {
     flex: 1,
-    marginRight: 10,
-    padding: 10,
+    paddingVertical: 20,
     backgroundColor: "#f0f0f0",
-    borderRadius: 8,
+    marginLeft: 10,
   },
 
   sentMessage: {
-    backgroundColor: "#DCF8C5",
+    backgroundColor: "#A3B1CB",
   },
   receivedMessage: {
     backgroundColor: "#FFFFFF",
@@ -232,6 +246,12 @@ const styles = StyleSheet.create({
   },
   messageText: {
     fontSize: 16,
+  },
+  refreshIcon: {
+    marginRight: 25,
+  },
+  sendIcon: {
+    marginRight: 15,
   },
 });
 
