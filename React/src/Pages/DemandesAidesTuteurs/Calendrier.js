@@ -4,6 +4,7 @@ import CustomButton from '../../Components/CustomButton';
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "../../api/SecureStore";
+import Toast from "react-native-toast-message";
 
 const jourSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
@@ -54,38 +55,47 @@ export default function Calendrier({ route }) {
 
     const handleEnvoyerDemandeTutorat = async function () {
         const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
-   
+
         const headers = {
             'Accept': 'application/vnd.api+json',
             'Content-Type': 'application/vnd.api+json',
             'Authorization': `Bearer ${userInfo.token}`,
         }
 
-    const dataJumelage = {
-        journee: selectedDispo.attributes.journee,
-        heure: selectedDispo.attributes.heure,
-        demande_accepte : false,
-        cours_id: idCours,
-        tuteur_id :selectedDispo.tuteur.id,
-        aider_id : userInfo.id,
-      };  
+        const dataJumelage = {
+            journee: selectedDispo.attributes.journee,
+            heure: selectedDispo.attributes.heure,
+            demande_accepte: false,
+            cours_id: idCours,
+            tuteur_id: selectedDispo.tuteur.id,
+            aider_id: userInfo.id,
+        };
 
-      try {
-        const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "jumelage/create", dataJumelage, {
-          headers: headers
-        });
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Tutorat', params: { message: response.data.message } }]
-        });
-      } catch (error) {
-        Toast.show({
-          type: "error",
-          text1: error.response.data.message
-        });
-      }
+        try {
+            if (userInfo.id == dataJumelage.tuteur_id) {
+                Toast.show({
+                    type: "error",
+                    text1: "Vous êtes tuteur pour ce cours."
+                });
+            }
+            else {
+                const response = await axios.post(process.env.EXPO_PUBLIC_API_URL + "jumelage/create", dataJumelage, {
+                    headers: headers
+                });
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Tutorat', params: { message: response.data.message } }]
+                });
+            }
+        }
+        catch (error) {
+            Toast.show({
+                type: "error",
+                text1: error.response.data.message
+            });
+        }
     }
-  
+
     return (
         <View style={styles.container}>
             <Text style={styles.titrePage}>Choisir la journée</Text>
@@ -130,6 +140,7 @@ export default function Calendrier({ route }) {
             <CustomButton
                 text={'Envoyer la demande de tutorat'}
                 onPress={handleEnvoyerDemandeTutorat} />
+            <Toast position="top" bottomOffset={20} />
         </View>
     );
 }
@@ -185,5 +196,5 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 18,
         color: '#777',
-    }   
+    }
 });
