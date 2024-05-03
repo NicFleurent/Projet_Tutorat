@@ -13,6 +13,7 @@ use App\Models\Jumelage;
 use App\Traits\RencontreTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RencontresController extends Controller
 {
@@ -96,5 +97,21 @@ class RencontresController extends Controller
         }
 
         return response()->json(RecontresResource::collection($rencontres), 200);
+    }
+
+    public function cancellerRencontre(string $id)
+    {
+        try {
+            $rencontre = Rencontre::find($id);
+            $rencontre->delete();
+
+             return $this->success('', 'La rencontre a été cancellée');
+            } 
+                
+         catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 }

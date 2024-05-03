@@ -7,9 +7,9 @@ import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Toast from "react-native-toast-message";
 import { Ionicons } from '@expo/vector-icons';
 import Collapsible from "react-native-collapsible";
-import { useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Accueil({route}) {
+export default function Accueil({ route }) {
   const [user, setUser] = useState([]);
   const [demandeChoisie, setDemandeChoisie] = useState();
   const [demandeTuteur, setDemandeTuteur] = useState();
@@ -35,18 +35,18 @@ export default function Accueil({route}) {
 
   useEffect(() => {
     forceRefresh();
-    setCollapsedTuteur(true); 
+    setCollapsedTuteur(true);
     setCollapsedTutorat(true);
-    setCollapsedFormulaireTuteur(true); 
-    setCollapsedRencontreVenir(false); 
+    setCollapsedFormulaireTuteur(true);
+    setCollapsedRencontreVenir(false);
     if (route.params?.message) {
-        Toast.show({
-            type: "success",
-            text1: route.params.message,
-            text1Style: { fontSize: 13 }
-        });
+      Toast.show({
+        type: "success",
+        text1: route.params.message,
+        text1Style: { fontSize: 13 }
+      });
     }
-}, [route.params?.message]);
+  }, [route.params?.message]);
 
   const forceRefresh = () => {
     setState(state + 1);
@@ -96,34 +96,34 @@ export default function Accueil({route}) {
   }, [state]);
 
   const getDemandeTuteur = () => {
-    if(demandeTuteur !== undefined && Object.keys(demandeTuteur).length !== 0){
-      return(
+    if (demandeTuteur !== undefined && Object.keys(demandeTuteur).length !== 0) {
+      return (
         <>
           <View style={styles.dropdownView}>
             <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
-              forceRefresh(); 
-              setCollapsedTuteur(!collapsedTuteur); 
+              forceRefresh();
+              setCollapsedTuteur(!collapsedTuteur);
               setCollapsedTutorat(true);
-              setCollapsedFormulaireTuteur(true); 
-              setCollapsedRencontreVenir(true); 
-              setCollapsedFormulaireJumelage(true); 
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedFormulaireJumelage(true);
             }}>
               <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
               <Ionicons
-                  name={collapsedTuteur ? "arrow-down-circle" : "arrow-up-circle"}
-                  color={"#092D74"}
-                  size={30}/>
+                name={collapsedTuteur ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
             </TouchableOpacity>
             <Collapsible collapsed={collapsedTuteur}>
               <FlatList
-                    data={demandeTuteur}
-                    renderItem={renderItemTuteur}
-                    keyExtractor={item => item.id.toString()}
-                    extraData={selectedIdTuteur}
-                    initialNumToRender={3}
-                    maxToRenderPerBatch={1}
-                    windowSize={1}
-                />
+                data={demandeTuteur}
+                renderItem={renderItemTuteur}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdTuteur}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
+              />
             </Collapsible>
           </View>
         </>
@@ -132,159 +132,159 @@ export default function Accueil({route}) {
   }
 
   const getDemandeTutorat = () => {
-    if(demandeTutorat !== undefined && Object.keys(demandeTutorat).length !== 0){
-      return(
+    if (demandeTutorat !== undefined && Object.keys(demandeTutorat).length !== 0) {
+      return (
         <>
           <View style={styles.dropdownView}>
             <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
               forceRefresh();
-              setCollapsedTutorat(!collapsedTutorat); 
+              setCollapsedTutorat(!collapsedTutorat);
               setCollapsedTuteur(true);
-              setCollapsedFormulaireTuteur(true); 
-              setCollapsedRencontreVenir(true); 
-              setCollapsedFormulaireJumelage(true); 
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedFormulaireJumelage(true);
             }}>
               <Text style={styles.titreSection}>Demandes de jumelages</Text>
               <Ionicons
-                  name={collapsedTutorat ? "arrow-down-circle" : "arrow-up-circle"}
-                  color={"#092D74"}
-                  size={30}/>
+                name={collapsedTutorat ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
             </TouchableOpacity>
             <Collapsible collapsed={collapsedTutorat}>
               <FlatList
-                  data={demandeTutorat}
-                  renderItem={renderItemJumelage}
-                  keyExtractor={item => item.id.toString()}
-                  extraData={selectedIdTutorat}
-                  initialNumToRender={3}
-                  maxToRenderPerBatch={1}
-                  windowSize={1}
+                data={demandeTutorat}
+                renderItem={renderItemJumelage}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdTutorat}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
               />
             </Collapsible>
           </View>
-          
+
         </>
       )
     }
   }
 
   const getRencontreAVenir = () => {
-    if(rencontresAVenir !== undefined && Object.keys(rencontresAVenir).length !== 0){
-      return(
+    if (rencontresAVenir !== undefined && Object.keys(rencontresAVenir).length !== 0) {
+      return (
         <>
           <View style={styles.dropdownView}>
             <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
               forceRefresh();
-              setCollapsedRencontreVenir(!collapsedRencontreVenir); 
-              setCollapsedTutorat(true); 
+              setCollapsedRencontreVenir(!collapsedRencontreVenir);
+              setCollapsedTutorat(true);
               setCollapsedTuteur(true);
-              setCollapsedFormulaireTuteur(true); 
-              setCollapsedFormulaireJumelage(true); 
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedFormulaireJumelage(true);
             }}>
               <Text style={styles.titreSection}>Rencontres à venir</Text>
               <Ionicons
-                  name={collapsedRencontreVenir ? "arrow-down-circle" : "arrow-up-circle"}
-                  color={"#092D74"}
-                  size={30}/>
+                name={collapsedRencontreVenir ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
             </TouchableOpacity>
             <Collapsible collapsed={collapsedRencontreVenir}>
               <FlatList
-                  data={rencontresAVenir}
-                  renderItem={renderItemRencontre}
-                  keyExtractor={item => item.id.toString()}
-                  extraData={selectedIdRencontreVenir}
+                data={rencontresAVenir}
+                renderItem={renderItemRencontre}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdRencontreVenir}
               />
             </Collapsible>
           </View>
-          
+
         </>
       )
     }
   }
 
   const getFormulaireTuteur = () => {
-    if(formulaireTuteur !== undefined && Object.keys(formulaireTuteur).length !== 0){
-      return(
+    if (formulaireTuteur !== undefined && Object.keys(formulaireTuteur).length !== 0) {
+      return (
         <>
           <View style={styles.dropdownView}>
             <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
               forceRefresh();
-              setCollapsedFormulaireTuteur(!collapsedFormulaireTuteur); 
-              setCollapsedRencontreVenir(true); 
-              setCollapsedTutorat(true); 
+              setCollapsedFormulaireTuteur(!collapsedFormulaireTuteur);
+              setCollapsedRencontreVenir(true);
+              setCollapsedTutorat(true);
               setCollapsedTuteur(true);
-              setCollapsedFormulaireJumelage(true); 
+              setCollapsedFormulaireJumelage(true);
             }}>
               <Text style={styles.titreSection}>Formulaires de rencontre</Text>
               <Ionicons
-                  name={collapsedFormulaireTuteur ? "arrow-down-circle" : "arrow-up-circle"}
-                  color={"#092D74"}
-                  size={30}/>
+                name={collapsedFormulaireTuteur ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
             </TouchableOpacity>
             <Collapsible collapsed={collapsedFormulaireTuteur}>
               <FlatList
-                  data={formulaireTuteur}
-                  renderItem={renderItemFormulaireTuteur}
-                  keyExtractor={item => item.id.toString()}
-                  extraData={selectedIdFormulaireTuteur}
-                  initialNumToRender={3}
-                  maxToRenderPerBatch={1}
-                  windowSize={1}
+                data={formulaireTuteur}
+                renderItem={renderItemFormulaireTuteur}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdFormulaireTuteur}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
               />
             </Collapsible>
           </View>
-          
+
         </>
       )
     }
   }
 
   const getFormulaireJumelage = () => {
-    if(formulaireJumelage !== undefined && Object.keys(formulaireJumelage).length !== 0){
-      return(
+    if (formulaireJumelage !== undefined && Object.keys(formulaireJumelage).length !== 0) {
+      return (
         <>
           <View style={styles.dropdownView}>
             <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
               forceRefresh();
-              setCollapsedFormulaireJumelage(!collapsedFormulaireJumelage); 
-              setCollapsedFormulaireTuteur(true); 
-              setCollapsedRencontreVenir(true); 
-              setCollapsedTutorat(true); 
+              setCollapsedFormulaireJumelage(!collapsedFormulaireJumelage);
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedTutorat(true);
               setCollapsedTuteur(true);
             }}>
               <Text style={styles.titreSection}>Formulaire de jumelage</Text>
               <Ionicons
-                  name={collapsedFormulaireJumelage ? "arrow-down-circle" : "arrow-up-circle"}
-                  color={"#092D74"}
-                  size={30}/>
+                name={collapsedFormulaireJumelage ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
             </TouchableOpacity>
             <Collapsible collapsed={collapsedFormulaireJumelage}>
               <FlatList
-                  data={formulaireJumelage}
-                  renderItem={renderItemFormulaireJumelage}
-                  keyExtractor={item => item.id.toString()}
-                  extraData={selectedIdFormulaireJumelage}
-                  initialNumToRender={3}
-                  maxToRenderPerBatch={1}
-                  windowSize={1}
+                data={formulaireJumelage}
+                renderItem={renderItemFormulaireJumelage}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdFormulaireJumelage}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
               />
             </Collapsible>
           </View>
-          
+
         </>
       )
     }
   }
 
   const getAccueilVide = () => {
-    if((formulaireJumelage == undefined || Object.keys(formulaireJumelage).length == 0)&&
-        (formulaireTuteur == undefined || Object.keys(formulaireTuteur).length == 0)&&
-        (rencontresAVenir == undefined || Object.keys(rencontresAVenir).length == 0)&&
-        (demandeTutorat == undefined || Object.keys(demandeTutorat).length == 0)&&
-        (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0)){
-      return(
+    if ((formulaireJumelage == undefined || Object.keys(formulaireJumelage).length == 0) &&
+      (formulaireTuteur == undefined || Object.keys(formulaireTuteur).length == 0) &&
+      (rencontresAVenir == undefined || Object.keys(rencontresAVenir).length == 0) &&
+      (demandeTutorat == undefined || Object.keys(demandeTutorat).length == 0) &&
+      (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0)) {
+      return (
         <>
-              <Text style={styles.titreVide}>Aucune actualité</Text>
+          <Text style={styles.titreVide}>Aucune actualité</Text>
         </>
       )
     }
@@ -296,7 +296,7 @@ export default function Accueil({route}) {
   const onPressDemande = (idDemande, type) => {
     setDemandeChoisie(idDemande);
     setTypeDemande(type);
-    if(type === "Tuteur"){
+    if (type === "Tuteur") {
       setSelectedIdTuteur(idDemande);
       setSelectedIdTutorat(-1);
       setSelectedIdRencontreVenir(-1);
@@ -304,7 +304,7 @@ export default function Accueil({route}) {
       setSelectedIdFormulaireJumelage(-1);
       bottomSheet.current?.present();
     }
-    else if(type === "Jumelage"){
+    else if (type === "Jumelage") {
       setSelectedIdTutorat(idDemande);
       setSelectedIdTuteur(-1);
       setSelectedIdRencontreVenir(-1);
@@ -312,7 +312,7 @@ export default function Accueil({route}) {
       setSelectedIdFormulaireJumelage(-1);
       bottomSheet.current?.present();
     }
-    else if(type === "RencontreVenir"){
+    else if (type === "RencontreVenir") {
       setSelectedIdRencontreVenir(idDemande);
       setSelectedIdTutorat(-1);
       setSelectedIdTuteur(-1);
@@ -323,139 +323,141 @@ export default function Accueil({route}) {
   };
 
   const onPressFormulaire = (id, type) => {
-    if(type === "Tuteur"){
-      navigation.navigate("Rencontres - Matière vu", {rencontre_id: id});
+    if (type === "Tuteur") {
+      navigation.navigate("Rencontres - Matière vu", { rencontre_id: id });
     }
-    else if(type === "Jumelage"){
-      navigation.navigate("Jumelage - Aidé", {jumelage_id: id});
+    else if (type === "Jumelage") {
+      navigation.navigate("Jumelage - Aidé", { jumelage_id: id });
     }
   };
 
-  const renderItemTuteur = ({ item }) => {
-      const backgroundColor = item.id === selectedIdTuteur ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedIdTuteur ? 'white' : 'black';
 
-      return (
-          <ItemTuteur
-              item={item}
-              onPress={() => onPressDemande(item.id, "Tuteur")}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
+
+  const renderItemTuteur = ({ item }) => {
+    const backgroundColor = item.id === selectedIdTuteur ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdTuteur ? 'white' : 'black';
+
+    return (
+      <ItemTuteur
+        item={item}
+        onPress={() => onPressDemande(item.id, "Tuteur")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
   };
 
   const renderItemJumelage = ({ item }) => {
-      const backgroundColor = item.id === selectedIdTutorat ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedIdTutorat ? 'white' : 'black';
+    const backgroundColor = item.id === selectedIdTutorat ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdTutorat ? 'white' : 'black';
 
-      return (
-          <ItemJumelage
-              item={item}
-              onPress={() => onPressDemande(item.id, "Jumelage")}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
+    return (
+      <ItemJumelage
+        item={item}
+        onPress={() => onPressDemande(item.id, "Jumelage")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
   };
 
   const renderItemRencontre = ({ item }) => {
-      const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+    const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
 
-      return (
-          <ItemRencontre
-              item={item}
-              onPress={() => onPressDemande(item.id, "RencontreVenir")}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
+    return (
+      <ItemRencontre
+        item={item}
+        onPress={() => onPressDemande(item.id, "RencontreVenir")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
   };
 
   const renderItemFormulaireTuteur = ({ item }) => {
-      const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+    const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
 
-      return (
-          <ItemFormulaireTuteur
-              item={item}
-              onPress={() => onPressFormulaire(item.id, "Tuteur")}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
+    return (
+      <ItemFormulaireTuteur
+        item={item}
+        onPress={() => onPressFormulaire(item.id, "Tuteur")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
   };
 
   const renderItemFormulaireJumelage = ({ item }) => {
-      const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
-      const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+    const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
 
-      return (
-          <ItemFormulaireJumelage
-              item={item}
-              onPress={() => onPressFormulaire(item.id, "Jumelage")}
-              backgroundColor={backgroundColor}
-              textColor={color}
-          />
-      );
+    return (
+      <ItemFormulaireJumelage
+        item={item}
+        onPress={() => onPressFormulaire(item.id, "Jumelage")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
   };
 
   const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
-            <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
-        </View>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Nom : ' + item.tuteur.prenom} {item.tuteur.nom}</Text>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
+      </View>
     </TouchableOpacity>
   );
 
   const ItemJumelage = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Nom : ' + item.aide.prenom} {item.aide.nom}</Text>
-            <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
-            <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + ' à ' + item.attributes.heure}</Text>
-        </View>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Nom : ' + item.aide.prenom} {item.aide.nom}</Text>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + ' à ' + item.attributes.heure}</Text>
+      </View>
     </TouchableOpacity>
   );
 
-  const TextRencontre = function(jumelage){
-    if(jumelage.tuteur_id === user.id){
-      return(<Text>{'Aidé : ' + jumelage.aide.prenom + " " + jumelage.aide.nom}</Text>);
+  const TextRencontre = function (jumelage) {
+    if (jumelage.tuteur_id === user.id) {
+      return (<Text>{'Aidé : ' + jumelage.aide.prenom + " " + jumelage.aide.nom}</Text>);
     }
-    else{
-      return(<Text>{'Tuteur : ' + jumelage.tuteur.prenom + " " + jumelage.tuteur.nom}</Text>);
+    else {
+      return (<Text>{'Tuteur : ' + jumelage.tuteur.prenom + " " + jumelage.tuteur.nom}</Text>);
     }
   }
 
   const ItemRencontre = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
-            <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
-            <Text style={{ color: textColor }}>{TextRencontre(item.jumelage)}</Text>
-        </View>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{TextRencontre(item.jumelage)}</Text>
+      </View>
     </TouchableOpacity>
   );
 
   const ItemFormulaireTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
-            <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
-            <Text style={{ color: textColor }}>{'Tuteur : ' + item.jumelage.aide.prenom + " " + item.jumelage.aide.prenom}</Text>
-        </View>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{'Tuteur : ' + item.jumelage.aide.prenom + " " + item.jumelage.aide.prenom}</Text>
+      </View>
     </TouchableOpacity>
   );
 
   const ItemFormulaireJumelage = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
-        <View style={styles.textFlatlist}>
-            <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + " à " + item.attributes.heure}</Text>
-            <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
-            <Text style={{ color: textColor }}>{'Tuteur : ' + item.tuteur.prenom + " " + item.tuteur.nom}</Text>
-        </View>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + " à " + item.attributes.heure}</Text>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{'Tuteur : ' + item.tuteur.prenom + " " + item.tuteur.nom}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -474,12 +476,12 @@ export default function Accueil({route}) {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
-    
+
     let route_demande;
-    if(typeDemande === "Tuteur"){
+    if (typeDemande === "Tuteur") {
       route_demande = "cours/acceptTuteurCours/";
     }
-    else if(typeDemande === "Jumelage"){
+    else if (typeDemande === "Jumelage") {
       route_demande = "jumelages/acceptJumelage/";
     }
 
@@ -511,18 +513,19 @@ export default function Accueil({route}) {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
-    
+
     let route_demande;
-    if(typeDemande === "Tuteur"){
+    if (typeDemande === "Tuteur") {
       route_demande = "cours/refuseTuteurCours/";
     }
-    else if(typeDemande === "Jumelage"){
+    else if (typeDemande === "Jumelage") {
       route_demande = "jumelages/refuseJumelage/";
     }
 
     axios.delete(process.env.EXPO_PUBLIC_API_URL + route_demande + demandeChoisie, {
       headers: headers
     })
+
       .then(response => {
         forceRefresh();
         Toast.show({
@@ -538,6 +541,33 @@ export default function Accueil({route}) {
       });
   }
 
+  const handleCanceller = async function () {
+    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
+    const headers = {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      'Authorization': `Bearer ${userInfo.token}`,
+    }
+    
+    axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
+      headers: headers
+    })
+      .then(response => {
+        forceRefresh();
+        Toast.show({
+          type: "success",
+          text1: response.data.message
+        });
+        console.log(response.data.message)
+      })
+      .catch(error => {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+      });
+  }
   return (
     <View style={styles.container}>
       <View style={styles.containerFlatlists}>
@@ -561,7 +591,7 @@ export default function Accueil({route}) {
           {getAccueilVide()}
         </View>
       </View>
-      
+
 
       <BottomSheetModal
         ref={bottomSheet}
@@ -625,7 +655,8 @@ export default function Accueil({route}) {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              Alert.alert("Fonctionnalité à venir");
+              handleCanceller();
+              //Alert.alert("Fonctionnalité à venir");
               bottomSheetRencontre.current.close();
               setSelectedIdRencontreVenir(-1);
             }}
@@ -655,8 +686,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
   },
-  containerFlatlists:{
-    height:'80%'
+  containerFlatlists: {
+    height: '80%'
   },
   titre: {
     fontSize: 32,
@@ -667,20 +698,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 10,
   },
-  boxTitreSection:{
-    flexDirection:'row',
+  boxTitreSection: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
   },
   titreSection: {
     fontSize: 20,
     fontWeight: "bold",
   },
   titreVide: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: "bold",
-    marginTop:20
+    marginTop: 20
   },
   parameterView: {
     marginTop: 45,
@@ -701,22 +732,22 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   ScrollView: {
-    marginBottom:20
+    marginBottom: 20
   },
   item: {
-      backgroundColor: '#fff',
-      padding: 20,
-      marginVertical: 8,
-      borderRadius: 7,
-      borderWidth: 1,
-      borderColor: '#ccc'
+    backgroundColor: '#fff',
+    padding: 20,
+    marginVertical: 8,
+    borderRadius: 7,
+    borderWidth: 1,
+    borderColor: '#ccc'
   },
   dropdownView: {
-      backgroundColor: '#fff',
-      padding: 10,
-      marginVertical: 8,
-      borderRadius: 7,
-      borderWidth: 1,
-      borderColor: '#ccc',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginVertical: 8,
+    borderRadius: 7,
+    borderWidth: 1,
+    borderColor: '#ccc',
   }
 });
