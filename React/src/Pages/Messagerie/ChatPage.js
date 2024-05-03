@@ -25,9 +25,6 @@ const Chat = () => {
         const response = await showConversation(token, conversationId);
         const conversation = response.data;
         console.log(conversation);
-        // Supposons que la réponse contient les détails de la conversation, y compris les messages
-        // Assurez-vous de vérifier la structure de la réponse et d'extraire les messages selon la structure de votre API
-        //setMessages(conversation.messages); // Supposons que les messages sont stockés dans un tableau messages dans la réponse
       } catch (error) {
         console.error(
           "Erreur lors de la récupération de la conversation:",
