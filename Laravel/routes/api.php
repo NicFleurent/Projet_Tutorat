@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
     Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
     Route::get('rencontres/rencontresSansFormulaire', [RencontresController::class, 'rencontresSansFormulaire']); //Get les rencontres sans formulaire pour le tuteur
+    Route::delete('rencontres/cancellerRencontre/{id}', [RencontresController::class, 'cancellerRencontre']);  //Canceller rencontre
     Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
     //Route::get('formulaireAide/index', [FormulaireAideController::class, 'index']);
     Route::post('formulaireAide/store', [FormulaireAideController::class, 'store']); 
