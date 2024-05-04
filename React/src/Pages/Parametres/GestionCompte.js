@@ -107,12 +107,12 @@ export default function GestionCompte() {
         navigation.reset({
           index: 0,
           routes: [
-            { 
-              name: 'Accueil',
+            {
+              name: "Accueil",
               params: {
-                message: 'Modification effectuée avec succès'
-              } 
-            }
+                message: "Modification effectuée avec succès",
+              },
+            },
           ],
         });
         // Toast.show({
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   titre: {
     fontSize: 32,
     fontWeight: "bold",
-    marginTop: 30,
+    marginTop: 20,
   },
   sousTitre: {
     fontSize: 12,
