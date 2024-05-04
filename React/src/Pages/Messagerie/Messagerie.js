@@ -90,7 +90,6 @@ export default function Messagerie() {
         <TextInput
           style={{
             flex: 1,
-
             borderRadius: 5,
             paddingVertical: 15,
             backgroundColor: "#E8ECF2",
