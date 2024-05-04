@@ -13,25 +13,30 @@ use App\Http\Requests\LoginUserRequest;
 class GestionConnectionAdmin extends Controller
 {
     public function login(Request $request)
-    {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('PageLogin')->with('erreur', "Le courriel ou le mot de passe n'est pas valide");
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        if ($user->activer === 1) {
-            $token = $user->createToken('API Token of ' . $user->name)->plainTextToken;
-            return redirect()->route('listUsers')->with('success', "Connexion réussie")->with('token', $token);
-        } else {
-            return redirect()->route('PageLogin')->with('erreur', "Compte désactivé");
-        }
+{
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return redirect()->route('PageLogin')->with('erreur', "Le courriel ou le mot de passe n'est pas valide");
     }
+
+    $user = User::where('email', $request->email)->first();
+
+    if ($user->role !== 'admin') {
+        Auth::logout();
+        return redirect()->route('PageLogin')->with('erreur', "Accès non autorisé");
+    }
+
+    if ($user->activer === 1) {
+        $token = $user->createToken('API Token of ' . $user->name)->plainTextToken;
+        return redirect()->route('listUsers')->with('success', "Connexion réussie")->with('token', $token);
+    } else {
+        return redirect()->route('PageLogin')->with('erreur', "Compte désactivé");
+    }
+}
 
     public function Logout()
     {
         Auth::guard('web')->logout();
-        return redirect()->route('Netflix.home');
+        return redirect()->route('PageLogin')->with('success', "Déconnexion réussie");
     }
 
 }

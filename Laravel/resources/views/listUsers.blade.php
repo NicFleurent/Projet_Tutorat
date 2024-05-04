@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usagers</title>
-</head>
-<body>
-    <p>IT WORKED!!!</p>
-</body>
-</html>
+@extends('layouts.app')
+    @section('title',"List Utilisateur")
+    @section('css')
+        <link rel="stylesheet" href="">
+    @show
+    @section('content')
+    @section('header',"List Utilisateur")
+    <div class="content"></div>
+
+
+
+
+
+@endsection
