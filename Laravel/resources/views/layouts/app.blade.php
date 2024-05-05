@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
     <title>@yield('title')</title>
     @yield('css')
+    @yield('js')
 </head>
 <body>
     <div class="PageName"><header><h1>@yield('header')</h1></header></div>

@@ -3,6 +3,9 @@
     @section('css')
         <link rel="stylesheet" href="">
     @show
+    @section('js')
+        <script src="{{ asset('js/deleteConfirmUser.js') }}"></script>
+    @endsection
     @section('content')
     @section('header',"List Utilisateur")
     <div class="container">
@@ -26,6 +29,8 @@
                         <td>{{ $user->nom }}</td>
                         <td>{{ $user->role }}</td>
                         <td>{{ $user->activer}}</td>
+                        <td><a><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
+                        <td><a onclick="confirmDeleteUser({{ $user->id }})"><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
                     </tr>
                 @endforeach
             </tbody>
