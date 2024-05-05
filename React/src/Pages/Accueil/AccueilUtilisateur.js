@@ -725,48 +725,48 @@ export default function Accueil({ route }) {
         });
       });
   }
-
-  const handleCanceller = async function () {
-    // Afficher une alerte demandant à l'utilisateur s'il est sûr
+  const handleCanceller = () => {
     Alert.alert(
-      "Confirmation",
-      "Êtes-vous sûr de vouloir annuler la rencontre ?",
+      "Êtes-vous certain de vouloir canceller ?",
+      "",
       [
         {
           text: "Annuler",
           style: "cancel"
         },
         {
-          text: "Confirmer",
-          onPress: async () => {
-            const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
-  
-            const headers = {
-              'Accept': 'application/vnd.api+json',
-              'Content-Type': 'application/vnd.api+json',
-              'Authorization': `Bearer ${userInfo.token}`,
-            }
-  
-            axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
-              headers: headers
-            })
-              .then(response => {
-                forceRefresh();
-                Toast.show({
-                  type: "success",
-                  text1: response.data.message
-                });
-              })
-              .catch(error => {
-                Toast.show({
-                  type: "error",
-                  text1: error.response.message
-                });
-              });
-          }
+          text: "Oui",
+          onPress: () => {handleCancellerConfirmer();}
         }
       ]
     );
+  }
+  const handleCancellerConfirmer = async function () {
+    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+
+    const headers = {
+      'Accept': 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+      'Authorization': `Bearer ${userInfo.token}`,
+    }
+
+    axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
+      headers: headers
+    })
+      .then(response => {
+        forceRefresh();
+        Toast.show({
+          type: "success",
+          text1: response.data.message
+        });
+      })
+      .catch(error => {
+        Toast.show({
+          type: "error",
+          text1: error.response.data.message
+        });
+        console.log(error.response.data.message);
+      });
   }
   return (
     <View style={styles.container}>
