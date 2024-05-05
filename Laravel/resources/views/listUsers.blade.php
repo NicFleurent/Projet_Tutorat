@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="">
     @show
     @section('js')
-        <script src="{{ asset('js/deleteConfirmUser.js') }}"></script>
+        <script src="{{ asset('js/disableConfirmUser.js') }}"></script>
     @endsection
     @section('content')
     @section('header',"List Utilisateur")
@@ -30,7 +30,7 @@
                         <td>{{ $user->role }}</td>
                         <td>{{ $user->activer}}</td>
                         <td><a><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
-                        <td><a onclick="confirmDeleteUser({{ $user->id }})"><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
+                        <td><a onclick="confirmDisableUser({{ $user->id }})"><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
                     </tr>
                 @endforeach
             </tbody>

@@ -40,7 +40,6 @@ export default function ModificationRencontre({ route }) {
     return numeroEnMois[numero];
   }
 
-  //const [dateDepart, setDateDepart] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
   const [date, setDate] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -75,7 +74,7 @@ export default function ModificationRencontre({ route }) {
       });
       return;
     }
-    else if (date.getDay() === 0 || date.getDay() === 6) { // 0 pour dimanche, 6 pour samedi
+    else if (date.getDay() === 0 || date.getDay() === 6) { 
       Toast.show({
         type: "error",
         text1: "Jour invalide",
@@ -100,10 +99,6 @@ export default function ModificationRencontre({ route }) {
         heure: `${date.getHours()}:${date.getMinutes()}`
       };
 
-      const response = await axios.put(process.env.EXPO_PUBLIC_API_URL + 'rencontres/modifierRencontre/' + idRencontre, data, {
-        headers: headers
-      });
-
       Alert.alert(
         "Êtes-vous certain de vouloir modifier ?",
         "",
@@ -114,7 +109,10 @@ export default function ModificationRencontre({ route }) {
           },
           {
             text: "Oui",
-            onPress: () => {
+            onPress: async () => {
+              const response = await axios.put(process.env.EXPO_PUBLIC_API_URL + 'rencontres/modifierRencontre/' + idRencontre, data, {
+                headers: headers
+              });
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Accueil', params: { message: response.data.message } }]
