@@ -18,16 +18,21 @@ export default function Accueil({ route }) {
   const [rencontresAVenir, setRencontreAVenir] = useState();
   const [formulaireTuteur, setFormulaireTuteur] = useState();
   const [formulaireJumelage, setFormulaireJumelage] = useState();
+  const [formulaireJumelageProf, setFormulaireJumelageProf] = useState();
   const [typeDemande, setTypeDemande] = useState("");
   const [selectedIdTuteur, setSelectedIdTuteur] = useState();
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
   const [selectedIdRencontreVenir, setSelectedIdRencontreVenir] = useState();
   const [selectedIdFormulaireTuteur, setSelectedIdFormulaireTuteur] = useState();
+  const [selectedIdFormulaireTuteurProf, setSelectedIdFormulaireTuteurProf] = useState();
   const [selectedIdFormulaireJumelage, setSelectedIdFormulaireJumelage] = useState();
+  const [selectedIdFormulaireJumelageProf, setSelectedIdFormulaireJumelageProf] = useState();
   const [collapsedTuteur, setCollapsedTuteur] = useState(true);
   const [collapsedTutorat, setCollapsedTutorat] = useState(true);
   const [collapsedFormulaireTuteur, setCollapsedFormulaireTuteur] = useState(true);
+  const [collapsedFormulaireTuteurProf, setCollapsedFormulaireTuteurProf] = useState(true);
   const [collapsedFormulaireJumelage, setCollapsedFormulaireJumelage] = useState(true);
+  const [collapsedFormulaireJumelageProf, setCollapsedFormulaireJumelageProf] = useState(true);
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
 
   //Modification Rencontre
@@ -97,6 +102,12 @@ export default function Accueil({ route }) {
             setFormulaireJumelage(response.data);
           })
           .catch((error) => console.log(error))
+
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "formulaireAide/sansCommentaire", { headers: headers })
+          .then((response) => {
+            setFormulaireJumelageProf(response.data);
+          })
+          .catch((error) => console.log(error))
       });
   }, [state]);
 
@@ -112,6 +123,7 @@ export default function Accueil({ route }) {
               setCollapsedFormulaireTuteur(true);
               setCollapsedRencontreVenir(true);
               setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireJumelageProf(true);
             }}>
               <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
               <Ionicons
@@ -148,6 +160,7 @@ export default function Accueil({ route }) {
               setCollapsedFormulaireTuteur(true);
               setCollapsedRencontreVenir(true);
               setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireJumelageProf(true);
             }}>
               <Text style={styles.titreSection}>Demandes de jumelages</Text>
               <Ionicons
@@ -185,6 +198,7 @@ export default function Accueil({ route }) {
               setCollapsedTuteur(true);
               setCollapsedFormulaireTuteur(true);
               setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireJumelageProf(true);
             }}>
               <Text style={styles.titreSection}>Rencontres à venir</Text>
               <Ionicons
@@ -219,6 +233,7 @@ export default function Accueil({ route }) {
               setCollapsedTutorat(true);
               setCollapsedTuteur(true);
               setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireJumelageProf(true);
             }}>
               <Text style={styles.titreSection}>Formulaires de rencontre</Text>
               <Ionicons
@@ -256,6 +271,7 @@ export default function Accueil({ route }) {
               setCollapsedRencontreVenir(true);
               setCollapsedTutorat(true);
               setCollapsedTuteur(true);
+              setCollapsedFormulaireJumelageProf(true);
             }}>
               <Text style={styles.titreSection}>Formulaire de jumelage</Text>
               <Ionicons
@@ -269,6 +285,44 @@ export default function Accueil({ route }) {
                 renderItem={renderItemFormulaireJumelage}
                 keyExtractor={item => item.id.toString()}
                 extraData={selectedIdFormulaireJumelage}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
+              />
+            </Collapsible>
+          </View>
+
+        </>
+      )
+    }
+  }
+
+  const getFormulaireJumelageProf = () => {
+    if (formulaireJumelageProf !== undefined && Object.keys(formulaireJumelageProf).length !== 0) {
+      return (
+        <>
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedFormulaireJumelageProf(!collapsedFormulaireJumelageProf);
+              setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedTutorat(true);
+              setCollapsedTuteur(true);
+            }}>
+              <Text style={styles.titreSection}>Formulaire de jumelage à commenter</Text>
+              <Ionicons
+                name={collapsedFormulaireJumelageProf ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedFormulaireJumelageProf}>
+              <FlatList
+                data={formulaireJumelageProf}
+                renderItem={renderItemFormulaireJumelageProf}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdFormulaireJumelageProf}
                 initialNumToRender={3}
                 maxToRenderPerBatch={1}
                 windowSize={1}
@@ -307,6 +361,7 @@ export default function Accueil({ route }) {
       setSelectedIdRencontreVenir(-1);
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
+      setSelectedIdFormulaireJumelageProf(-1);
       bottomSheet.current?.present();
     }
     else if (type === "Jumelage") {
@@ -315,6 +370,7 @@ export default function Accueil({ route }) {
       setSelectedIdRencontreVenir(-1);
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
+      setSelectedIdFormulaireJumelageProf(-1);
       bottomSheet.current?.present();
     }
     else if (type === "RencontreVenir") {
@@ -323,6 +379,7 @@ export default function Accueil({ route }) {
       setSelectedIdTuteur(-1);
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
+      setSelectedIdFormulaireJumelageProf(-1);
       bottomSheetRencontre.current?.present();
     }
   };
@@ -333,6 +390,12 @@ export default function Accueil({ route }) {
     }
     else if (type === "Jumelage") {
       navigation.navigate("Jumelage - Aidé", { jumelage_id: id });
+    }
+  };
+
+  const onPressFormulaireProf = (item, type) => {
+    if (type === "Jumelage"){
+      navigation.navigate("Jumelage - Revue", { FormulaireAide: item });
     }
   };
 
@@ -416,6 +479,20 @@ export default function Accueil({ route }) {
     );
   };
 
+  const renderItemFormulaireJumelageProf = ({ item }) => {
+    const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+
+    return (
+      <ItemFormulaireJumelageProf
+        item={item}
+        onPress={() => onPressFormulaireProf(item, "Jumelage")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
+  };
+
   const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
       <View style={styles.textFlatlist}>
@@ -470,6 +547,16 @@ export default function Accueil({ route }) {
         <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.journee + " à " + item.attributes.heure}</Text>
         <Text style={{ color: textColor }}>{'Cours : ' + item.cours.nom}</Text>
         <Text style={{ color: textColor }}>{'Tuteur : ' + item.tuteur.prenom + " " + item.tuteur.nom}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const ItemFormulaireJumelageProf = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{'Tuteur : ' + item.jumelage.tuteur.prenom + " " + item.jumelage.tuteur.nom}</Text>
+        <Text style={{ color: textColor }}>{'Aidé : ' + item.jumelage.aide.prenom + " " + item.jumelage.aide.nom}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -611,6 +698,9 @@ export default function Accueil({ route }) {
         </View>
         <View>
           {getFormulaireJumelage()}
+        </View>
+        <View>
+          {getFormulaireJumelageProf()}
         </View>
         <View>
           {getRencontreAVenir()}
