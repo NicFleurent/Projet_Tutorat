@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AjoutComFormulaireAideRequest;
 use App\Models\FormulaireAide;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
@@ -74,9 +75,23 @@ class FormulaireAideController extends Controller
 
     }
 
-    public function ajoutCommentaire(Request $request)
+    public function ajoutCommentaire(AjoutComFormulaireAideRequest $request, string $id)
     {
-        
+        $request->validated($request->all());
+
+        try {
+            $formulaire = FormulaireAide::findOrFail($id);
+            Log::debug($request->noteProfesseur);
+            $formulaire->noteProfesseur = $request->noteProfesseur;
+            $formulaire->save();
+
+            return $this->success($formulaire, 'Les commentaires ont été ajoutés');
+
+        } catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 
 }

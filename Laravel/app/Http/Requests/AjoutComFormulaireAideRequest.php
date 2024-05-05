@@ -11,7 +11,7 @@ class AjoutComFormulaireAideRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class AjoutComFormulaireAideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'noteProfesseur' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return[
+            'noteProfesseur.required' => 'Les commentaires du professeur sont requis'
         ];
     }
 }
