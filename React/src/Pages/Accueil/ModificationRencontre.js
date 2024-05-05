@@ -31,7 +31,6 @@ export default function ModificationRencontre({ route }) {
 
   const [date, setDate] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
 
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
@@ -49,7 +48,7 @@ export default function ModificationRencontre({ route }) {
       });
       return;
     }
-    else if (date.getDay() === 0 || date.getDay() === 6) { // 0 pour dimanche, 6 pour samedi
+    else if (date.getDay() === 0 || date.getDay() === 6) { 
       Toast.show({
         type: "error",
         text1: "Jour invalide",
@@ -74,10 +73,6 @@ export default function ModificationRencontre({ route }) {
         heure: `${date.getHours()}:${date.getMinutes()}`
       };
 
-      const response = await axios.put(process.env.EXPO_PUBLIC_API_URL + 'rencontres/modifierRencontre/' + idRencontre, data, {
-        headers: headers
-      });
-
       Alert.alert(
         "Êtes-vous certain de vouloir modifier ?",
         "",
@@ -88,7 +83,10 @@ export default function ModificationRencontre({ route }) {
           },
           {
             text: "Oui",
-            onPress: () => {
+            onPress: async () => {
+              const response = await axios.put(process.env.EXPO_PUBLIC_API_URL + 'rencontres/modifierRencontre/' + idRencontre, data, {
+                headers: headers
+              });
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Accueil', params: { message: response.data.message } }]
@@ -109,11 +107,17 @@ export default function ModificationRencontre({ route }) {
         <Text style={styles.sousTitre}>Choisir un nouveau moment pour la rencontre :</Text>
         <DateTimePicker
           value={date}
-          mode={"datetime"}
-          display="spinner"
+          mode={"date"}
           is24Hour={true}
           minimumDate={new Date()}
           locale="fr"
+          onChange={onChange}
+        />
+         <DateTimePicker
+          value={date}
+          mode={"time"}
+          is24Hour={true}
+          minimumDate={new Date()}
           onChange={onChange}
         />
       </View>
