@@ -44,7 +44,7 @@ export default function ModificationRencontre({ route }) {
   const [date, setDate] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [text, setText] = useState('empty');
+  const [text, setText] = useState('Aucune date entrée pour le moment');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -55,8 +55,6 @@ export default function ModificationRencontre({ route }) {
     let fDate = tempDate.getDate() + ' ' + (convertirNumeroEnMois(tempDate.getMonth())) + ' ' + tempDate.getFullYear();
     let fTime = String(tempDate.getHours()).padStart(2, '0') + ':' + String(tempDate.getMinutes()).padStart(2, '0');
     setText(fDate + ' à ' + fTime)
-
-    console.log(fDate, fTime);
   };
 
   const showMode = (currentMode) => {
@@ -149,8 +147,10 @@ export default function ModificationRencontre({ route }) {
         {show && (
           <DateTimePicker
             value={date}
+            minimumDate={new Date()}
             mode={mode}
             is24Hour={true}
+            local='fr'
             display="spinner"
             onChange={onChange}
 
@@ -169,26 +169,6 @@ export default function ModificationRencontre({ route }) {
     </View>
   );
 }
-
-/*
-<DateTimePicker
-          value={dateDepart}
-          mode={"date"}
-          display={"spinner"}
-          is24Hour={true}
-          minimumDate={new Date()}
-          locale="fr"
-          onChange={setDate}
-        />
-        <DateTimePicker
-          value={dateDepart}
-          mode={"time"}
-          display={"spinner"}
-          is24Hour={true}
-          minimumDate={new Date()}
-          onChange={setDate}
-        />
-*/
 
 const styles = StyleSheet.create({
   container: {
