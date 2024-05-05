@@ -10,6 +10,7 @@ import Collapsible from "react-native-collapsible";
 import { useNavigation } from '@react-navigation/native';
 
 export default function Accueil({ route }) {
+
   const [user, setUser] = useState([]);
   const [demandeChoisie, setDemandeChoisie] = useState();
   const [demandeTuteur, setDemandeTuteur] = useState();
@@ -28,6 +29,9 @@ export default function Accueil({ route }) {
   const [collapsedFormulaireTuteur, setCollapsedFormulaireTuteur] = useState(true);
   const [collapsedFormulaireJumelage, setCollapsedFormulaireJumelage] = useState(true);
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
+
+  const [date, setDate] = useState();
+  const [heure, setHeure] = useState();
 
   const [state, setState] = useState(0);
 
@@ -360,21 +364,29 @@ export default function Accueil({ route }) {
       />
     );
   };
+  const onPressItemRencontre = (item) => {
+    setDate(item.attributes.date);
+    setHeure(item.attributes.heure);
+    // Autres actions à effectuer lors de l'appui sur un élément ItemRencontre
+  };
 
   const renderItemRencontre = ({ item }) => {
     const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
     const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
 
-    return (
-      <ItemRencontre
-        item={item}
-        onPress={() => onPressDemande(item.id, "RencontreVenir")}
-        backgroundColor={backgroundColor}
-        textColor={color}
-      />
-    );
-  };
-
+   
+  return (
+    <ItemRencontre
+      item={item}
+      onPress={() => {
+        onPressItemRencontre(item);
+        onPressDemande(item.id, "RencontreVenir"); // ou toute autre action que vous souhaitez effectuer
+      }}
+      backgroundColor={backgroundColor}
+      textColor={color}
+    />
+  );
+};
   const renderItemFormulaireTuteur = ({ item }) => {
     const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
     const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
@@ -549,7 +561,7 @@ export default function Accueil({ route }) {
       'Content-Type': 'application/vnd.api+json',
       'Authorization': `Bearer ${userInfo.token}`,
     }
-    
+
     axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
       headers: headers
     })
@@ -559,12 +571,11 @@ export default function Accueil({ route }) {
           type: "success",
           text1: response.data.message
         });
-        console.log(response.data.message)
       })
       .catch(error => {
         Toast.show({
           type: "error",
-          text1: error.response.data.message
+          text1: error.response.message
         });
       });
   }
@@ -645,7 +656,12 @@ export default function Accueil({ route }) {
             halfButton={false}
             style={styles.buttonSpace}
             onPress={() => {
-              Alert.alert("Fonctionnalité à venir");
+              navigation.navigate("Modification - Rencontre", {
+                idRencontre: selectedIdRencontreVenir,
+                date: date,
+                heure: heure
+              });
+
               bottomSheetRencontre.current.close();
               setSelectedIdRencontreVenir(-1);
             }}
@@ -656,7 +672,6 @@ export default function Accueil({ route }) {
             style={styles.buttonSpace}
             onPress={() => {
               handleCanceller();
-              //Alert.alert("Fonctionnalité à venir");
               bottomSheetRencontre.current.close();
               setSelectedIdRencontreVenir(-1);
             }}

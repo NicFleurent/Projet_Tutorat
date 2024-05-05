@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DisponibiliteRequest;
 use App\Http\Requests\StoreDisponibiliteRequest;
 use App\Http\Resources\DisponibilitesResource;
-use App\Models\Cours;
 use Illuminate\Http\Request;
 use App\Models\Disponibilite;
 use App\Models\TuteurCours;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
