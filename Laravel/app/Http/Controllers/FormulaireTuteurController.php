@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AjoutComFormTuteurRequest;
 use App\Http\Requests\StoreFormulaireTuteurRequest;
 use App\Http\Resources\FormulaireTuteurResource;
 use App\Models\Cours;
@@ -74,5 +75,24 @@ class FormulaireTuteurController extends Controller
         $formulaireTuteur->save();
 
         return $this->success('', 'Le formulaire a été enregistré');
+    }
+
+    public function ajoutCommentaire(AjoutComFormTuteurRequest $request, string $id)
+    {
+        $request->validated($request->all());
+
+        try {
+            $formulaire = FormulaireTuteur::findOrFail($id);
+
+            $formulaire->commentaire_professeur = $request->commentaire_professeur;
+            $formulaire->save();
+
+            return $this->success($formulaire, 'Les commentaires ont été ajoutés');
+
+        } catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 }
