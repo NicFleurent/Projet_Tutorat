@@ -30,6 +30,7 @@ export default function Accueil({ route }) {
   const [collapsedFormulaireJumelage, setCollapsedFormulaireJumelage] = useState(true);
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
 
+  //Modification Rencontre
   const [date, setDate] = useState();
   const [heure, setHeure] = useState();
 
@@ -81,6 +82,12 @@ export default function Accueil({ route }) {
 
         axios.get(process.env.EXPO_PUBLIC_API_URL + "rencontres/prochainesRencontres", { headers: headers })
           .then((response) => {
+            const rencontresAVenirData = response.data;
+            rencontresAVenirData.forEach(rencontre => {
+              if (rencontre.attributes.rencontre_modifiee === 1  ) {
+                console.log('modifiée!');
+              }
+            });
             setRencontreAVenir(response.data);
           })
           .catch((error) => console.log(error))
@@ -374,19 +381,19 @@ export default function Accueil({ route }) {
     const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
     const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
 
-   
-  return (
-    <ItemRencontre
-      item={item}
-      onPress={() => {
-        onPressItemRencontre(item);
-        onPressDemande(item.id, "RencontreVenir"); // ou toute autre action que vous souhaitez effectuer
-      }}
-      backgroundColor={backgroundColor}
-      textColor={color}
-    />
-  );
-};
+
+    return (
+      <ItemRencontre
+        item={item}
+        onPress={() => {
+          onPressItemRencontre(item);
+          onPressDemande(item.id, "RencontreVenir"); // ou toute autre action que vous souhaitez effectuer
+        }}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
+  };
   const renderItemFormulaireTuteur = ({ item }) => {
     const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
     const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
@@ -446,7 +453,7 @@ export default function Accueil({ route }) {
   const ItemRencontre = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
       <View style={styles.textFlatlist}>
-        <Text style={{ color: textColor }}>{'Moment : ' + item.jumelage.journee + " le " + item.attributes.date + " à " + item.attributes.heure}</Text>
+        <Text style={{ color: textColor }}>{'Moment : ' + item.attributes.date + " à " + item.attributes.heure}</Text>
         <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
         <Text style={{ color: textColor }}>{TextRencontre(item.jumelage)}</Text>
       </View>
