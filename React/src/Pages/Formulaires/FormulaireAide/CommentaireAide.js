@@ -9,7 +9,7 @@ import Toast from "react-native-toast-message";
 
 export default function CommentaireFormAide({route}) {
     const navigation = useNavigation();
-    const [commantaire, setCommentaire] = useState("aucun");
+    const [commentaire, setCommentaire] = useState("aucun");
 
     const handleSoumettre = async function(){
       const userInfo = JSON.parse(await SecureStore.getValue("user_info"));
@@ -21,7 +21,7 @@ export default function CommentaireFormAide({route}) {
         };
     
         const data = {
-          noteProfesseur: commantaire
+          noteProfesseur: commentaire
         };
     
         axios.patch(

@@ -7,9 +7,9 @@ import * as SecureStore from "../../../api/SecureStore";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 
-export default function CommentaireFormAide({route}) {
+export default function CommentaireFormTuteur({route}) {
     const navigation = useNavigation();
-    const [commantaire, setCommentaire] = useState("aucun");
+    const [commentaire, setCommentaire] = useState("aucun");
 
     const handleSoumettre = async function(){
       const userInfo = JSON.parse(await SecureStore.getValue("user_info"));
@@ -21,11 +21,11 @@ export default function CommentaireFormAide({route}) {
         };
     
         const data = {
-          noteProfesseur: commantaire
+          commentaire_professeur: commentaire
         };
     
         axios.patch(
-            process.env.EXPO_PUBLIC_API_URL + "formulaireAide/ajoutCommentaire/" + route.params?.formulaire_id, 
+            process.env.EXPO_PUBLIC_API_URL + "formulaireTuteur/ajoutCommentaire/" + route.params?.formulaire_id, 
             data, 
             { headers: headers }
           )

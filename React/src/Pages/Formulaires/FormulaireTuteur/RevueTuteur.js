@@ -5,12 +5,12 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function RevueFormAide({route}) {
+export default function RevueFormTuteur({route}) {
     const navigation = useNavigation();
 
     const handleSoumettre = function(){
-        navigation.navigate("Jumelage - Commentaire", {
-          formulaire_id: route.params?.FormulaireAide.id
+        navigation.navigate("Rencontre - Commentaire", {
+          formulaire_id: route.params?.FormulaireTuteur.id
         });
     }
 
@@ -20,13 +20,23 @@ export default function RevueFormAide({route}) {
                 <View style={styles.section}>
                     <View style={styles.note}>
                         <Text style={styles.sousTitre}>
+                            Matière vue
+                        </Text>
+                    </View>
+                    <Text style={styles.commentaire}>
+                        {route.params?.FormulaireTuteur.attributes.matiere_vu}
+                    </Text>
+                </View>
+                <View style={styles.section}>
+                    <View style={styles.note}>
+                        <Text style={styles.sousTitre}>
                             Aisance de l'aidé
                         </Text>
                         <AirbnbRating 
                                 showRating={false}
                                 selectedColor="#092D74"
                                 size={24}
-                                defaultRating={route.params?.FormulaireAide.attributes.note_aisance_aide}
+                                defaultRating={route.params?.FormulaireTuteur.attributes.note_aisance_aide}
                                 count={4}
                                 ratingContainerStyle={styles.rating}
                                 isDisabled={true}
@@ -34,7 +44,7 @@ export default function RevueFormAide({route}) {
                         />
                     </View>
                     <Text style={styles.commentaire}>
-                        {route.params?.FormulaireAide.attributes.commentaire_aisance_aide}
+                        {route.params?.FormulaireTuteur.attributes.commentaire_aisance_aide}
                     </Text>
                 </View>
 
@@ -47,7 +57,7 @@ export default function RevueFormAide({route}) {
                                 showRating={false}
                                 selectedColor="#092D74"
                                 size={24}
-                                defaultRating={route.params?.FormulaireAide.attributes.note_aisance_tuteur}
+                                defaultRating={route.params?.FormulaireTuteur.attributes.note_aisance_tuteur}
                                 count={4}
                                 ratingContainerStyle={styles.rating}
                                 isDisabled={true}
@@ -55,7 +65,7 @@ export default function RevueFormAide({route}) {
                         />
                     </View>
                     <Text style={styles.commentaire}>
-                        {route.params?.FormulaireAide.attributes.commentaire_aisance_tuteur}
+                        {route.params?.FormulaireTuteur.attributes.commentaire_aisance_tuteur}
                     </Text>
                 </View>
 
@@ -68,7 +78,7 @@ export default function RevueFormAide({route}) {
                                 showRating={false}
                                 selectedColor="#092D74"
                                 size={24}
-                                defaultRating={route.params?.FormulaireAide.attributes.note_evaluation}
+                                defaultRating={route.params?.FormulaireTuteur.attributes.note_evaluation}
                                 count={4}
                                 ratingContainerStyle={styles.rating}
                                 isDisabled={true}
@@ -76,7 +86,7 @@ export default function RevueFormAide({route}) {
                         />
                     </View>
                     <Text style={styles.commentaire}>
-                        {route.params?.FormulaireAide.attributes.commentaire_evaluation}
+                        {route.params?.FormulaireTuteur.attributes.commentaire_evaluation}
                     </Text>
                 </View>
             </ScrollView>
