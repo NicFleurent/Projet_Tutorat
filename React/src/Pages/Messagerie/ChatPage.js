@@ -177,7 +177,7 @@ const Chat = () => {
           style={styles.input}
           value={newMessage}
           onChangeText={setNewMessage}
-          placeholder="Ecrivez votre message..."
+          placeholder="Écrivez votre message..."
         />
         <Ionicons
           style={styles.refreshIcon}
