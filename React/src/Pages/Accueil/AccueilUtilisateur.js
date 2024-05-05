@@ -82,12 +82,6 @@ export default function Accueil({ route }) {
 
         axios.get(process.env.EXPO_PUBLIC_API_URL + "rencontres/prochainesRencontres", { headers: headers })
           .then((response) => {
-            const rencontresAVenirData = response.data;
-            rencontresAVenirData.forEach(rencontre => {
-              if (rencontre.attributes.rencontre_modifiee === 1  ) {
-                console.log('modifiée!');
-              }
-            });
             setRencontreAVenir(response.data);
           })
           .catch((error) => console.log(error))
@@ -561,30 +555,46 @@ export default function Accueil({ route }) {
   }
 
   const handleCanceller = async function () {
-    const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
-
-    const headers = {
-      'Accept': 'application/vnd.api+json',
-      'Content-Type': 'application/vnd.api+json',
-      'Authorization': `Bearer ${userInfo.token}`,
-    }
-
-    axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
-      headers: headers
-    })
-      .then(response => {
-        forceRefresh();
-        Toast.show({
-          type: "success",
-          text1: response.data.message
-        });
-      })
-      .catch(error => {
-        Toast.show({
-          type: "error",
-          text1: error.response.message
-        });
-      });
+    // Afficher une alerte demandant à l'utilisateur s'il est sûr
+    Alert.alert(
+      "Confirmation",
+      "Êtes-vous sûr de vouloir annuler la rencontre ?",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Confirmer",
+          onPress: async () => {
+            const userInfo = JSON.parse(await SecureStore.getValue('user_info'));
+  
+            const headers = {
+              'Accept': 'application/vnd.api+json',
+              'Content-Type': 'application/vnd.api+json',
+              'Authorization': `Bearer ${userInfo.token}`,
+            }
+  
+            axios.delete(process.env.EXPO_PUBLIC_API_URL + 'rencontres/cancellerRencontre/' + selectedIdRencontreVenir, {
+              headers: headers
+            })
+              .then(response => {
+                forceRefresh();
+                Toast.show({
+                  type: "success",
+                  text1: response.data.message
+                });
+              })
+              .catch(error => {
+                Toast.show({
+                  type: "error",
+                  text1: error.response.message
+                });
+              });
+          }
+        }
+      ]
+    );
   }
   return (
     <View style={styles.container}>
