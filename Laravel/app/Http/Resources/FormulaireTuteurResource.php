@@ -17,14 +17,14 @@ class FormulaireTuteurResource extends JsonResource
         return [
             'id' => (string)$this->id,
             'attributes' => [
-                'matiere_vu' => $this->numero,
-                'note_aisance_aide' => $this->nom,
-                'commentaire_aisance_aide' => $this->responsable_id,
-                'note_aisance_tuteur' => $this->programme_id,
-                'commentaire_aisance_tuteur' => $this->programme_id,
-                'note_evaluation' => $this->programme_id,
-                'commentaire_evaluation' => $this->programme_id,
-                'commentaire_professeur' => $this->programme_id,
+                'matiere_vu' => $this->matiere_vu,
+                'note_aisance_aide' => $this->note_aisance_aide,
+                'commentaire_aisance_aide' => $this->commentaire_aisance_aide,
+                'note_aisance_tuteur' => $this->note_aisance_tuteur,
+                'commentaire_aisance_tuteur' => $this->commentaire_aisance_tuteur,
+                'note_evaluation' => $this->note_evaluation,
+                'commentaire_evaluation' => $this->commentaire_evaluation,
+                'commentaire_professeur' => $this->commentaire_professeur,
                 'rencontre_id' => $this->programme_id,
             ]
         ];

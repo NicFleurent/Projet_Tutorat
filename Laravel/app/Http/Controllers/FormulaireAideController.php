@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AjoutComFormulaireAideRequest;
 use App\Models\FormulaireAide;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreFormAideRequest;
+use App\Http\Resources\FormulaireAideResource;
+use App\Models\Cours;
+use App\Models\Jumelage;
 
 class FormulaireAideController extends Controller
 {
@@ -20,6 +24,35 @@ class FormulaireAideController extends Controller
     {
         //$formulaireAide = FormulaireAide::all();
         //return response()->json($formulaireAide, 200);
+    }
+
+    public function sansCommentaire()
+    {
+        $user_id = Auth::user()->id;
+
+        try {
+            $cours_id = [];
+            $cours = Cours::where('responsable_id', $user_id)->get();
+            foreach ($cours as $cour) {
+                array_push($cours_id, $cour->id);
+            }
+
+            $jumelages_id = [];
+            $jumelages = Jumelage::whereIn('cours_id', $cours_id)->get();
+            foreach ($jumelages as $jumelage) {
+                array_push($jumelages_id, $jumelage->id);
+            }
+
+            $formulaires = FormulaireAide::whereIn('jumelage_id', $jumelages_id)
+                                            ->where('noteProfesseur', 'Pas encore commenté')
+                                            ->get();
+
+            return response()->json(FormulaireAideResource::collection($formulaires), 200);
+        } catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 
     public function store(StoreFormAideRequest $request)
@@ -42,9 +75,23 @@ class FormulaireAideController extends Controller
 
     }
 
-    public function teacherAddCommentAide(Request $request)
+    public function ajoutCommentaire(AjoutComFormulaireAideRequest $request, string $id)
     {
+        $request->validated($request->all());
 
+        try {
+            $formulaire = FormulaireAide::findOrFail($id);
+            Log::debug($request->noteProfesseur);
+            $formulaire->noteProfesseur = $request->noteProfesseur;
+            $formulaire->save();
+
+            return $this->success($formulaire, 'Les commentaires ont été ajoutés');
+
+        } catch (\Throwable $e) {
+            //Gérer l'erreur
+            Log::debug($e);
+            return $this->error('', $e, 403);
+        }
     }
 
 }

@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
     //Route::get('formulaireAide/index', [FormulaireAideController::class, 'index']);
     Route::post('formulaireAide/store', [FormulaireAideController::class, 'store']); 
+    Route::get('formulaireAide/sansCommentaire', [FormulaireAideController::class, 'sansCommentaire']);       //Get formulaire non commenter par le prof
+    Route::patch('formulaireAide/ajoutCommentaire/{id}', [FormulaireAideController::class, 'ajoutCommentaire']);//Ajouter les commentaires du prof
 
 
     // Messagerie

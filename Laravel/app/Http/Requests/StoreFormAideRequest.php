@@ -40,7 +40,6 @@ class StoreFormAideRequest extends FormRequest
             'aisanceAide.required' => 'Aisance Aide est requis',
             'aisanceTuteur.required' => 'Aisance tuteur est requis',
             'evaluationTuteur.required' => 'Une evaluation du tuteur est requis',
-            'commentaire.required' => 'Un commentaire de l\'etudient est requis',
         ];
     }
 }
