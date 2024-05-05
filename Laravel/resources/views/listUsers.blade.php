@@ -29,7 +29,7 @@
                         <td>{{ $user->nom }}</td>
                         <td>{{ $user->role }}</td>
                         <td>{{ $user->activer}}</td>
-                        <td><a><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
+                        <td><a href="{{ route('editUser', $user->id) }}"><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
                         <td><a onclick="confirmDisableUser({{ $user->id }})"><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
                     </tr>
                 @endforeach

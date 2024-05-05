@@ -20,12 +20,42 @@ class GestionUtilisateursAdmin extends Controller
     {
         $user = User::find($id);
         if (!$user) {
-            return response()->json(['message' => 'User not found.'], 404);
+            return response()->json(['message' => 'Utilisateur pas trouvé.'], 404);
         }
 
         $user->update(['activer' => false]);
 
-        return response()->json(['message' => 'User deactivated successfully.']);
+        return response()->json(['message' => 'Utilisateur désactiver.']);
     }
+
+    public function editUser($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur pas trouvé.');
+        }
+        return view('editUser', compact('user'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur pas trouvé.');
+        }
+
+        $validatedData = $request->validate([
+            'prenom' => 'sometimes|required|string|max:100',
+            'nom' => 'sometimes|required|string|max:100',
+            'email' => 'sometimes|required|string|email|max:255',
+            'password' => 'nullable|string', 
+            'activer' => 'required|boolean',
+        ]);
+
+        $user->fill(array_filter($validatedData))->save();
+
+        return redirect()->route('listUsers')->with('success', 'Utilisateur modifié.');
+    }
+
 
 }
