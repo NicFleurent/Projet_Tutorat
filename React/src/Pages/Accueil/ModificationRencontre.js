@@ -105,7 +105,8 @@ export default function ModificationRencontre({ route }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.titre}>Choisir un nouveau moment pour la rencontre :</Text>
+      <Text style={styles.titre}>Modification</Text>
+        <Text style={styles.sousTitre}>Choisir un nouveau moment pour la rencontre :</Text>
         <DateTimePicker
           value={date}
           mode={"datetime"}
@@ -134,7 +135,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   titre: {
-    fontSize: 18,
-    marginBottom: 100,
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginTop: 20
+},
+  sousTitre: {
+    fontSize: 16,
+    marginBottom: 75,
   }
 });
