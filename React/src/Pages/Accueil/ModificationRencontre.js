@@ -148,7 +148,7 @@ export default function ModificationRencontre({ route }) {
             minimumDate={new Date()}
             mode={mode}
             is24Hour={true}
-            local='fr'
+            locale='fr'
             display="spinner"
             onChange={onChange}
 
