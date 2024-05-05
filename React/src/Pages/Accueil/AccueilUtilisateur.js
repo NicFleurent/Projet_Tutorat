@@ -17,6 +17,7 @@ export default function Accueil({ route }) {
   const [demandeTutorat, setDemandeTutorat] = useState();
   const [rencontresAVenir, setRencontreAVenir] = useState();
   const [formulaireTuteur, setFormulaireTuteur] = useState();
+  const [formulaireTuteurProf, setFormulaireTuteurProf] = useState();
   const [formulaireJumelage, setFormulaireJumelage] = useState();
   const [formulaireJumelageProf, setFormulaireJumelageProf] = useState();
   const [typeDemande, setTypeDemande] = useState("");
@@ -108,6 +109,12 @@ export default function Accueil({ route }) {
             setFormulaireJumelageProf(response.data);
           })
           .catch((error) => console.log(error))
+
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "formulaireTuteur/sansCommentaire", { headers: headers })
+          .then((response) => {
+            setFormulaireTuteurProf(response.data);
+          })
+          .catch((error) => console.log(error))
       });
   }, [state]);
 
@@ -124,6 +131,7 @@ export default function Accueil({ route }) {
               setCollapsedRencontreVenir(true);
               setCollapsedFormulaireJumelage(true);
               setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Demandes pour être tuteur</Text>
               <Ionicons
@@ -161,6 +169,7 @@ export default function Accueil({ route }) {
               setCollapsedRencontreVenir(true);
               setCollapsedFormulaireJumelage(true);
               setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Demandes de jumelages</Text>
               <Ionicons
@@ -199,6 +208,7 @@ export default function Accueil({ route }) {
               setCollapsedFormulaireTuteur(true);
               setCollapsedFormulaireJumelage(true);
               setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Rencontres à venir</Text>
               <Ionicons
@@ -234,6 +244,7 @@ export default function Accueil({ route }) {
               setCollapsedTuteur(true);
               setCollapsedFormulaireJumelage(true);
               setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Formulaires de rencontre</Text>
               <Ionicons
@@ -272,6 +283,7 @@ export default function Accueil({ route }) {
               setCollapsedTutorat(true);
               setCollapsedTuteur(true);
               setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Formulaire de jumelage</Text>
               <Ionicons
@@ -310,6 +322,7 @@ export default function Accueil({ route }) {
               setCollapsedRencontreVenir(true);
               setCollapsedTutorat(true);
               setCollapsedTuteur(true);
+              setCollapsedFormulaireTuteurProf(true);
             }}>
               <Text style={styles.titreSection}>Formulaire de jumelage à commenter</Text>
               <Ionicons
@@ -335,12 +348,53 @@ export default function Accueil({ route }) {
     }
   }
 
+  const getFormulaireTuteurProf = () => {
+    if (formulaireTuteurProf !== undefined && Object.keys(formulaireTuteurProf).length !== 0) {
+      return (
+        <>
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedFormulaireTuteurProf(!collapsedFormulaireTuteurProf);
+              setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedTutorat(true);
+              setCollapsedTuteur(true);
+            }}>
+              <Text style={styles.titreSection}>Formulaire de rencontre à commenter</Text>
+              <Ionicons
+                name={collapsedFormulaireTuteurProf ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedFormulaireTuteurProf}>
+              <FlatList
+                data={formulaireTuteurProf}
+                renderItem={renderItemFormulaireTuteurProf}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdFormulaireTuteurProf}
+                initialNumToRender={3}
+                maxToRenderPerBatch={1}
+                windowSize={1}
+              />
+            </Collapsible>
+          </View>
+
+        </>
+      )
+    }
+  }
+
   const getAccueilVide = () => {
     if ((formulaireJumelage == undefined || Object.keys(formulaireJumelage).length == 0) &&
       (formulaireTuteur == undefined || Object.keys(formulaireTuteur).length == 0) &&
       (rencontresAVenir == undefined || Object.keys(rencontresAVenir).length == 0) &&
       (demandeTutorat == undefined || Object.keys(demandeTutorat).length == 0) &&
-      (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0)) {
+      (demandeTuteur == undefined || Object.keys(demandeTuteur).length == 0) &&
+      (formulaireTuteurProf == undefined || Object.keys(formulaireTuteurProf).length == 0) &&
+      (formulaireJumelageProf == undefined || Object.keys(formulaireJumelageProf).length == 0)) {
       return (
         <>
           <Text style={styles.titreVide}>Aucune actualité</Text>
@@ -362,6 +416,7 @@ export default function Accueil({ route }) {
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
       setSelectedIdFormulaireJumelageProf(-1);
+      setSelectedIdFormulaireTuteurProf(-1);
       bottomSheet.current?.present();
     }
     else if (type === "Jumelage") {
@@ -371,6 +426,7 @@ export default function Accueil({ route }) {
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
       setSelectedIdFormulaireJumelageProf(-1);
+      setSelectedIdFormulaireTuteurProf(-1);
       bottomSheet.current?.present();
     }
     else if (type === "RencontreVenir") {
@@ -380,6 +436,7 @@ export default function Accueil({ route }) {
       setSelectedIdFormulaireTuteur(-1);
       setSelectedIdFormulaireJumelage(-1);
       setSelectedIdFormulaireJumelageProf(-1);
+      setSelectedIdFormulaireTuteurProf(-1);
       bottomSheetRencontre.current?.present();
     }
   };
@@ -394,7 +451,10 @@ export default function Accueil({ route }) {
   };
 
   const onPressFormulaireProf = (item, type) => {
-    if (type === "Jumelage"){
+    if (type === "Tuteur"){
+      navigation.navigate("Rencontre - Revue", { FormulaireTuteur: item });
+    }
+    else if (type === "Jumelage"){
       navigation.navigate("Jumelage - Revue", { FormulaireAide: item });
     }
   };
@@ -480,13 +540,27 @@ export default function Accueil({ route }) {
   };
 
   const renderItemFormulaireJumelageProf = ({ item }) => {
-    const backgroundColor = item.id === selectedIdRencontreVenir ? '#092D74' : '#E8ECF2';
-    const color = item.id === selectedIdRencontreVenir ? 'white' : 'black';
+    const backgroundColor = item.id === selectedIdFormulaireJumelageProf ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdFormulaireJumelageProf ? 'white' : 'black';
 
     return (
       <ItemFormulaireJumelageProf
         item={item}
         onPress={() => onPressFormulaireProf(item, "Jumelage")}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
+  };
+
+  const renderItemFormulaireTuteurProf = ({ item }) => {
+    const backgroundColor = item.id === selectedIdFormulaireTuteurProf ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdFormulaireTuteurProf ? 'white' : 'black';
+
+    return (
+      <ItemFormulaireTuteurProf
+        item={item}
+        onPress={() => onPressFormulaireProf(item, "Tuteur")}
         backgroundColor={backgroundColor}
         textColor={color}
       />
@@ -557,6 +631,17 @@ export default function Accueil({ route }) {
         <Text style={{ color: textColor }}>{'Cours : ' + item.jumelage.cours.nom}</Text>
         <Text style={{ color: textColor }}>{'Tuteur : ' + item.jumelage.tuteur.prenom + " " + item.jumelage.tuteur.nom}</Text>
         <Text style={{ color: textColor }}>{'Aidé : ' + item.jumelage.aide.prenom + " " + item.jumelage.aide.nom}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const ItemFormulaireTuteurProf = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{'Cours : ' + item.rencontre.jumelage.cours.nom}</Text>
+        <Text style={{ color: textColor }}>{'Tuteur : ' + item.rencontre.jumelage.tuteur.prenom + " " + item.rencontre.jumelage.tuteur.nom}</Text>
+        <Text style={{ color: textColor }}>{'Aidé : ' + item.rencontre.jumelage.aide.prenom + " " + item.rencontre.jumelage.aide.nom}</Text>
+        <Text style={{ color: textColor }}>{'Date : ' + item.rencontre.attributes.date}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -698,6 +783,9 @@ export default function Accueil({ route }) {
         </View>
         <View>
           {getFormulaireJumelage()}
+        </View>
+        <View>
+          {getFormulaireTuteurProf()}
         </View>
         <View>
           {getFormulaireJumelageProf()}

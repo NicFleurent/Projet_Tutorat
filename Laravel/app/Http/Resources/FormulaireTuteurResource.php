@@ -26,7 +26,8 @@ class FormulaireTuteurResource extends JsonResource
                 'commentaire_evaluation' => $this->commentaire_evaluation,
                 'commentaire_professeur' => $this->commentaire_professeur,
                 'rencontre_id' => $this->programme_id,
-            ]
+            ],
+            'rencontre'=> new RecontresResource($this->rencontre)
         ];
     }
 }

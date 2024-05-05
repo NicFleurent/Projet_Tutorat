@@ -20,4 +20,9 @@ class FormulaireTuteur extends Model
         'commentaire_professeur',
         'rencontre_id'
     ];
+
+    public function rencontre()
+    {
+        return $this->belongsTo(Rencontre::class, 'rencontre_id');
+    }
 }

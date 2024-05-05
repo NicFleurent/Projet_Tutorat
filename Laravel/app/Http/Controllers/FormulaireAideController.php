@@ -81,7 +81,6 @@ class FormulaireAideController extends Controller
 
         try {
             $formulaire = FormulaireAide::findOrFail($id);
-            Log::debug($request->noteProfesseur);
             $formulaire->noteProfesseur = $request->noteProfesseur;
             $formulaire->save();
 
