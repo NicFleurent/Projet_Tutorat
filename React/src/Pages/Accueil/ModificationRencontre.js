@@ -1,5 +1,6 @@
-import { Alert, StyleSheet, View, Text } from "react-native";
+import { Alert, StyleSheet, View, Text, Platform, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+//import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useState } from "react";
 import CustomButton from "../../Components/CustomButton";
 import * as SecureStore from "../../api/SecureStore";
@@ -10,6 +11,7 @@ import Toast from "react-native-toast-message";
 export default function ModificationRencontre({ route }) {
   const navigation = useNavigation();
   const idRencontre = route.params.idRencontre;
+
 
   const heure = route.params.heure;
   const [heureSeparee, minutesSeparees] = heure.split(':');
@@ -29,13 +31,39 @@ export default function ModificationRencontre({ route }) {
     return moisEnNumero[mois];
   }
 
-  const [date, setDate] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
+  function convertirNumeroEnMois(numero) {
+    const numeroEnMois = {
+      0: "janvier", 1: "février",  2:"mars", 3: "avril",
+      4: "mai", 5: "juin", 6: "juillet", 7: "août",
+      8: "septembre", 9: "octobre", 10: "novembre", 11:"décembre" 
+    };
+    return numeroEnMois[numero];
+  }
 
+  //const [dateDepart, setDateDepart] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
+  const [date, setDate] = useState(new Date(annee, mois, jour, heureSeparee, minutesSeparees));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState('empty');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
+    setShow(Platform.Os === 'ios');
     setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getDate() + ' ' + (convertirNumeroEnMois(tempDate.getMonth())) + ' ' + tempDate.getFullYear();
+    let fTime = String(tempDate.getHours()).padStart(2, '0') + ':' + String(tempDate.getMinutes()).padStart(2, '0');
+    setText(fDate + ' à ' + fTime)
+
+    console.log(fDate, fTime);
   };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  }
+
 
   const handleModifier = async () => {
     if (date.getHours() < 8 || (date.getHours() >= 15 && date.getMinutes() >= 5)) {
@@ -105,17 +133,32 @@ export default function ModificationRencontre({ route }) {
   return (
     <View style={styles.container}>
       <View>
-      <Text style={styles.titre}>Modification</Text>
+        <Text style={styles.titre}>Modification</Text>
         <Text style={styles.sousTitre}>Choisir un nouveau moment pour la rencontre :</Text>
-        <DateTimePicker
-          value={date}
-          mode={"datetime"}
-          display="spinner"
-          is24Hour={true}
-          minimumDate={new Date()}
-          locale="fr"
-          onChange={onChange}
-        />
+        <View style={styles.sectionBouton}>
+          <CustomButton
+            text={' Choisir la journée '}
+            onPress={() => showMode('date')}
+          />
+          <CustomButton
+            text={' Choisir l\'heure '}
+            onPress={() => showMode('time')}
+          />
+        </View>
+
+        {show && (
+          <DateTimePicker
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            display="spinner"
+            onChange={onChange}
+
+          />
+        )}
+
+        <Text style={styles.titre}>Nouvelle date :</Text>
+        <Text style={styles.date}>{text}</Text>
       </View>
 
       <CustomButton
@@ -126,6 +169,26 @@ export default function ModificationRencontre({ route }) {
     </View>
   );
 }
+
+/*
+<DateTimePicker
+          value={dateDepart}
+          mode={"date"}
+          display={"spinner"}
+          is24Hour={true}
+          minimumDate={new Date()}
+          locale="fr"
+          onChange={setDate}
+        />
+        <DateTimePicker
+          value={dateDepart}
+          mode={"time"}
+          display={"spinner"}
+          is24Hour={true}
+          minimumDate={new Date()}
+          onChange={setDate}
+        />
+*/
 
 const styles = StyleSheet.create({
   container: {
@@ -142,6 +205,16 @@ const styles = StyleSheet.create({
 },
   sousTitre: {
     fontSize: 16,
-    marginBottom: 75,
+    marginBottom: 25,
+  },
+  sectionBouton:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
+  date:{
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20
   }
 });
