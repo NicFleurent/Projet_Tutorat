@@ -10,6 +10,8 @@ use App\Traits\HttpResponses;
 use App\Http\Resources\RecontresResource;
 use App\Models\FormulaireTuteur;
 use App\Models\Jumelage;
+use App\Models\Notification;
+use App\Traits\NotificationTrait;
 use App\Traits\RencontreTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +22,7 @@ class RencontresController extends Controller
 {
     use HttpResponses;
     use RencontreTrait;
+    use NotificationTrait;
     /**
      * Display a listing of the resource.
      */
@@ -102,8 +105,33 @@ class RencontresController extends Controller
 
     public function cancellerRencontre(string $id)
     {
+        $user_id = Auth::user()->id;
         try {
             $rencontre = Rencontre::find($id);
+
+            $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
+            $message = 'La rencontre du '. $rencontre->date;
+
+            $user_id_notif = "";
+            if($rencontre->jumelage->tuteur_id == $user_id)
+            {
+                $user_id_notif =  (string)$rencontre->jumelage->aider_id;
+                $message = $message. ' avec '. $rencontre->jumelage->tuteur->prenom . ' ' . $rencontre->jumelage->tuteur->nom;
+            }
+            else{
+                $user_id_notif =  (string)$rencontre->jumelage->tuteur_id;
+                $message = $message. ' avec '. $rencontre->jumelage->aide->prenom . ' ' . $rencontre->jumelage->aide->nom;
+            }
+
+            $message = $message.' à été canceller';
+
+            
+            $notification = Notification::create([
+                'message' => $message,
+                'user_id' => $user_id_notif
+            ]);
+            $notification->save();
+
             $rencontre->delete();
 
             return $this->success('', 'La rencontre a été cancellée');
@@ -116,6 +144,8 @@ class RencontresController extends Controller
 
     public function modifierRencontre(Request $request, Rencontre $rencontre)
     {
+        $user_id = Auth::user()->id;
+
         $validator = Validator::make($request->all(), [
             'date' => 'required',
             'heure' => 'required',
@@ -124,9 +154,36 @@ class RencontresController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         } else {
+
+            $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
+            $message = 'La rencontre du '. $rencontre->date;
+
+            $user_id_notif = "";
+            if($rencontre->jumelage->tuteur_id == $user_id)
+            {
+                $user_id_notif =  (string)$rencontre->jumelage->aider_id;
+                $message = $message. ' avec '. $rencontre->jumelage->tuteur->prenom . ' ' . $rencontre->jumelage->tuteur->nom;
+            }
+            else{
+                $user_id_notif =  (string)$rencontre->jumelage->tuteur_id;
+                $message = $message. ' avec '. $rencontre->jumelage->aide->prenom . ' ' . $rencontre->jumelage->aide->nom;
+            }
+
             $rencontre->date = $request->date;
             $rencontre->heure = $request->heure;
             $rencontre->save();
+
+            $message = $message.' à été déplacée au ';
+
+            $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
+            $message = $message. $rencontre->date;
+
+            
+            $notification = Notification::create([
+                'message' => $message,
+                'user_id' => $user_id_notif
+            ]);
+            $notification->save();
 
             $rencontreResource = new RecontresResource($rencontre);
 
