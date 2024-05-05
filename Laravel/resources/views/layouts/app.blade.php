@@ -10,6 +10,7 @@
     <title>@yield('title')</title>
     @yield('css')
     @yield('js')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="PageName"><header><h1>@yield('header')</h1></header></div>
