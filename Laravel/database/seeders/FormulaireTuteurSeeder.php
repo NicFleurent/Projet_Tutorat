@@ -16,11 +16,11 @@ class FormulaireTuteurSeeder extends Seeder
                 'rencontre_id'       => '1',
                 'matiere_vu'        => 'Système lymphatique, Système digestif',
                 'note_aisance_aide'       => '3',
-                'commentaire_aisance_aide' => 'Il était pas vraiment à l\'aise au début mais au fur et à mesure il était de plus en plus confortable.',
+                'commentaire_aisance_aide' => 'Il n\'était pas vraiment à l\'aise au début, mais au fur et à mesure, il était de plus en plus confortable.',
                 'note_aisance_tuteur'     => '4',
                 'commentaire_aisance_tuteur' => 'J\'étais très à l\'aise lors de mes explications et je pense que ça à aider à détendre l\'aidé.',
                 'note_evaluation'  => '4',
-                'commentaire_evaluation' => 'La rencontre à super bien été.',
+                'commentaire_evaluation' => 'La rencontre a super bien été.',
             ],
         ]);
     }
