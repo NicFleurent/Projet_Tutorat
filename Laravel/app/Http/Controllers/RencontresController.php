@@ -109,8 +109,9 @@ class RencontresController extends Controller
         try {
             $rencontre = Rencontre::find($id);
 
+            $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
             $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
-            $message = 'La rencontre du '. $rencontre->date;
+            $message = 'La rencontre du '. $rencontre->date . ' à ' . $rencontre->heure;
 
             $user_id_notif = "";
             if($rencontre->jumelage->tuteur_id == $user_id)
@@ -155,8 +156,10 @@ class RencontresController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         } else {
 
+            $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
             $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
-            $message = 'La rencontre du '. $rencontre->date;
+            $message = 'La rencontre du '. $rencontre->date . ' à ' . $rencontre->heure;
+
 
             $user_id_notif = "";
             if($rencontre->jumelage->tuteur_id == $user_id)
@@ -175,8 +178,9 @@ class RencontresController extends Controller
 
             $message = $message.' à été déplacée au ';
 
+            $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
             $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');
-            $message = $message. $rencontre->date;
+            $message = $message. $rencontre->date . ' à ' . $rencontre->heure;
 
             
             $notification = Notification::create([
