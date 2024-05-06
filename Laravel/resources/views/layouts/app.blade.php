@@ -16,15 +16,15 @@
     <div class="PageName"><header><h1>@yield('header')</h1></header></div>
 
     <div class="sidebar">
-    <a class="active" href="#">List Utilisateur</a>
-    <a class="" href="">List Cours</a>
-    <a class="" href="">List Programme</a>
-    <a class="" href="">List Session</a>
-    <a class="" href="">List Jumelage</a>
-    <form id="logout-form" action="{{ route('Logout') }}" method="POST">
-        @csrf
-        <a href="#" class="bottom-link" onclick="document.getElementById('logout-form').submit();">Déconnexion</a>
-    </form>
+        <a class="{{ request()->routeIs('listUsers') ? 'active' : '' }}" href="{{ route('listUsers') }}">List Utilisateur</a>
+        <a class="{{ request()->routeIs('listCours') ? 'active' : '' }}" href="{{ route('listCours') }}">List Cours</a>
+        <a class="" href="">List Programme</a>
+        <a class="" href="">List Session</a>
+        <a class="" href="">List Jumelage</a>
+        <form id="logout-form" action="{{ route('Logout') }}" method="POST">
+            @csrf
+            <a href="#" class="bottom-link" onclick="document.getElementById('logout-form').submit();">Déconnexion</a>
+        </form>
     </div>
 
     @if(session('erreur'))
