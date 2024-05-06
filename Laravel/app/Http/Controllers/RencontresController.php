@@ -124,7 +124,7 @@ class RencontresController extends Controller
                 $message = $message. ' avec '. $rencontre->jumelage->aide->prenom . ' ' . $rencontre->jumelage->aide->nom;
             }
 
-            $message = $message.' à été canceller';
+            $message = $message.' a été cancellée';
 
             
             $notification = Notification::create([
@@ -176,7 +176,7 @@ class RencontresController extends Controller
             $rencontre->heure = $request->heure;
             $rencontre->save();
 
-            $message = $message.' à été déplacée au ';
+            $message = $message.' a été déplacée au ';
 
             $rencontre->heure = Carbon::parse($rencontre->heure)->format('H:i');
             $rencontre->date = Carbon::parse($rencontre->date)->locale('fr_FR')->isoFormat('LL');

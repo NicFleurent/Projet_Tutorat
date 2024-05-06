@@ -147,7 +147,7 @@ export default function Accueil({ route }) {
               setCollapsedFormulaireJumelageProf(true);
               setCollapsedFormulaireTuteurProf(true);
             }}>
-              <Text style={styles.titreSection}>Notification</Text>
+              <Text style={styles.titreSection}>Notification(s)</Text>
               <Ionicons
                 name={collapsedNotification ? "arrow-down-circle" : "arrow-up-circle"}
                 color={"#092D74"}

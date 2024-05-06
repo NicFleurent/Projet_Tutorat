@@ -31,7 +31,7 @@ class NotificationsController extends Controller
 
             if($user_id == $notification->user_id){
                 $notification->delete();
-                return $this->success('', 'La notification a été supprimer');
+                return $this->success('', 'La notification a été supprimée');
             }
             else{
                 return $this->error('', 'Vous ne pouvez pas supprimer la notification d\'un autre utilisateur', 505);
