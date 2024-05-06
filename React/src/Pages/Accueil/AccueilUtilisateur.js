@@ -21,6 +21,7 @@ export default function Accueil({ route }) {
   const [formulaireJumelage, setFormulaireJumelage] = useState();
   const [formulaireJumelageProf, setFormulaireJumelageProf] = useState();
   const [typeDemande, setTypeDemande] = useState("");
+  const [selectedIdNotification, setSelectedIdNotification] = useState();
   const [selectedIdTuteur, setSelectedIdTuteur] = useState();
   const [selectedIdTutorat, setSelectedIdTutorat] = useState();
   const [selectedIdRencontreVenir, setSelectedIdRencontreVenir] = useState();
@@ -28,6 +29,7 @@ export default function Accueil({ route }) {
   const [selectedIdFormulaireTuteurProf, setSelectedIdFormulaireTuteurProf] = useState();
   const [selectedIdFormulaireJumelage, setSelectedIdFormulaireJumelage] = useState();
   const [selectedIdFormulaireJumelageProf, setSelectedIdFormulaireJumelageProf] = useState();
+  const [collapsedNotification, setCollapsedNotification] = useState(false);
   const [collapsedTuteur, setCollapsedTuteur] = useState(true);
   const [collapsedTutorat, setCollapsedTutorat] = useState(true);
   const [collapsedFormulaireTuteur, setCollapsedFormulaireTuteur] = useState(true);
@@ -35,6 +37,7 @@ export default function Accueil({ route }) {
   const [collapsedFormulaireJumelage, setCollapsedFormulaireJumelage] = useState(true);
   const [collapsedFormulaireJumelageProf, setCollapsedFormulaireJumelageProf] = useState(true);
   const [collapsedRencontreVenir, setCollapsedRencontreVenir] = useState(false);
+  const [notifications, setNotification] = useState();
 
   //Modification Rencontre
   const [date, setDate] = useState();
@@ -46,10 +49,14 @@ export default function Accueil({ route }) {
 
   useEffect(() => {
     forceRefresh();
+    setCollapsedNotification(false);
+    setCollapsedRencontreVenir(false);
     setCollapsedTuteur(true);
     setCollapsedTutorat(true);
     setCollapsedFormulaireTuteur(true);
-    setCollapsedRencontreVenir(false);
+    setCollapsedFormulaireJumelage(true);
+    setCollapsedFormulaireTuteurProf(true);
+    setCollapsedFormulaireJumelageProf(true);
     if (route.params?.message) {
       Toast.show({
         type: "success",
@@ -115,8 +122,51 @@ export default function Accueil({ route }) {
             setFormulaireTuteurProf(response.data);
           })
           .catch((error) => console.log(error))
+
+        axios.get(process.env.EXPO_PUBLIC_API_URL + "notifications", { headers: headers })
+          .then((response) => {
+            setNotification(response.data);
+          })
+          .catch((error) => console.log(error))
       });
   }, [state]);
+
+  const getNotification = () => {
+    if (notifications !== undefined && Object.keys(notifications).length !== 0) {
+      return (
+        <>
+          <View style={styles.dropdownView}>
+            <TouchableOpacity style={styles.boxTitreSection} onPress={() => {
+              forceRefresh();
+              setCollapsedNotification(!collapsedNotification);
+              setCollapsedTuteur(true);
+              setCollapsedTutorat(true);
+              setCollapsedFormulaireTuteur(true);
+              setCollapsedRencontreVenir(true);
+              setCollapsedFormulaireJumelage(true);
+              setCollapsedFormulaireJumelageProf(true);
+              setCollapsedFormulaireTuteurProf(true);
+            }}>
+              <Text style={styles.titreSection}>Notification</Text>
+              <Ionicons
+                name={collapsedNotification ? "arrow-down-circle" : "arrow-up-circle"}
+                color={"#092D74"}
+                size={30} />
+            </TouchableOpacity>
+            <Collapsible collapsed={collapsedNotification}>
+              <FlatList
+                data={notifications}
+                renderItem={renderItemNotification}
+                keyExtractor={item => item.id.toString()}
+                extraData={selectedIdNotification}
+                maxToRenderPerBatch={1}
+              />
+            </Collapsible>
+          </View>
+        </>
+      )
+    }
+  }
 
   const getDemandeTuteur = () => {
     if (demandeTuteur !== undefined && Object.keys(demandeTuteur).length !== 0) {
@@ -459,7 +509,63 @@ export default function Accueil({ route }) {
     }
   };
 
+  const onPressNotification = (item) => {
+    setSelectedIdNotification(item.id);
+    Alert.alert(
+      "Supprimer la notification?",
+      "",
+      [
+        {
+          text: "Annuler",
+          style: "cancel",
+          onPress: () => {setSelectedIdNotification(-1)}
+        },
+        {
+          text: "Oui",
+          onPress: async () => {
+            const headers = {
+              'Accept': 'application/vnd.api+json',
+              'Content-Type': 'application/vnd.api+json',
+              'Authorization': `Bearer ${user.token}`,
+            };
 
+            axios.delete(process.env.EXPO_PUBLIC_API_URL + 'notifications/' + item.id, {
+              headers: headers
+            })
+              .then(response => {
+                forceRefresh();
+                Toast.show({
+                  type: "success",
+                  text1: response.data.message
+                });
+              })
+              .catch(error => {
+                Toast.show({
+                  type: "error",
+                  text1: error
+                });
+                console.log(error);
+              });
+            forceRefresh();
+          }
+        }
+      ]
+    );
+  }
+
+  const renderItemNotification = ({ item }) => {
+    const backgroundColor = item.id === selectedIdNotification ? '#092D74' : '#E8ECF2';
+    const color = item.id === selectedIdNotification ? 'white' : 'black';
+
+    return (
+      <ItemNotification
+        item={item}
+        onPress={() => onPressNotification(item)}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
+    );
+  };
 
   const renderItemTuteur = ({ item }) => {
     const backgroundColor = item.id === selectedIdTuteur ? '#092D74' : '#E8ECF2';
@@ -566,6 +672,14 @@ export default function Accueil({ route }) {
       />
     );
   };
+
+  const ItemNotification = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
+      <View style={styles.textFlatlist}>
+        <Text style={{ color: textColor }}>{item.attributes.message}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   const ItemTuteur = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, { backgroundColor }]}>
@@ -772,6 +886,9 @@ export default function Accueil({ route }) {
     <View style={styles.container}>
       <View style={styles.containerFlatlists}>
         <Text style={styles.titre}>Salut, {(user !== undefined) && (user.prenom)}</Text>
+        <View>
+          {getNotification()}
+        </View>
         <View>
           {getDemandeTuteur()}
         </View>
