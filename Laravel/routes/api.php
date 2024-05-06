@@ -11,6 +11,7 @@ use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
 use App\Http\Controllers\FormulaireAideController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('conversations', [ConversationsController::class, 'index']);
     Route::post('conversation/store/{id}', [ConversationsController::class, 'store']);
     Route::get('conversation/show/{id}', [ConversationsController::class, 'show']);
+
+    //notifications
+    Route::get('notifications', [NotificationsController::class, 'index']);
+    Route::delete('notifications/{id}', [NotificationsController::class, 'destroy']);
 });
 
 
