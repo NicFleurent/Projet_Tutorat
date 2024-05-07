@@ -16,37 +16,33 @@ use Illuminate\Support\Facades\Log;
 class ConversationsController extends Controller
 {
 
-    private $r;
+    private $repository;
 
     public function __construct(ConversationRepository $conversationRepository)
     {
-
-        $this->r = $conversationRepository;
+        $this->repository = $conversationRepository;
     }
 
     public function index()
     {
 
-        $conversations = $this->r->getConversations(Auth::id());
+        $conversations = $this->repository->getConversations(Auth::id());
 
         return response()->json(ConversationResource::collection($conversations), 200);
     }
 
     public function show($id)
     {
-        $messages = $this->r->getMessagesFor(Auth::id(), $id)->get();
+        $messages = $this->repository->getMessagesFor(Auth::id(), $id)->get();
 
         return response()->json(MessageResource::collection($messages), 200);
     }
 
     public function store($id, StoreMessageRequest $request)
     {
-
-
-
         $user = Auth::id();
 
-        $message = $this->r->createMessage(
+        $message = $this->repository->createMessage(
             $request->get('content'),
             $user,
             $id
