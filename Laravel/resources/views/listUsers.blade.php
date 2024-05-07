@@ -8,8 +8,8 @@
     @endsection
     @section('content')
     @section('header',"Liste Utilisateurs")
-    <div class="container">
-        <div class="table-wrapper">
+    <div class="container container-table h-100">
+        <div class="table-wrapper h-100 pb-5">
             <table>
                 <thead>
                     <tr>
