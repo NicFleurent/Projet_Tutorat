@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/user/{id}/update',[GestionUtilisateursAdmin::class, 'updateUser'])->name('updateUser');
     Route::put('/cour/{id}/update',[GestionCoursAdmin::class, 'updateCour'])->name('updateCour');
     Route::put('/programme/{id}/update',[GestionProgrammeAdmin::class, 'updateProgramme'])->name('updateProgramme');
+    Route::get('/cour/ajout',[GestionCoursAdmin::class, 'ajoutCour'])->name('ajoutCour');
+    Route::post('/cour/store',[GestionCoursAdmin::class, 'storeCour'])->name('storeCour');
     Route::put('/session/{id}/update',[GestionSessionAdmin::class, 'updateSession'])->name('updateSession');
     Route::put('/jumelage/{id}/update',[GestionJumelageAdmin::class, 'updateJumelage'])->name('updateJumelage');
 });

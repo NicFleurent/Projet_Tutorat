@@ -7,6 +7,7 @@
 
 .container-table{
     padding-top: 70px;
+    flex-direction: column;
 }
 
 .table-wrapper {
@@ -34,4 +35,18 @@ tr:hover {
 th {
     background-color: #092D74;
     color: white;
+}
+
+.bouton{
+    padding: 10px;
+    margin-bottom: 10px;
+    text-decoration-line: none;
+    background-color: #092D74;
+    color: white;
+}
+
+.bouton:hover{
+    background-color: grey;
+    text-decoration-line: none;
+    color: black;
 }
