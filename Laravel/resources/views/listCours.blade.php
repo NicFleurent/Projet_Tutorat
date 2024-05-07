@@ -9,6 +9,7 @@
     @section('content')
     @section('header',"Liste Cours")
     <div class="container container-table h-100">
+        <a class="bouton" href="{{ route('ajoutCour') }}">Ajouter un cours</a>
         <div class="table-wrapper h-100 pb-5">
             <table>
                 <thead>
