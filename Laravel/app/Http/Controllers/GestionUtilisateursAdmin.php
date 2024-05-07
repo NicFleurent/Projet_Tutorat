@@ -53,6 +53,10 @@ class GestionUtilisateursAdmin extends Controller
             'activer'  => 'required|boolean',
         ]);
 
+        if ($validatedData['activer'] === '0') {
+            $user->update(['activer' => '0']);
+        }
+
         $user->fill(array_filter($validatedData))->save();
 
         return redirect()->route('listUsers')->with('success', 'Utilisateur modifié.');
