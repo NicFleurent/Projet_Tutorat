@@ -1,5 +1,5 @@
 @extends('layouts.app')
-    @section('title',"List Utilisateur")
+    @section('title',"Liste Utilisateurs")
     @section('css')
         <link rel="stylesheet" href="">
     @show
@@ -7,18 +7,18 @@
         <script src="{{ asset('js/disableConfirmUser.js') }}"></script>
     @endsection
     @section('content')
-    @section('header',"List Utilisateur")
+    @section('header',"Liste Utilisateurs")
     <div class="container">
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Email</th>
-                        <th>Prenom</th>
+                        <th>Courriel</th>
+                        <th>Prénom</th>
                         <th>Nom</th>
-                        <th>Role</th>
-                        <th>Activer</th>
+                        <th>Rôle</th>
+                        <th>Activé</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,7 @@
                             <td>{{ $user->prenom }}</td>
                             <td>{{ $user->nom }}</td>
                             <td>{{ $user->role }}</td>
-                            <td>{{ $user->activer}}</td>
+                            <td>{{ $user->activer == 1 ? "Actif" : "Inactif" }}</td>
                             <td><a href="{{ route('editUser', $user->id) }}"><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
                             <td><a onclick="confirmDisableUser({{ $user->id }})"><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
                         </tr>
