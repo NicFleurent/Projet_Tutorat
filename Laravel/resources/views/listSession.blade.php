@@ -1,5 +1,5 @@
 @extends('layouts.app')
-    @section('title',"Liste Session")
+    @section('title',"Liste Sessions")
     @section('css')
         <link rel="stylesheet" href="">
     @show
@@ -7,7 +7,7 @@
         <script src=""></script>
     @endsection
     @section('content')
-    @section('header',"Liste Session")
+    @section('header',"Liste Sessions")
     <div class="container container-table h-100">
         <div class="table-wrapper h-100 pb-5">
             <table>
@@ -27,7 +27,7 @@
                             <td>{{ $session->nom }}</td>
                             <td>{{ $session->debut }}</td>
                             <td>{{ $session->fin }}</td>
-                            <td>{{ $session->session_courante}}</td>
+                            <td>{{ $session->session_courante == 1 ? "Oui" : "Non" }}</td>
                             <td><a href="{{ route('editSession', $session->id) }}"><img src="{{ asset('svg/tools.svg') }}" alt="Modifier"></a></td>
                             <td><a><img src="{{ asset('svg/trash.svg') }}" alt="Supprimer"></a></td>
                         </tr>

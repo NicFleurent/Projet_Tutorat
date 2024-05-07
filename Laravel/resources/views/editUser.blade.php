@@ -12,7 +12,7 @@
 
     <div class="header">
         <h1>Tutorat</h1>
-        <h2>Edit Utilisateur</h2>
+        <h2>Modifier l'utilisateur</h2>
     </div>
 
     <div class="right-rectangle"></div>
