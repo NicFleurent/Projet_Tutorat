@@ -45,11 +45,12 @@ class GestionUtilisateursAdmin extends Controller
         }
 
         $validatedData = $request->validate([
-            'prenom' => 'sometimes|required|string|max:100',
-            'nom' => 'sometimes|required|string|max:100',
-            'email' => 'sometimes|required|string|email|max:255',
+            'prenom'   => 'sometimes|required|string|max:100',
+            'nom'      => 'sometimes|required|string|max:100',
+            'email'    => 'sometimes|required|string|email|max:255',
+            'role'     => 'sometimes|required|string',
             'password' => 'nullable|string', 
-            'activer' => 'required|boolean',
+            'activer'  => 'required|boolean',
         ]);
 
         $user->fill(array_filter($validatedData))->save();

@@ -39,6 +39,14 @@
         <label for="password">Nouveau mot de passe:</label>
         <input type="password" id="password" name="password">
 
+        <label for="role">Role:</label>
+        <select id="role" name="role" required>
+            <option value="admin" {{ $user->activer ? 'selected' : '' }}>Admin</option>
+            <option value="aider" {{ !$user->activer ? 'selected' : '' }}>Aider</option>
+            <option value="tuteur" {{ !$user->activer ? 'selected' : '' }}>Tuteur</option>
+            <option value="proffeseur" {{ !$user->activer ? 'selected' : '' }}>Proffeseur</option>
+        </select>
+
         <label for="activer">Activer:</label>
         <select id="activer" name="activer" required>
             <option value="1" {{ $user->activer ? 'selected' : '' }}>Oui</option>
