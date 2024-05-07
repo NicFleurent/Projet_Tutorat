@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  Button,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { getConversations } from "../../api/Messagerie/MessagerieApi";
@@ -20,6 +20,7 @@ export default function Messagerie() {
   const [conversations, setConversations] = useState([]);
   const [initialConversations, setInitialConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -42,6 +43,7 @@ export default function Messagerie() {
     SecureStore.getValue("user_info").then((userInfo) => {
       setUser(JSON.parse(userInfo));
 
+      setLoading(true);
       userDemande = JSON.parse(userInfo);
       const headers = {
         Accept: "application/vnd.api+json",
@@ -55,8 +57,12 @@ export default function Messagerie() {
         .then((response) => {
           setConversations(response.data);
           setInitialConversations(response.data);
+          setLoading(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
     });
   }, []);
 
@@ -99,6 +105,9 @@ export default function Messagerie() {
           value={searchQuery}
           onChangeText={(e) => handleSearch(e)}
         />
+      </View>
+      <View style={{ marginTop: 10 }}>
+        {loading && <ActivityIndicator size="small" color="#092D74" />}
       </View>
       <FlatList
         data={conversations}

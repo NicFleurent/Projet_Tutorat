@@ -9,11 +9,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
+  ActivityIndicator,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import * as SecureStore from "../../api/SecureStore";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
+import EmptyCuate from "../../assets/svg/messagerie/Empty-cuate.svg";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -158,8 +160,17 @@ const Chat = () => {
     >
       <View style={styles.container}>
         {loading ? (
-          <Text>Loading...</Text>
-        ) : (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 10,
+            }}
+          >
+            <ActivityIndicator size="small" color="#092D74" />
+          </View>
+        ) : messages.length > 0 ? (
           <FlatList
             data={messages}
             ref={flatListRef}
@@ -170,6 +181,12 @@ const Chat = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           />
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text>Pas de messages 😶‍🌫️</Text>
+          </View>
         )}
       </View>
       <View style={styles.inputContainer}>
