@@ -12,7 +12,7 @@
     <div class="left-rectangle"></div>
 
     <div class="header">
-        <h1>Tutorat</h1>
+        <h1>Tutorat par les pairs</h1>
         <h2>Panneau d'administration</h2>
     </div>
 
