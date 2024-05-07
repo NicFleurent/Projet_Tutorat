@@ -1,12 +1,15 @@
-import { View, StyleSheet} from 'react-native';
-import React, { useCallback, useMemo } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import CustomButton from './CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import * as SecureStore from "../api/SecureStore";
+import axios from "axios";
 
 const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 	const snapPoints = useMemo(() => ['30%'], []);
 	const navigation = useNavigation();
+	const [demandes, setDemandes] = useState();
 
 	const handleCloseBottomSheet = () => {
 		if (ref && ref.current) {
@@ -18,6 +21,29 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 		(props) => <BottomSheetBackdrop appearsOnIndex={0} disappearsOnIndex={-1} {...props} />,
 		[]
 	);
+
+	useEffect(() => {
+		SecureStore.getValue('user_info')
+			.then((userInfo) => {
+				userDemande = JSON.parse(userInfo);
+				const headers = {
+					'Accept': 'application/vnd.api+json',
+					'Content-Type': 'application/vnd.api+json',
+					'Authorization': `Bearer ${userDemande.token}`,
+				}
+				axios.get(process.env.EXPO_PUBLIC_API_URL + "cours/demandeAcceptee", { headers: headers })
+					.then((response) => {
+						setDemandes(response.data);
+					})
+					.catch((error) => console.log(error))
+			});
+	}, []);
+
+	const estTuteur = () => {
+		if (demandes !== undefined && Object.keys(demandes).length !== 0 && demandes[0].attributes.demande_accepte === 1) {
+			return true;
+		}
+	}
 
 	return (
 		<BottomSheetModal
@@ -33,8 +59,24 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 					halfButton={false}
 					style={styles.buttonSpace}
 					onPress={() => {
-						navigation.navigate("Disponibilités");
-						handleCloseBottomSheet();
+						if (estTuteur()) {
+							navigation.navigate("Disponibilités");
+							handleCloseBottomSheet();
+						}
+						else {
+							Alert.alert(
+								"Attention",
+								"Vous devez être un tuteur avant.",
+								[
+									{
+										text: "OK",
+										onPress: () => console.log("Cancel Pressed"),
+										style: "cancel",
+									},
+								]
+							);
+							handleCloseBottomSheet();
+						}
 					}}
 				/>
 				<CustomButton
@@ -42,7 +84,7 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 					halfButton={false}
 					style={styles.buttonSpace}
 					onPress={() => {
-						navigation.navigate("Liste des cours - Tuteur"); 
+						navigation.navigate("Liste des cours - Tuteur");
 						handleCloseBottomSheet();
 					}}
 				/>

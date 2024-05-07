@@ -31,7 +31,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/utilisateurs/updatePassword', [UtilisateursController::class, 'updatePassword']);              //Update Password
     Route::put('/utilisateurs/edit', [UtilisateursController::class, 'edit']);                                  //Edit User
     Route::patch('/utilisateurs/desactiver', [UtilisateursController::class, 'desactiver']);                    //Desactiver Compte
-    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);                             //Demande Attente
+    Route::get('cours/demandeAttente', [CoursController::class, 'demandeAttente']);    
+    Route::get('cours/demandeAcceptee', [CoursController::class, 'demandeAcceptee']);                             //Demande Attente
     Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);                //Accepter Tuteur
     Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);               //Refuser Tuteur Cours
     Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);                     //Demande Attente
