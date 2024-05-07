@@ -12,7 +12,7 @@
 
     <div class="header">
         <h1>Tutorat</h1>
-        <h2>Edit Jumelage</h2>
+        <h2>Modifier le jumelage</h2>
     </div>
 
     <div class="right-rectangle"></div>
@@ -27,7 +27,7 @@
         @csrf
         @method('PUT')
         
-        <label for="journee">Journer:</label>
+        <label for="journee">Journée:</label>
         <input type="text" id="journee" name="journee" value="{{ $jumelage->journee }}" required>
 
         <label for="heure">Heure:</label>
