@@ -41,7 +41,6 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 
 	const estTuteur = () => {
 		if (demandes !== undefined && Object.keys(demandes).length !== 0 && demandes[0].attributes.demande_accepte === 1) {
-			console.log('allo')
 			return true;
 		}
 	}
@@ -78,8 +77,6 @@ const CustomBottomSheetModalPageDemande = React.forwardRef((props, ref) => {
 							);
 							handleCloseBottomSheet();
 						}
-						// navigation.navigate("Disponibilités");
-						// handleCloseBottomSheet();
 					}}
 				/>
 				<CustomButton
