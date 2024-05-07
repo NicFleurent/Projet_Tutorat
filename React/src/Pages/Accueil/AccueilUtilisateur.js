@@ -879,7 +879,6 @@ export default function Accueil({ route }) {
           type: "error",
           text1: error.response.data.message
         });
-        console.log(error.response.data.message);
       });
   }
   return (
