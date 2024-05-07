@@ -19,6 +19,8 @@
                         <th>Nom</th>
                         <th>Rôle</th>
                         <th>Activé</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

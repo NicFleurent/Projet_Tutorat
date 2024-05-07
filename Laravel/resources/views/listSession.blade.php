@@ -18,6 +18,8 @@
                         <th>Debut</th>
                         <th>Fin</th>
                         <th>Session Courante</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
