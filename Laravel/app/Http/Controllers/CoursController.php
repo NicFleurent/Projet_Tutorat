@@ -46,7 +46,17 @@ class CoursController extends Controller
 
         return response()->json(TuteurCoursResource::collection($demandeTuteur), 200);
     }
+    public function demandeAcceptee()
+    {
+        $user_id = Auth::user()->id;
 
+        $demandeTuteur = TuteurCours::with('cours')
+            ->where('user_id', $user_id)
+            ->where('demande_accepte', 1)
+            ->get();
+
+        return response()->json(TuteurCoursResource::collection($demandeTuteur), 200);
+    }
     /**
      * Show the form for creating a new resource.
      */
