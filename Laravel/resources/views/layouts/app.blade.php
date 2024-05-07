@@ -20,7 +20,7 @@
         <a class="{{ request()->routeIs('listCours') ? 'active' : '' }}" href="{{ route('listCours') }}">Liste Cours</a>
         <a class="{{ request()->routeIs('listProgramme') ? 'active' : ''}}" href="{{ route('listProgramme') }}">Liste Programmes</a>
         <a class="{{ request()->routeIs('listSession') ? 'active' : ''}}" href="{{ route('listSession') }}">Liste Sessions</a>
-        <a class="" href="">Liste Jumelages</a>
+        <a class="{{ request()->routeIs('listJumelage') ? 'active' : ''}}" href="{{ route('listJumelage') }}">Liste Jumelages</a>
         <form id="logout-form" action="{{ route('Logout') }}" method="POST">
             @csrf
             <a href="#" class="bottom-link" onclick="document.getElementById('logout-form').submit();">Déconnexion</a>

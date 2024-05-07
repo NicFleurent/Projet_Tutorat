@@ -18,6 +18,8 @@
                         <th>Nom</th>
                         <th>Responsable</th>
                         <th>Programme</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

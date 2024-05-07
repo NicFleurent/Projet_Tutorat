@@ -16,6 +16,8 @@
                         <th>ID</th>
                         <th>Numero</th>
                         <th>Nom</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
