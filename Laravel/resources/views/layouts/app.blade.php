@@ -16,11 +16,11 @@
     <div class="PageName"><header><h1>@yield('header')</h1></header></div>
 
     <div class="sidebar">
-        <a class="{{ request()->routeIs('listUsers') ? 'active' : '' }}" href="{{ route('listUsers') }}">List Utilisateur</a>
-        <a class="{{ request()->routeIs('listCours') ? 'active' : '' }}" href="{{ route('listCours') }}">List Cours</a>
-        <a class="" href="">List Programme</a>
-        <a class="" href="">List Session</a>
-        <a class="" href="">List Jumelage</a>
+        <a class="{{ request()->routeIs('listUsers') ? 'active' : '' }}" href="{{ route('listUsers') }}">Liste Utilisateurs</a>
+        <a class="{{ request()->routeIs('listCours') ? 'active' : '' }}" href="{{ route('listCours') }}">Liste Cours</a>
+        <a class="" href="">Liste Programmes</a>
+        <a class="" href="">Liste Sessions</a>
+        <a class="" href="">Liste Jumelages</a>
         <form id="logout-form" action="{{ route('Logout') }}" method="POST">
             @csrf
             <a href="#" class="bottom-link" onclick="document.getElementById('logout-form').submit();">Déconnexion</a>
