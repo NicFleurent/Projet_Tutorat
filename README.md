@@ -1,6 +1,14 @@
-# Projet_Tutorat
- Projet de session en Génie logiciel
+### Par rapport au projet tutorat
 
+Ce proejet est 
+
+# Contributeurs
+
+# Api Laravel
+
+# Application Mobile React-Native
+
+## Dependances
 
 
 IN .env laravel:
