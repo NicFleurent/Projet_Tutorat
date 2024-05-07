@@ -13,13 +13,12 @@ class FormulaireAideTableSeeder extends Seeder
         DB::table('formulaire_aides')->insert([
             [
                 'jumelage_id'       => '5',
-                'aisanceAide'       => '5',
-                'commentaireAisanceAide' => 'okay',
-                'aisanceTuteur'     => '4',
-                'commentaireAisanceTuteur' => 'okay',
-                'evaluationTuteur'  => '5',
-                'commentaireEvaluationTuteur' => 'Il a fait un excellent travail a maider à apprendre le sujet :D.',
-                'noteProfesseur'    => 'N/a'
+                'aisanceAide'       => '1',
+                'commentaireAisanceAide' => 'Je ne me suis pas bien senti avec mon tuteur tout au long de la rencontre.',
+                'aisanceTuteur'     => '2',
+                'commentaireAisanceTuteur' => 'Il était peu confiant dans ses explications et ça m\'inquiètait.',
+                'evaluationTuteur'  => '1',
+                'commentaireEvaluationTuteur' => 'J\'ai l\'impression de ne rien avoir appris et que ça ne m\'a pas du tout aider à passer le cours.'
             ],
         ]);
     }

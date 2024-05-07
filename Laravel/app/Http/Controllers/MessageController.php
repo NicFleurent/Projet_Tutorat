@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
-
+    /*
     //function destroy and get need thinking on
 
 
@@ -24,6 +24,7 @@ class MessageController extends Controller
     }
 
     //A etre tester
+    /*
     public function getMessage($id)
     {
         $userId = Auth::id();
@@ -39,7 +40,7 @@ class MessageController extends Controller
     
         return response()->json($message, 200);
     }
-
+    
 
     public function store(StoreMessageRequest $request)
     {
@@ -73,4 +74,5 @@ class MessageController extends Controller
         $message->delete();
         return response()->json(['message' => 'Message deleted successfully'], 200);
     }
+    */
 }

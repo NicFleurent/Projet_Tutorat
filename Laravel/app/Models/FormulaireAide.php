@@ -22,7 +22,7 @@ class FormulaireAide extends Model
 
     public function jumelage()
     {
-        return $this->belongsTo(cours::class, 'jumelage_id');
+        return $this->belongsTo(Jumelage::class, 'jumelage_id');
     }
 
 }

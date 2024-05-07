@@ -14,6 +14,11 @@ import FormulaireTuteurEvaluation from "../Formulaires/FormulaireTuteur/Formulai
 import FormulaireAideAide from "../Formulaires/FormulaireAide/FormulaireAideAide";
 import FormulaireAideTuteur from "../Formulaires/FormulaireAide/FormulaireAideTuteur";
 import FormulaireAideEvaluation from "../Formulaires/FormulaireAide/FormulaireAideEvaluation";
+import ModificationRencontre from "../Accueil/ModificationRencontre";
+import RevueFormAide from "../Formulaires/FormulaireAide/RevueAide";
+import CommentaireFormAide from "../Formulaires/FormulaireAide/CommentaireAide";
+import RevueFormTuteur from "../Formulaires/FormulaireTuteur/RevueTuteur";
+import CommentaireFormTuteur from "../Formulaires/FormulaireTuteur/CommentaireTuteur";
 
 
 const StackNav = () => {
@@ -52,6 +57,11 @@ const StackNav = () => {
             <Stack.Screen name="Jumelage - Aidé" component={FormulaireAideAide}/>
             <Stack.Screen name="Jumelage - Tuteur" component={FormulaireAideTuteur}/>
             <Stack.Screen name="Jumelage - Évaluation" component={FormulaireAideEvaluation}/>
+            <Stack.Screen name="Modification - Rencontre" component={ModificationRencontre}/>
+            <Stack.Screen name="Jumelage - Revue" component={RevueFormAide}/>
+            <Stack.Screen name="Jumelage - Commentaire" component={CommentaireFormAide}/>
+            <Stack.Screen name="Rencontre - Revue" component={RevueFormTuteur}/>
+            <Stack.Screen name="Rencontre - Commentaire" component={CommentaireFormTuteur}/>
         </Stack.Navigator>
     );
 }

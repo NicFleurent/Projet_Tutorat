@@ -11,6 +11,7 @@ use App\Http\Controllers\RencontresController;
 use App\Http\Controllers\SessionDureeController;
 use App\Http\Controllers\FormulaireAideController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,22 +35,30 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('cours/acceptTuteurCours/{id}', [CoursController::class, 'acceptTuteurCours']);                //Accepter Tuteur
     Route::delete('cours/refuseTuteurCours/{id}', [CoursController::class, 'refuseTuteurCours']);               //Refuser Tuteur Cours
     Route::get('jumelages/demandeAttente', [JumelagesController::class, 'demandeAttente']);                     //Demande Attente
-    Route::get('jumelages/jumelageSansFormulaire', [JumelagesController::class, 'jumelageSansFormulaire']);                     //Demande Attente
+    Route::get('jumelages/jumelageSansFormulaire', [JumelagesController::class, 'jumelageSansFormulaire']);     //Demande Attente
     Route::patch('jumelages/acceptJumelage/{id}', [JumelagesController::class, 'acceptJumelage']);              //Accept Jumelage
     Route::delete('jumelages/refuseJumelage/{id}', [JumelagesController::class, 'refuseJumelage']);             //Refuser Jumelage
     Route::get('rencontres/prochainesRencontres', [RencontresController::class, 'prochainesRencontres']);       //Get 3 prochaines rencontres
     Route::get('rencontres/rencontresSansFormulaire', [RencontresController::class, 'rencontresSansFormulaire']); //Get les rencontres sans formulaire pour le tuteur
+    Route::delete('rencontres/cancellerRencontre/{id}', [RencontresController::class, 'cancellerRencontre']);  //Canceller rencontre
+    Route::put('rencontres/modifierRencontre/{rencontre}', [RencontresController::class, 'modifierRencontre']);       // Modifier rencontre
     Route::post('formulaireTuteur/store', [FormulaireTuteurController::class, 'store']);                        //Ajoute le formulaire tuteur
     //Route::get('formulaireAide/index', [FormulaireAideController::class, 'index']);
-    Route::post('/message/create',[MessageController::class,'store']);                                          //Creer un message
-    Route::get('/message/get',[MessageController::class,'index']);
     Route::post('formulaireAide/store', [FormulaireAideController::class, 'store']); 
-    Route::delete('message/{id}', [MessageController::class, 'destroy']);  //Ajoute le formulaire aider
+    Route::get('formulaireAide/sansCommentaire', [FormulaireAideController::class, 'sansCommentaire']);       //Get formulaire non commenter par le prof
+    Route::patch('formulaireAide/ajoutCommentaire/{id}', [FormulaireAideController::class, 'ajoutCommentaire']);//Ajouter les commentaires du prof
+    Route::get('formulaireTuteur/sansCommentaire', [FormulaireTuteurController::class, 'sansCommentaire']);       //Get formulaire non commenter par le prof
+    Route::patch('formulaireTuteur/ajoutCommentaire/{id}', [FormulaireTuteurController::class, 'ajoutCommentaire']);//Ajouter les commentaires du prof
+
 
     // Messagerie
     Route::get('conversations', [ConversationsController::class, 'index']);
     Route::post('conversation/store/{id}', [ConversationsController::class, 'store']);
     Route::get('conversation/show/{id}', [ConversationsController::class, 'show']);
+
+    //notifications
+    Route::get('notifications', [NotificationsController::class, 'index']);
+    Route::delete('notifications/{id}', [NotificationsController::class, 'destroy']);
 });
 
 
