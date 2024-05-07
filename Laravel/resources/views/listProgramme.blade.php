@@ -1,5 +1,5 @@
 @extends('layouts.app')
-    @section('title',"List Programme")
+    @section('title',"Liste Programmes")
     @section('css')
         <link rel="stylesheet" href="">
     @show
@@ -7,9 +7,9 @@
         <script src=""></script>
     @endsection
     @section('content')
-    @section('header',"List Programme")
-    <div class="container">
-        <div class="table-wrapper">
+    @section('header',"Liste Programmes")
+    <div class="container container-table h-100">
+        <div class="table-wrapper h-100 pb-5">
             <table>
                 <thead>
                     <tr>
